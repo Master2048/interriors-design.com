@@ -824,9 +824,9 @@
 
     function countForSize() {
       var area = width * height;
-      var desktopMin = typeof countOpts.desktopMin === 'number' ? countOpts.desktopMin : 40;
-      var desktopMax = typeof countOpts.desktopMax === 'number' ? countOpts.desktopMax : 72;
-      var desktopArea = typeof countOpts.desktopArea === 'number' ? countOpts.desktopArea : 18000;
+      var desktopMin = typeof countOpts.desktopMin === 'number' ? countOpts.desktopMin : 70;
+      var desktopMax = typeof countOpts.desktopMax === 'number' ? countOpts.desktopMax : 120;
+      var desktopArea = typeof countOpts.desktopArea === 'number' ? countOpts.desktopArea : 12000;
       return Math.max(desktopMin, Math.min(desktopMax, Math.round(area / desktopArea)));
     }
 
@@ -1003,9 +1003,9 @@
         mouseParallax: true,
         parallaxStrength: 34,
         count: {
-          desktopMin: 40,
-          desktopMax: 72,
-          desktopArea: 18000,
+          desktopMin: 70,
+          desktopMax: 120,
+          desktopArea: 12000,
         },
       });
     }
