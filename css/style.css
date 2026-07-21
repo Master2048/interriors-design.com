@@ -681,7 +681,7 @@ section{ position: relative; }
   object-fit: cover;
   object-position: center 65%;
   opacity: 0;
-  transition: opacity 480ms var(--ease);
+  /* no transition — fade poster→video reads as a hero reload */
 }
 .hero__video.is-playing{
   opacity: 1;
