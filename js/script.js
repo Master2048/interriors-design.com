@@ -20,6 +20,10 @@
   var preferLiteMotion = reduceMotion || coarsePointer || narrowViewport || lowEndDevice;
   var lenis = null;
 
+  if (preferLiteMotion) {
+    document.documentElement.classList.add('is-lite-motion');
+  }
+
   function stopSmoothScroll() {
     if (lenis) lenis.stop();
   }
@@ -523,7 +527,8 @@
       heroVideo.style.transform = '';
     }
 
-    updateServicesRecede();
+    /* Lite/mobile: skip 3D recede + progress math (progress UI hidden ≤1200px) */
+    if (!preferLiteMotion) updateServicesRecede();
   }
 
   /* Services sticky stack — 3D recede as next card overlays */
@@ -621,12 +626,24 @@
     applyServicesProgress(fill, activeIndex);
   }
 
+  function clearServicesRecedeStyles() {
+    var i;
+    var card;
+    for (i = 0; i < serviceCards.length; i++) {
+      card = serviceCards[i];
+      if (!card) continue;
+      servicesLastProgress[i] = 0;
+      card.style.removeProperty('--recede');
+    }
+  }
+
   function updateServicesRecede() {
-    if (!servicePanels.length) return;
+    if (!servicePanels.length || preferLiteMotion || reduceMotion) return;
     if (servicesRecedeQueued) return;
     servicesRecedeQueued = true;
     window.requestAnimationFrame(function () {
       servicesRecedeQueued = false;
+      if (preferLiteMotion || reduceMotion) return;
 
       var sectionRect = servicesSectionEl
         ? servicesSectionEl.getBoundingClientRect()
@@ -652,20 +669,6 @@
       var i;
       var card;
       var total = servicePanels.length;
-
-      /* Lite / reduced: keep sticky + progress bar, skip 3D recede math */
-      if (preferLiteMotion || reduceMotion) {
-        for (i = 0; i < total; i++) {
-          card = serviceCards[i];
-          if (!card) continue;
-          if ((servicesLastProgress[i] || 0) !== 0) {
-            servicesLastProgress[i] = 0;
-            card.style.setProperty('--recede', '0');
-          }
-        }
-        return;
-      }
-
       var stickyTop = getServicesStickyTop();
       var nextTop;
       var range;
@@ -691,14 +694,18 @@
           progress = progress * progress * (3 - 2 * progress);
         }
 
-        if (Math.abs((servicesLastProgress[i] || 0) - progress) < 0.004) continue;
+        if (Math.abs((servicesLastProgress[i] || 0) - progress) < 0.008) continue;
         servicesLastProgress[i] = progress;
-        card.style.setProperty('--recede', progress.toFixed(4));
+        card.style.setProperty('--recede', progress.toFixed(3));
       }
     });
   }
 
   function refreshServicesMetrics() {
+    if (preferLiteMotion || reduceMotion) {
+      clearServicesRecedeStyles();
+      return;
+    }
     measureServicesAnchors();
     servicesLastFill = -1;
     servicesLastActive = -1;
@@ -734,8 +741,8 @@
   /* Ambient particles (GPU-friendly) */
   function initAmbientParticles(section, canvas, options) {
     options = options || {};
-    /* Same on mobile and desktop; off for a11y / save-data only */
-    if (!section || !canvas || reduceMotion || saveData) {
+    /* Off on mobile / lite devices — sticky cards need the GPU budget */
+    if (!section || !canvas || preferLiteMotion) {
       if (canvas) canvas.style.display = 'none';
       return;
     }
@@ -765,9 +772,7 @@
     if (!ctx) return;
 
     var countOpts = options.count || {};
-    var isMobileParticles = !!(coarsePointer || narrowViewport);
-    /* Parallax off on touch — scroll/pointer noise makes motion feel less smooth */
-    var mouseParallax = options.mouseParallax === true && !isMobileParticles;
+    var mouseParallax = options.mouseParallax === true;
     var parallaxStrength = typeof options.parallaxStrength === 'number' ? options.parallaxStrength : 32;
     var pointer = { tx: 0, ty: 0, px: 0, py: 0, active: false, rectLeft: 0, rectTop: 0, rectW: 1, rectH: 1 };
     var particles = [];
@@ -776,14 +781,12 @@
     var width = 0;
     var height = 0;
     var lastFrame = 0;
-    /* Mobile: full rAF for smoother motion; desktop keeps ~30fps budget */
-    var frameInterval = isMobileParticles ? 0 : (1000 / 30);
-    var resolveScale = isMobileParticles ? 0.85 : 0.7;
+    var frameInterval = 1000 / 30;
+    var resolveScale = 0.7;
     var sprites = [];
     var spriteSizes = [3, 5, 7, 10];
     var rectDirty = true;
     var rectRafId = 0;
-    var speedScale = isMobileParticles ? 0.72 : 1;
 
     function cachePointerRect() {
       var rect = section.getBoundingClientRect();
@@ -841,11 +844,11 @@
       return {
         x: Math.random() * width,
         y: Math.random() * height,
-        vx: (-0.14 + Math.random() * 0.28) * speedScale,
-        vy: (-0.22 - Math.random() * 0.42) * speedScale,
+        vx: -0.14 + Math.random() * 0.28,
+        vy: -0.22 - Math.random() * 0.42,
         a: 0.12 + bright * 0.5,
         tw: Math.random() * Math.PI * 2,
-        tws: (isMobileParticles ? 0.006 : 0.01) + Math.random() * (isMobileParticles ? 0.014 : 0.024),
+        tws: 0.01 + Math.random() * 0.024,
         sprite: spriteIndex,
         depth: depth,
       };
@@ -862,7 +865,7 @@
 
     function resize() {
       if (destroyed) return;
-      resolveScale = isMobileParticles ? 0.85 : 0.7;
+      resolveScale = 0.7;
       width = Math.max(1, section.offsetWidth);
       height = Math.max(1, section.offsetHeight);
       canvas.width = Math.max(1, Math.floor(width * resolveScale));
@@ -885,9 +888,9 @@
       rafId = window.requestAnimationFrame(frame);
       if (!lastFrame) lastFrame = now;
       var rawDt = now - lastFrame;
-      if (frameInterval && rawDt < frameInterval) return;
+      if (rawDt < frameInterval) return;
       /* Cap dt so a long pause doesn't jump particles */
-      var dt = Math.min(isMobileParticles ? 24 : 33, Math.max(0, rawDt));
+      var dt = Math.min(33, Math.max(0, rawDt));
       lastFrame = now;
       var step = dt / 16.67;
 
@@ -923,10 +926,7 @@
 
         var sprite = sprites[p.sprite];
         if (!sprite) continue;
-        var twinkle = isMobileParticles
-          ? (0.7 + 0.3 * Math.sin(p.tw))
-          : (0.55 + 0.45 * Math.sin(p.tw));
-        var alpha = p.a * twinkle;
+        var alpha = p.a * (0.55 + 0.45 * Math.sin(p.tw));
         var sw = sprite.width;
         var sh = sprite.height;
         var depth = p.depth;

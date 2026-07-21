@@ -1146,6 +1146,23 @@ body.is-intro-done .hero__content [data-reveal]{
     translate3d(0, calc(var(--recede) * 5%), 0);
 }
 
+/* Mobile / lite: strip 3D + filters so sticky card scroll stays fluid */
+html.is-lite-motion .services__particles{
+  display: none !important;
+}
+html.is-lite-motion .service-panel__card{
+  --recede: 0 !important;
+  transform: none;
+  box-shadow: var(--shadow-md);
+}
+html.is-lite-motion .service-panel__card::before{
+  content: none;
+}
+html.is-lite-motion .service-panel__media img{
+  filter: none;
+  transform: none;
+}
+
 /* =========================================================
    Roadmap — glass stepper
    ========================================================= */
@@ -2378,6 +2395,19 @@ body.modal-open, body.lightbox-open{ overflow: hidden; }
   .service-panel__card{
     flex-direction: column;
     height: min(570px, calc(100svh - var(--services-sticky-top) - 20px));
+    --recede: 0 !important;
+    transform: none;
+    box-shadow: var(--shadow-md);
+  }
+  .service-panel__card::before{
+    content: none;
+  }
+  .service-panel__media img{
+    filter: none;
+    transform: none;
+  }
+  .services__particles{
+    display: none;
   }
   .service-panel__body{
     flex: 1 1 auto;
