@@ -297,7 +297,7 @@
      Hero background video — load/play only when in view
   --------------------------------------------------------- */
   var heroVideo = document.querySelector('.hero__video');
-  if (heroVideo && !reduceMotion) {
+  if (heroVideo) {
     var heroPlayArmed = false;
     function playHeroVideo() {
       var promise = heroVideo.play();
