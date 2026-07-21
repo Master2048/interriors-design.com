@@ -765,7 +765,9 @@
     if (!ctx) return;
 
     var countOpts = options.count || {};
-    var mouseParallax = options.mouseParallax === true;
+    var isMobileParticles = !!(coarsePointer || narrowViewport);
+    /* Parallax off on touch — scroll/pointer noise makes motion feel less smooth */
+    var mouseParallax = options.mouseParallax === true && !isMobileParticles;
     var parallaxStrength = typeof options.parallaxStrength === 'number' ? options.parallaxStrength : 32;
     var pointer = { tx: 0, ty: 0, px: 0, py: 0, active: false, rectLeft: 0, rectTop: 0, rectW: 1, rectH: 1 };
     var particles = [];
@@ -774,12 +776,14 @@
     var width = 0;
     var height = 0;
     var lastFrame = 0;
-    var frameInterval = 1000 / 30;
-    var resolveScale = 0.7;
+    /* Mobile: full rAF for smoother motion; desktop keeps ~30fps budget */
+    var frameInterval = isMobileParticles ? 0 : (1000 / 30);
+    var resolveScale = isMobileParticles ? 0.85 : 0.7;
     var sprites = [];
     var spriteSizes = [3, 5, 7, 10];
     var rectDirty = true;
     var rectRafId = 0;
+    var speedScale = isMobileParticles ? 0.72 : 1;
 
     function cachePointerRect() {
       var rect = section.getBoundingClientRect();
@@ -837,11 +841,11 @@
       return {
         x: Math.random() * width,
         y: Math.random() * height,
-        vx: -0.14 + Math.random() * 0.28,
-        vy: -0.22 - Math.random() * 0.42,
+        vx: (-0.14 + Math.random() * 0.28) * speedScale,
+        vy: (-0.22 - Math.random() * 0.42) * speedScale,
         a: 0.12 + bright * 0.5,
         tw: Math.random() * Math.PI * 2,
-        tws: 0.01 + Math.random() * 0.024,
+        tws: (isMobileParticles ? 0.006 : 0.01) + Math.random() * (isMobileParticles ? 0.014 : 0.024),
         sprite: spriteIndex,
         depth: depth,
       };
@@ -858,7 +862,7 @@
 
     function resize() {
       if (destroyed) return;
-      resolveScale = 0.7;
+      resolveScale = isMobileParticles ? 0.85 : 0.7;
       width = Math.max(1, section.offsetWidth);
       height = Math.max(1, section.offsetHeight);
       canvas.width = Math.max(1, Math.floor(width * resolveScale));
@@ -879,8 +883,13 @@
     function frame(now) {
       if (!running || destroyed) return;
       rafId = window.requestAnimationFrame(frame);
-      if (now - lastFrame < frameInterval) return;
+      if (!lastFrame) lastFrame = now;
+      var rawDt = now - lastFrame;
+      if (frameInterval && rawDt < frameInterval) return;
+      /* Cap dt so a long pause doesn't jump particles */
+      var dt = Math.min(isMobileParticles ? 24 : 33, Math.max(0, rawDt));
       lastFrame = now;
+      var step = dt / 16.67;
 
       var cw = canvas.width;
       var ch = canvas.height;
@@ -901,9 +910,9 @@
 
       for (var i = 0; i < particles.length; i++) {
         var p = particles[i];
-        p.x += p.vx;
-        p.y += p.vy;
-        p.tw += p.tws;
+        p.x += p.vx * step;
+        p.y += p.vy * step;
+        p.tw += p.tws * step;
 
         if (p.y < -10) {
           p.y = height + 10;
@@ -914,7 +923,10 @@
 
         var sprite = sprites[p.sprite];
         if (!sprite) continue;
-        var alpha = p.a * (0.55 + 0.45 * Math.sin(p.tw));
+        var twinkle = isMobileParticles
+          ? (0.7 + 0.3 * Math.sin(p.tw))
+          : (0.55 + 0.45 * Math.sin(p.tw));
+        var alpha = p.a * twinkle;
         var sw = sprite.width;
         var sh = sprite.height;
         var depth = p.depth;
