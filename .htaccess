@@ -1,0 +1,22 @@
+# YMG DESIGN — keep tooling / non-public paths out of HTTP (Apache / OSPanel)
+# node_modules stays on disk for local npm scripts; not served publicly.
+
+Options -MultiViews
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Directories: tooling, snapshots, Cursor config
+  RewriteRule ^(node_modules|_snapshots|scripts|\.cursor)(/|$) - [F,L,NC]
+</IfModule>
+
+# Root tooling / design-system source files
+<FilesMatch "^(package\.json|package-lock\.json|design-system\.json|.*\.mdc)$">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+  </IfModule>
+</FilesMatch>

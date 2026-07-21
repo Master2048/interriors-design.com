@@ -1,0 +1,203 @@
+{
+  "designSystem": {
+    "meta": {
+      "version": "2.0.0",
+      "updated": "2026-07-20",
+      "brand": "YMG DESIGN",
+      "description": "Живая дизайн-система лендинга interriors-design.com. Источник правды: css/style.css (:root), assets/css/fonts.css, flex-first layout.",
+      "sources": [
+        "css/style.css",
+        "assets/css/fonts.css",
+        ".cursor/rules/flex-first-layout.mdc"
+      ],
+      "philosophy": "Премиальный тёмный UI с тёплым оранжевым акцентом. Глубина — контраст и фото/видео, не декоративные карточки. Flexbox first; без новых CSS Grid."
+    },
+
+    "colors": {
+      "background": {
+        "bg": "#0b0b0c",
+        "bgAlt": "#111113",
+        "surface": "#17171a",
+        "surface2": "#1c1c20",
+        "surfaceGlass": "rgba(20, 20, 23, 0.72)",
+        "headerGlass": "rgba(11, 11, 12, 0.66)"
+      },
+      "coolAtmosphere": {
+        "high": "#0b0f14",
+        "mid": "#080c11",
+        "deep": "#06080c",
+        "glow": "rgba(120, 155, 195, 0.055)",
+        "glowSoft": "rgba(80, 110, 150, 0.035)",
+        "glowMist": "rgba(140, 170, 205, 0.038)"
+      },
+      "border": {
+        "default": "rgba(255, 255, 255, 0.08)",
+        "soft": "rgba(255, 255, 255, 0.05)",
+        "strong": "rgba(255, 255, 255, 0.16)"
+      },
+      "text": {
+        "white": "#ffffff",
+        "primary": "#f5f3ef",
+        "secondary": "#a9a6a0",
+        "muted": "#706d68"
+      },
+      "accent": {
+        "200": "#f8c495",
+        "300": "#f4a565",
+        "400": "#f2953f",
+        "500": "#ef8535",
+        "600": "#d96c1f",
+        "700": "#b3551a",
+        "glow": "rgba(239, 133, 53, 0.45)",
+        "glowSoft": "rgba(239, 133, 53, 0.16)"
+      },
+      "semantic": {
+        "success": "#6fae7f",
+        "error": "#e2604f"
+      },
+      "themeColorMeta": "#0b0b0c"
+    },
+
+    "typography": {
+      "families": {
+        "display": "'Montserrat', 'Segoe UI', Arial, sans-serif",
+        "body": "'Montserrat', 'Segoe UI', Arial, sans-serif"
+      },
+      "files": {
+        "dir": "assets/Fonts/",
+        "css": "assets/css/fonts.css",
+        "weightsOnDisk": {
+          "400": "Montserrat-Regular.woff2",
+          "500": "Montserrat-Medium.woff2",
+          "600": "Montserrat-SemiBold.woff2",
+          "700": "Montserrat-Bold.woff2"
+        },
+        "note": "Thin / ExtraLight / Light / Black удалены — не в @font-face"
+      },
+      "sizesRem": {
+        "xs": "0.75rem",
+        "sm": "0.8125rem",
+        "base": "1rem",
+        "md": "1.125rem",
+        "lg": "1.25rem",
+        "xl": "1.5rem",
+        "2xl": "1.875rem",
+        "3xl": "2.5rem",
+        "4xl": "3.25rem",
+        "5xl": "4.25rem"
+      },
+      "roles": {
+        "heroTitle": "display, ~clamp to fs-5xl, weight 600–700, centered",
+        "sectionH2": "display, fs-3xl–4xl, weight 600",
+        "body": "body, fs-base, line-height 1.6, text-secondary for supporting",
+        "nav": "sm/base, weight 500, letter-spacing slightly wide",
+        "eyebrow": "xs–sm, uppercase tracking, accent or light on hero"
+      }
+    },
+
+    "spacing": {
+      "baseUnit": "8px",
+      "tokens": {
+        "sp-1": "4px",
+        "sp-2": "8px",
+        "sp-3": "12px",
+        "sp-4": "16px",
+        "sp-5": "20px",
+        "sp-6": "24px",
+        "sp-8": "32px",
+        "sp-10": "40px",
+        "sp-12": "48px",
+        "sp-16": "64px",
+        "sp-20": "80px",
+        "sp-24": "96px"
+      },
+      "sectionPad": {
+        "desktop": "128px",
+        "tablet": "100px",
+        "mobile": "72px"
+      },
+      "containerMax": "1280px",
+      "headerHeight": "84px"
+    },
+
+    "radii": {
+      "md": "8px",
+      "lg": "16px",
+      "xl": "24px",
+      "full": "999px",
+      "usage": {
+        "buttons": "full (pill)",
+        "cardsGlass": "lg–xl",
+        "inputs": "md",
+        "images": "md–lg sparingly; hero media full-bleed 0"
+      }
+    },
+
+    "shadows": {
+      "sm": "0 2px 10px rgba(0,0,0,0.25)",
+      "md": "0 12px 32px rgba(0,0,0,0.35)",
+      "lg": "0 24px 64px rgba(0,0,0,0.45)",
+      "glow": "0 8px 28px var(--accent-glow)",
+      "note": "Используются точечно (кнопки, glass); не как основная глубина секций"
+    },
+
+    "motion": {
+      "ease": "cubic-bezier(0.25, 0.1, 0.25, 1)",
+      "fast": "150ms",
+      "normal": "300ms",
+      "slow": "550ms",
+      "liteRules": [
+        "preferLiteMotion / prefers-reduced-motion: отключить Lenis, particles, Ken Burns, 3D services recede",
+        "data-reveal: fade + translateY; delays 90ms steps",
+        "Ken Burns только min-width:1025px + pointer:fine",
+        "will-change только в активных состояниях (is-tilting / is-animating / …)"
+      ],
+      "intentionalPresence": [
+        "preloader mark",
+        "hero reveal stagger",
+        "primary button lift + accent glow"
+      ]
+    },
+
+    "layout": {
+      "strategy": "flex-first",
+      "rule": ".cursor/rules/flex-first-layout.mdc",
+      "patterns": {
+        "rows": "display:flex; gap; flex-wrap",
+        "stacks": "flex-direction:column",
+        "responsive": "column on small breakpoints; avoid new CSS Grid"
+      },
+      "breakpoints": {
+        "mobileStack": "≤1024px",
+        "narrow": "≤1180px",
+        "desktopFinePointer": "≥1025px and pointer:fine"
+      }
+    },
+
+    "heroMedia": {
+      "video": "video/Video_1.mp4",
+      "videoAttrs": "muted loop playsinline preload=none",
+      "poster": "assets/img/hero/hero-poster.webp",
+      "preload": "assets/img/hero/hero-poster.webp (type=image/webp)",
+      "fullStillWebp": "assets/img/hero/hero-bg.webp — CSS fallback при prefers-reduced-motion",
+      "ogImage": "assets/img/hero/hero-bg.jpg — соцсети / Open Graph",
+      "strategy": "Один формат для poster+preload (маленький WebP). Полный WebP — только static fallback. JPG — OG."
+    },
+
+    "componentsLite": {
+      "buttons": {
+        "primary": "accent fill, pill, hover lift + glow",
+        "outline": "transparent + border, hover accent tint",
+        "glass": "frosted surface, icon slide on hover"
+      },
+      "header": "fixed glass pill over hero",
+      "cards": "prefer open media + text; glass/glow cards only where interaction needs a surface (services stepper, forms)"
+    },
+
+    "publicHttpDeny": {
+      "via": ".htaccess (Apache / OSPanel)",
+      "paths": ["node_modules/", "_snapshots/", "scripts/", ".cursor/"],
+      "files": ["package.json", "package-lock.json", "design-system.json", "*.mdc"]
+    }
+  }
+}

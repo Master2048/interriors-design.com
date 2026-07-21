@@ -1,0 +1,21 @@
+{
+  "name": "interriors-design.com",
+  "version": "1.0.0",
+  "private": true,
+  "description": "YMG DESIGN landing",
+  "scripts": {
+    "build:swiper": "node scripts/build-swiper.mjs",
+    "optimize:services": "node scripts/optimize-services.mjs"
+  },
+  "dependencies": {
+    "swiper": "^11.2.10"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.1",
+    "sharp": "^0.35.3"
+  },
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

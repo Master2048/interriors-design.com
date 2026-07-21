@@ -1,0 +1,15 @@
+node_modules/
+package-lock.json
+
+# Local checkpoints / backups (not for deploy)
+_snapshots/
+
+# Not part of production deploy (kept outside web root under C:\OSPanel\_offweb\)
+Materials/
+**/_backup-old/
+_offweb/
+
+# Local tooling
+*.log
+.cursor/
+*.mdc
