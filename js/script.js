@@ -1834,15 +1834,18 @@
     var collageObserver = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (!entry.isIntersecting) return;
-        Array.prototype.slice.call(collage.querySelectorAll('.collage__item')).forEach(function (item, i) {
-          window.setTimeout(function () {
-            item.classList.add('in-view');
-          }, i * 100);
+        /* Add in-view together — stagger only via CSS --stagger-i (no JS timeouts) */
+        Array.prototype.slice.call(collage.querySelectorAll('.collage__item')).forEach(function (item) {
+          item.classList.add('in-view');
         });
         collageObserver.unobserve(collage);
       });
-    }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
     collageObserver.observe(collage);
+  } else if (collage) {
+    Array.prototype.slice.call(collage.querySelectorAll('.collage__item')).forEach(function (item) {
+      item.classList.add('in-view');
+    });
   }
 
   /* ---------------------------------------------------------

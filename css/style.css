@@ -830,14 +830,19 @@ body.is-intro-done .hero__content [data-reveal]{
 .about__feature p{ margin: 0; color: var(--text-secondary); }
 
 .collage--masonry{
-  column-count: 2;
-  column-gap: var(--sp-4);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--sp-4);
   width: 100%;
 }
 .collage__item{
-  break-inside: avoid;
-  margin: 0 0 var(--sp-4);
-  width: 100%;
+  flex: 0 0 calc(50% - var(--sp-4) / 2);
+  width: calc(50% - var(--sp-4) / 2);
+  max-width: calc(50% - var(--sp-4) / 2);
+  margin: 0;
+  min-width: 0;
 }
 .collage__item--tall .collage__img{ aspect-ratio: 4 / 5; }
 .collage__item--md .collage__img{ aspect-ratio: 5 / 4; }
@@ -856,7 +861,9 @@ body.is-intro-done .hero__content [data-reveal]{
   display: block;
   width: 100%;
 }
-.collage--masonry:hover .collage__img{ transform: translateY(-4px); }
+@media (hover: hover) and (pointer: fine){
+  .collage--masonry:hover .collage__img{ transform: translateY(-4px); }
+}
 
 .collage__badge{
   background: var(--surface-glass);
@@ -2480,7 +2487,7 @@ body.modal-open, body.lightbox-open{ overflow: hidden; }
   .lightbox__nav--prev{ left: var(--sp-3); }
   .lightbox__nav--next{ right: var(--sp-3); }
   .lightbox__close{ top: var(--sp-4); right: var(--sp-4); width: 40px; height: 40px; }
-  .collage--masonry{ column-gap: var(--sp-3); }
+  .collage--masonry{ gap: var(--sp-3); }
 }
 
 @media (max-width: 480px){
@@ -2630,13 +2637,15 @@ body.hero-intro-pending .hero__pills .pill{
 /* Collage + form field stagger */
 .collage__item{
   opacity: 0;
-  transform: translateY(32px);
-  transition: opacity 0.75s var(--ease), transform 0.75s var(--ease);
-  transition-delay: calc(var(--stagger-i, 0) * 100ms);
+  transform: translateY(20px);
+  transition: opacity 0.65s var(--ease), transform 0.65s var(--ease);
+  transition-delay: 0ms;
 }
 .collage__item.in-view{
   opacity: 1;
   transform: translateY(0);
+  /* even stagger: one source only (CSS), 80ms steps */
+  transition-delay: calc(var(--stagger-i, 0) * 80ms);
 }
 .contacts__form-wrap .field,
 .contacts__form-wrap .form__consent,
