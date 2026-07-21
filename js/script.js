@@ -734,27 +734,24 @@
   /* Ambient particles (GPU-friendly) */
   function initAmbientParticles(section, canvas, options) {
     options = options || {};
-    /* Off only for a11y / data-saver — mobile is allowed with a smaller count */
+    /* Same on mobile and desktop; off for a11y / save-data only */
     if (!section || !canvas || reduceMotion || saveData) {
       if (canvas) canvas.style.display = 'none';
       return;
     }
 
     var destroyed = false;
-    var isMobileParticles = !!(coarsePointer || narrowViewport);
-
     function disableParticles() {
       destroyed = true;
       if (canvas) canvas.style.display = 'none';
       stop();
     }
 
-    /* Battery API (Chrome/Android): off when unplugged and level is low.
-       iOS Safari has no getBattery — Low Power Mode cannot be detected here. */
+    /* Battery API: disable when unplugged and level is low */
     if (navigator.getBattery) {
       navigator.getBattery().then(function (battery) {
         function checkBattery() {
-          if (!battery.charging && battery.level <= 0.2) disableParticles();
+          if (!battery.charging && battery.level < 0.2) disableParticles();
         }
         checkBattery();
         if (battery.addEventListener) {
@@ -768,7 +765,7 @@
     if (!ctx) return;
 
     var countOpts = options.count || {};
-    var mouseParallax = options.mouseParallax === true && !isMobileParticles;
+    var mouseParallax = options.mouseParallax === true;
     var parallaxStrength = typeof options.parallaxStrength === 'number' ? options.parallaxStrength : 32;
     var pointer = { tx: 0, ty: 0, px: 0, py: 0, active: false, rectLeft: 0, rectTop: 0, rectW: 1, rectH: 1 };
     var particles = [];
@@ -777,10 +774,10 @@
     var width = 0;
     var height = 0;
     var lastFrame = 0;
-    var frameInterval = isMobileParticles ? (1000 / 24) : (1000 / 30);
-    var resolveScale = isMobileParticles ? 0.55 : 0.7;
+    var frameInterval = 1000 / 30;
+    var resolveScale = 0.7;
     var sprites = [];
-    var spriteSizes = isMobileParticles ? [3, 5, 7] : [3, 5, 7, 10];
+    var spriteSizes = [3, 5, 7, 10];
     var rectDirty = true;
     var rectRafId = 0;
 
@@ -827,19 +824,10 @@
 
     function countForSize() {
       var area = width * height;
-      var min;
-      var max;
-      var dens;
-      if (isMobileParticles) {
-        min = typeof countOpts.mobileMin === 'number' ? countOpts.mobileMin : 16;
-        max = typeof countOpts.mobileMax === 'number' ? countOpts.mobileMax : 28;
-        dens = typeof countOpts.mobileArea === 'number' ? countOpts.mobileArea : 24000;
-      } else {
-        min = typeof countOpts.desktopMin === 'number' ? countOpts.desktopMin : 40;
-        max = typeof countOpts.desktopMax === 'number' ? countOpts.desktopMax : 72;
-        dens = typeof countOpts.desktopArea === 'number' ? countOpts.desktopArea : 18000;
-      }
-      return Math.max(min, Math.min(max, Math.round(area / dens)));
+      var desktopMin = typeof countOpts.desktopMin === 'number' ? countOpts.desktopMin : 40;
+      var desktopMax = typeof countOpts.desktopMax === 'number' ? countOpts.desktopMax : 72;
+      var desktopArea = typeof countOpts.desktopArea === 'number' ? countOpts.desktopArea : 18000;
+      return Math.max(desktopMin, Math.min(desktopMax, Math.round(area / desktopArea)));
     }
 
     function spawn() {
@@ -870,7 +858,7 @@
 
     function resize() {
       if (destroyed) return;
-      resolveScale = isMobileParticles ? 0.55 : 0.7;
+      resolveScale = 0.7;
       width = Math.max(1, section.offsetWidth);
       height = Math.max(1, section.offsetHeight);
       canvas.width = Math.max(1, Math.floor(width * resolveScale));
@@ -1018,9 +1006,6 @@
           desktopMin: 40,
           desktopMax: 72,
           desktopArea: 18000,
-          mobileMin: 16,
-          mobileMax: 28,
-          mobileArea: 24000,
         },
       });
     }
