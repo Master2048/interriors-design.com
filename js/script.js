@@ -294,103 +294,37 @@
   }
 
   /* ---------------------------------------------------------
-     Hero background video
-     - CSS poster stays until the first decoded frame
-     - no opacity fade (avoids “hero reload” flash)
-     - iOS Low Power Mode: unlock on first gesture
+     Hero background video — start when in view
   --------------------------------------------------------- */
   var heroVideo = document.querySelector('.hero__video');
-  if (heroVideo) {
+  if (heroVideo && !reduceMotion) {
     var heroPlayArmed = false;
-    var heroGestureBound = false;
-    var heroPlaying = false;
-    var heroRevealQueued = false;
-
-    function unlockHeroAttrs() {
-      heroVideo.muted = true;
-      heroVideo.defaultMuted = true;
-      heroVideo.autoplay = true;
-      heroVideo.playsInline = true;
-      heroVideo.setAttribute('muted', '');
-      heroVideo.setAttribute('autoplay', '');
-      heroVideo.setAttribute('playsinline', '');
-      heroVideo.setAttribute('webkit-playsinline', '');
-    }
-
-    function revealHeroVideoFrame() {
-      if (heroPlaying) return;
-      heroPlaying = true;
-      heroVideo.classList.add('is-playing');
-    }
-
-    function queueHeroReveal() {
-      if (heroPlaying || heroRevealQueued) return;
-      if (heroVideo.paused || heroVideo.readyState < 2) return;
-      heroRevealQueued = true;
-      if (typeof heroVideo.requestVideoFrameCallback === 'function') {
-        heroVideo.requestVideoFrameCallback(function () {
-          revealHeroVideoFrame();
-        });
-      } else {
-        window.requestAnimationFrame(function () {
-          window.requestAnimationFrame(revealHeroVideoFrame);
-        });
-      }
-    }
-
     function playHeroVideo() {
-      unlockHeroAttrs();
       var promise = heroVideo.play();
-      if (promise && typeof promise.then === 'function') {
-        promise.then(function () {
-          queueHeroReveal();
-        }).catch(function () {
-          bindHeroGestureRetry();
-        });
-      } else if (!heroVideo.paused) {
-        queueHeroReveal();
-      } else {
-        bindHeroGestureRetry();
-      }
+      if (promise && promise.catch) promise.catch(function () {});
     }
-
-    function bindHeroGestureRetry() {
-      if (heroGestureBound) return;
-      heroGestureBound = true;
-      var retry = function () {
-        playHeroVideo();
-        if (!heroVideo.paused) {
-          window.removeEventListener('touchstart', retry, true);
-          window.removeEventListener('touchend', retry, true);
-          window.removeEventListener('click', retry, true);
-          window.removeEventListener('scroll', retry, true);
-          document.removeEventListener('visibilitychange', onVisibleRetry);
-        }
-      };
-      function onVisibleRetry() {
-        if (!document.hidden) retry();
-      }
-      window.addEventListener('touchstart', retry, { capture: true, passive: true });
-      window.addEventListener('touchend', retry, { capture: true, passive: true });
-      window.addEventListener('click', retry, true);
-      window.addEventListener('scroll', retry, { passive: true });
-      document.addEventListener('visibilitychange', onVisibleRetry);
-    }
-
     function armHeroVideo() {
       if (heroPlayArmed) return;
       heroPlayArmed = true;
-      unlockHeroAttrs();
-      heroVideo.addEventListener('playing', queueHeroReveal);
-      heroVideo.addEventListener('loadeddata', playHeroVideo);
-      heroVideo.addEventListener('canplay', playHeroVideo);
-      /* Always allow iOS Low Power unlock on first interaction */
-      bindHeroGestureRetry();
-      playHeroVideo();
+      if (heroVideo.readyState >= 2) playHeroVideo();
+      else {
+        heroVideo.addEventListener('loadeddata', playHeroVideo, { once: true });
+        heroVideo.load();
+      }
     }
-
-    /* Start during preloader — so first frame is ready before intro ends */
-    armHeroVideo();
+    if ('IntersectionObserver' in window) {
+      var heroIo = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            armHeroVideo();
+            heroIo.disconnect();
+          }
+        });
+      }, { rootMargin: '80px 0px', threshold: 0.01 });
+      heroIo.observe(heroVideo);
+    } else {
+      armHeroVideo();
+    }
   }
 
   /* ---------------------------------------------------------
@@ -514,7 +448,7 @@
 
     if (roadmapSwiper) updateRoadmapFromPageScroll();
 
-    if (heroVideo && heroVideo.classList.contains('is-playing') && !reduceMotion && !preferLiteMotion) {
+    if (heroVideo && !reduceMotion && !preferLiteMotion) {
       var hero = document.querySelector('.hero');
       if (hero) {
         var heroH = hero.offsetHeight || 1;
