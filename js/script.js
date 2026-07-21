@@ -19,9 +19,39 @@
   var lowEndDevice = (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) || saveData;
   var preferLiteMotion = reduceMotion || coarsePointer || narrowViewport || lowEndDevice;
   var lenis = null;
+  var scriptLoaders = {};
 
   if (preferLiteMotion) {
     document.documentElement.classList.add('is-lite-motion');
+  }
+
+  function loadScript(src) {
+    if (scriptLoaders[src]) return scriptLoaders[src];
+    scriptLoaders[src] = new Promise(function (resolve, reject) {
+      var existing = document.querySelector('script[data-dynamic-src="' + src + '"]');
+      if (existing) {
+        if (existing.getAttribute('data-loaded') === '1') {
+          resolve();
+          return;
+        }
+        existing.addEventListener('load', function () { resolve(); });
+        existing.addEventListener('error', function () { reject(new Error('Failed to load ' + src)); });
+        return;
+      }
+      var s = document.createElement('script');
+      s.src = src;
+      s.async = true;
+      s.setAttribute('data-dynamic-src', src);
+      s.onload = function () {
+        s.setAttribute('data-loaded', '1');
+        resolve();
+      };
+      s.onerror = function () {
+        reject(new Error('Failed to load ' + src));
+      };
+      document.head.appendChild(s);
+    });
+    return scriptLoaders[src];
   }
 
   function stopSmoothScroll() {
@@ -1066,9 +1096,14 @@
   bootHeroIntro();
 
   /* ---------------------------------------------------------
-     Lenis smooth scroll — desktop fine-pointer only; idle rAF pause
+     Lenis smooth scroll — desktop only; loaded on demand
   --------------------------------------------------------- */
-  if (!preferLiteMotion && typeof Lenis !== 'undefined') {
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  function initLenisSmoothScroll() {
+    if (preferLiteMotion || typeof Lenis === 'undefined' || lenis) return;
+
     lenis = new Lenis({
       duration: 1.1,
       smoothWheel: true,
@@ -1156,10 +1191,13 @@
     });
     startLenisRaf();
     window.setTimeout(refreshServicesMetrics, 50);
-  } else {
-    window.addEventListener('scroll', onScroll, { passive: true });
   }
-  onScroll();
+
+  if (!preferLiteMotion) {
+    loadScript('js/vendor/lenis/lenis.min.js')
+      .then(initLenisSmoothScroll)
+      .catch(function () {});
+  }
 
   /* ---------------------------------------------------------
      Roadmap Swiper + progress line
@@ -1494,7 +1532,9 @@
     }, { passive: false });
   }
 
-  if (roadmapSwiperEl && typeof Swiper !== 'undefined') {
+  function mountRoadmapSwiper() {
+    if (!roadmapSwiperEl || typeof Swiper === 'undefined' || roadmapSwiper) return;
+
     roadmapSwiper = new Swiper('#roadmap-swiper', {
       slidesPerView: 'auto',
       spaceBetween: 24,
@@ -1547,17 +1587,43 @@
 
     syncRoadmapPinMode();
     initRoadmapWheelScroll();
-
-    window.addEventListener('resize', function () {
-      syncHeaderMetrics();
-      if (roadmapSwiper) {
-        updateRoadmapPinHeight();
-        updateRoadmapFromPageScroll();
-        roadmapAnim.targetTranslate = roadmapSwiper.getTranslate();
-        updateRoadmapProgress(roadmapSwiper, { immediate: true });
-      }
-    }, { passive: true });
   }
+
+  function scheduleRoadmapSwiper() {
+    if (!roadmapSwiperEl) return;
+
+    function loadAndMount() {
+      loadScript('js/vendor/swiper/swiper-custom.min.js')
+        .then(mountRoadmapSwiper)
+        .catch(function () {});
+    }
+
+    var observeTarget = roadmapPinEl || roadmapSwiperEl;
+    if (!('IntersectionObserver' in window)) {
+      loadAndMount();
+      return;
+    }
+
+    var io = new IntersectionObserver(function (entries) {
+      var near = entries.some(function (entry) { return entry.isIntersecting; });
+      if (!near) return;
+      io.disconnect();
+      loadAndMount();
+    }, { rootMargin: '480px 0px', threshold: 0 });
+    io.observe(observeTarget);
+  }
+
+  scheduleRoadmapSwiper();
+
+  window.addEventListener('resize', function () {
+    syncHeaderMetrics();
+    if (roadmapSwiper) {
+      updateRoadmapPinHeight();
+      updateRoadmapFromPageScroll();
+      roadmapAnim.targetTranslate = roadmapSwiper.getTranslate();
+      updateRoadmapProgress(roadmapSwiper, { immediate: true });
+    }
+  }, { passive: true });
 
   /* ---------------------------------------------------------
      Border glow on roadmap cards (reactbits-style)

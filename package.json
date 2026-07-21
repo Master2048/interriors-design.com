@@ -4,8 +4,10 @@
   "private": true,
   "description": "YMG DESIGN landing",
   "scripts": {
+    "build:js": "esbuild js/script.js --minify --target=es2018 --outfile=js/script.min.js",
     "build:swiper": "node scripts/build-swiper.mjs",
-    "optimize:services": "node scripts/optimize-services.mjs"
+    "optimize:services": "node scripts/optimize-services.mjs",
+    "build": "npm run build:js"
   },
   "dependencies": {
     "swiper": "^11.2.10"
