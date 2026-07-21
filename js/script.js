@@ -20,9 +20,39 @@
   var preferLiteMotion = reduceMotion || coarsePointer || narrowViewport || lowEndDevice;
   var lenis = null;
   var scriptLoaders = {};
+  var styleLoaders = {};
 
   if (preferLiteMotion) {
     document.documentElement.classList.add('is-lite-motion');
+  }
+
+  function loadStylesheet(href) {
+    if (styleLoaders[href]) return styleLoaders[href];
+    styleLoaders[href] = new Promise(function (resolve, reject) {
+      var existing = document.querySelector('link[data-dynamic-href="' + href + '"]');
+      if (existing) {
+        if (existing.getAttribute('data-loaded') === '1') {
+          resolve();
+          return;
+        }
+        existing.addEventListener('load', function () { resolve(); });
+        existing.addEventListener('error', function () { reject(new Error('Failed to load ' + href)); });
+        return;
+      }
+      var link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = href;
+      link.setAttribute('data-dynamic-href', href);
+      link.onload = function () {
+        link.setAttribute('data-loaded', '1');
+        resolve();
+      };
+      link.onerror = function () {
+        reject(new Error('Failed to load ' + href));
+      };
+      document.head.appendChild(link);
+    });
+    return styleLoaders[href];
   }
 
   function loadScript(src) {
@@ -52,6 +82,10 @@
       document.head.appendChild(s);
     });
     return scriptLoaders[src];
+  }
+
+  function loadVendor(cssHref, jsSrc) {
+    return Promise.all([loadStylesheet(cssHref), loadScript(jsSrc)]);
   }
 
   function stopSmoothScroll() {
@@ -1194,7 +1228,7 @@
   }
 
   if (!preferLiteMotion) {
-    loadScript('js/vendor/lenis/lenis.min.js')
+    loadVendor('css/vendor/lenis/lenis.css', 'js/vendor/lenis/lenis.min.js')
       .then(initLenisSmoothScroll)
       .catch(function () {});
   }
@@ -1593,7 +1627,7 @@
     if (!roadmapSwiperEl) return;
 
     function loadAndMount() {
-      loadScript('js/vendor/swiper/swiper-custom.min.js')
+      loadVendor('css/vendor/swiper/swiper-custom.min.css', 'js/vendor/swiper/swiper-custom.min.js')
         .then(mountRoadmapSwiper)
         .catch(function () {});
     }
