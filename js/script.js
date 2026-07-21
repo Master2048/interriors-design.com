@@ -110,6 +110,18 @@
     clearMotion(el);
   }
 
+  /* Keep final WAAPI frame as inline styles before cancel — avoids opacity:0 flash */
+  function commitMotion(el) {
+    if (!el) return;
+    if (el.getAnimations) {
+      el.getAnimations().forEach(function (anim) {
+        try {
+          if (typeof anim.commitStyles === 'function') anim.commitStyles();
+        } catch (err) {}
+      });
+    }
+  }
+
   function setTranslateY(el, y) {
     if (!el) return;
     el.style.transform = 'translateY(' + y + 'px)';
@@ -238,12 +250,26 @@
       if (introFinished) return;
       introFinished = true;
 
+      var settleTargets = [headerPill, headerInner, eyebrow, scrollHint, subtitle, actions, pillsWrap]
+        .concat(pills)
+        .concat(words);
+
+      /* 1) Lock final WAAPI frame as inline styles */
+      settleTargets.forEach(commitMotion);
+
+      /* 2) CSS end-state must win before pending styles are removed */
+      Array.prototype.slice.call(document.querySelectorAll('.hero__content [data-reveal]')).forEach(function (el) {
+        el.classList.add('in-view');
+      });
+      if (actions) actions.classList.add('in-view');
+      if (pillsWrap) pillsWrap.classList.add('in-view');
+
       document.body.classList.remove('hero-intro-pending');
       document.body.classList.add('is-intro-done');
+      void document.body.offsetWidth;
 
-      [headerPill, headerInner, eyebrow, scrollHint, subtitle, actions, pillsWrap].forEach(resetMotion);
-      pills.forEach(resetMotion);
-      words.forEach(function (word) { word.style.transform = ''; });
+      /* 3) Drop WAAPI without falling back to [data-reveal]{opacity:0} */
+      settleTargets.forEach(resetMotion);
 
       if (scrollHint) {
         scrollHint.style.opacity = '';
@@ -253,9 +279,6 @@
         scrollHint.style.animation = '';
       }
 
-      Array.prototype.slice.call(document.querySelectorAll('.hero__content [data-reveal]')).forEach(function (el) {
-        el.classList.add('in-view');
-      });
       if (preloader) preloader.classList.remove('is-animating');
       hidePreloader();
 
