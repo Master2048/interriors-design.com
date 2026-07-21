@@ -294,24 +294,58 @@
   }
 
   /* ---------------------------------------------------------
-     Hero background video — start when in view
+     Hero background video — stable CSS poster under video;
+     no load() (avoids poster wipe / hero “reload” on mobile)
   --------------------------------------------------------- */
   var heroVideo = document.querySelector('.hero__video');
   if (heroVideo && !reduceMotion) {
     var heroPlayArmed = false;
-    function playHeroVideo() {
-      var promise = heroVideo.play();
-      if (promise && promise.catch) promise.catch(function () {});
+    var heroRevealed = false;
+
+    function revealHeroVideo() {
+      if (heroRevealed || heroVideo.paused) return;
+      heroRevealed = true;
+      heroVideo.classList.add('is-playing');
     }
+
+    function queueHeroReveal() {
+      if (heroRevealed || heroVideo.paused) return;
+      if (typeof heroVideo.requestVideoFrameCallback === 'function') {
+        heroVideo.requestVideoFrameCallback(function () {
+          revealHeroVideo();
+        });
+      } else {
+        window.requestAnimationFrame(function () {
+          window.requestAnimationFrame(revealHeroVideo);
+        });
+      }
+    }
+
+    function playHeroVideo() {
+      heroVideo.muted = true;
+      heroVideo.defaultMuted = true;
+      heroVideo.playsInline = true;
+      var promise = heroVideo.play();
+      if (promise && typeof promise.then === 'function') {
+        promise.then(queueHeroReveal).catch(function () {});
+      } else if (!heroVideo.paused) {
+        queueHeroReveal();
+      }
+    }
+
     function armHeroVideo() {
       if (heroPlayArmed) return;
       heroPlayArmed = true;
+      heroVideo.addEventListener('playing', queueHeroReveal);
+      /* play() starts the fetch — do not call load() (clears frame / feels like reload) */
       if (heroVideo.readyState >= 2) playHeroVideo();
       else {
+        heroVideo.addEventListener('canplay', playHeroVideo, { once: true });
         heroVideo.addEventListener('loadeddata', playHeroVideo, { once: true });
-        heroVideo.load();
+        playHeroVideo();
       }
     }
+
     if ('IntersectionObserver' in window) {
       var heroIo = new IntersectionObserver(function (entries) {
         entries.forEach(function (entry) {
@@ -448,7 +482,7 @@
 
     if (roadmapSwiper) updateRoadmapFromPageScroll();
 
-    if (heroVideo && !reduceMotion && !preferLiteMotion) {
+    if (heroVideo && heroVideo.classList.contains('is-playing') && !reduceMotion && !preferLiteMotion) {
       var hero = document.querySelector('.hero');
       if (hero) {
         var heroH = hero.offsetHeight || 1;
