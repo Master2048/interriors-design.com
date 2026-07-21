@@ -294,24 +294,89 @@
   }
 
   /* ---------------------------------------------------------
-     Hero background video — load/play only when in view
+     Hero background video — keep poster until real playback
+     (iOS Low Power Mode often blocks autoplay)
   --------------------------------------------------------- */
   var heroVideo = document.querySelector('.hero__video');
   if (heroVideo) {
     var heroPlayArmed = false;
-    function playHeroVideo() {
-      var promise = heroVideo.play();
-      if (promise && promise.catch) promise.catch(function () {});
+    var heroGestureBound = false;
+    var heroPlaying = false;
+
+    function showHeroPoster() {
+      heroPlaying = false;
+      heroVideo.classList.remove('is-playing');
     }
+
+    function showHeroVideo() {
+      if (heroPlaying) return;
+      heroPlaying = true;
+      heroVideo.classList.add('is-playing');
+    }
+
+    function unlockHeroAttrs() {
+      heroVideo.muted = true;
+      heroVideo.defaultMuted = true;
+      heroVideo.setAttribute('muted', '');
+      heroVideo.playsInline = true;
+      heroVideo.setAttribute('playsinline', '');
+      heroVideo.setAttribute('webkit-playsinline', '');
+    }
+
+    function playHeroVideo() {
+      unlockHeroAttrs();
+      var promise = heroVideo.play();
+      if (promise && typeof promise.then === 'function') {
+        promise.then(function () {
+          if (!heroVideo.paused) showHeroVideo();
+        }).catch(function () {
+          showHeroPoster();
+          bindHeroGestureRetry();
+        });
+      } else if (!heroVideo.paused) {
+        showHeroVideo();
+      }
+    }
+
+    function bindHeroGestureRetry() {
+      if (heroGestureBound) return;
+      heroGestureBound = true;
+      var retry = function () {
+        playHeroVideo();
+        if (!heroVideo.paused) {
+          window.removeEventListener('touchstart', retry, true);
+          window.removeEventListener('click', retry, true);
+          document.removeEventListener('visibilitychange', onVisibleRetry);
+        }
+      };
+      function onVisibleRetry() {
+        if (!document.hidden) retry();
+      }
+      window.addEventListener('touchstart', retry, { capture: true, passive: true });
+      window.addEventListener('click', retry, true);
+      document.addEventListener('visibilitychange', onVisibleRetry);
+    }
+
     function armHeroVideo() {
       if (heroPlayArmed) return;
       heroPlayArmed = true;
+      unlockHeroAttrs();
+      heroVideo.addEventListener('playing', showHeroVideo);
+      heroVideo.addEventListener('pause', function () {
+        if (document.hidden || heroVideo.ended) return;
+        /* iOS Low Power Mode may pause mid-play — keep last frame, retry quietly */
+        window.setTimeout(function () {
+          if (!document.hidden && heroVideo.paused && !heroVideo.ended) playHeroVideo();
+        }, 250);
+      });
+      /* Do not call load() — it clears poster and causes a visible refresh */
       if (heroVideo.readyState >= 2) playHeroVideo();
       else {
+        heroVideo.addEventListener('canplay', playHeroVideo, { once: true });
         heroVideo.addEventListener('loadeddata', playHeroVideo, { once: true });
-        heroVideo.load();
       }
     }
+
     if ('IntersectionObserver' in window) {
       var heroIo = new IntersectionObserver(function (entries) {
         entries.forEach(function (entry) {
