@@ -181,7 +181,7 @@
     },
 
     "heroMedia": {
-      "video": "video/Video_2.mp4",
+      "video": "video/Video_5.mp4",
       "videoAttrs": "muted loop playsinline preload=none",
       "poster": "assets/img/hero/hero-poster.webp",
       "preload": "assets/img/hero/hero-poster.webp (type=image/webp)",

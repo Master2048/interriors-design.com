@@ -698,7 +698,7 @@ section{ position: relative; }
   position: absolute;
   inset: 0;
   z-index: 0;
-  background: url('../assets/img/hero/hero-poster.webp?v=20260805-7') center 65% / cover no-repeat;
+  background: url('../assets/img/hero/hero-poster.webp?v=20260805-37') center 65% / cover no-repeat;
 }
 .hero__video{
   width: 100%;
@@ -729,12 +729,6 @@ section{ position: relative; }
   text-align: center;
   padding-top: 25px;
   padding-bottom: var(--sp-8);
-}
-.hero__stage{
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  width: 100%;
 }
 .hero__title{
   font-family: var(--font-display);
@@ -2471,35 +2465,17 @@ body.modal-open, body.lightbox-open{ overflow: hidden; }
   :root{ --section-pad: 72px; --header-h: 80px; --roadmap-pin-bottom: 16vh; }
   .container{ padding: 0 var(--sp-5); }
   .section-head__text.in-view{ font-size: var(--fs-sm); }
-  .hero__content.container{
-    flex: 1 0 auto;
-    justify-content: flex-start;
-    padding-top: var(--sp-4);
-    padding-bottom: var(--sp-8);
-  }
-  .hero__stage{
-    min-height: calc(100dvh - var(--header-h));
-    justify-content: flex-start;
-  }
+  .hero__content.container{ padding-top: 25px; padding-bottom: var(--sp-8); }
   .hero__title{
-    margin-bottom: 0;
+    margin-bottom: var(--sp-5);
     font-size: clamp(1.65rem, 1.15rem + 3.8vw, 2.15rem);
   }
   .hero__subtitle,
   .hero__subtitle.in-view{
-    margin-top: auto;
-    margin-bottom: auto;
     font-size: var(--fs-base);
   }
-  .hero__actions{
-    flex-direction: column;
-    width: 100%;
-    margin-bottom: 0;
-  }
+  .hero__actions{ flex-direction: column; width: 100%; }
   .hero__actions .btn{ width: 100%; }
-  .hero__pills{
-    margin-top: var(--sp-10);
-  }
   .viz-cinematic{
     min-height: 100svh;
     padding: calc(var(--header-h) + var(--sp-8)) var(--sp-5) var(--sp-8);
@@ -2609,7 +2585,7 @@ body.modal-open, body.lightbox-open{ overflow: hidden; }
   }
   .hero__video{ display: none; }
   .hero__media{
-    background: url('../assets/img/hero/hero-bg.webp?v=20260805-7') center 65% / cover no-repeat;
+    background: url('../assets/img/hero/hero-bg.webp?v=20260805-37') center 65% / cover no-repeat;
   }
   .faq__answer,
   .faq__item.is-open .faq__answer,
