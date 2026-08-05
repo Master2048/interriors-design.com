@@ -730,6 +730,12 @@ section{ position: relative; }
   padding-top: 25px;
   padding-bottom: var(--sp-8);
 }
+.hero__stage{
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+}
 .hero__title{
   font-family: var(--font-display);
   font-weight: 400;
@@ -2465,17 +2471,35 @@ body.modal-open, body.lightbox-open{ overflow: hidden; }
   :root{ --section-pad: 72px; --header-h: 80px; --roadmap-pin-bottom: 16vh; }
   .container{ padding: 0 var(--sp-5); }
   .section-head__text.in-view{ font-size: var(--fs-sm); }
-  .hero__content.container{ padding-top: 25px; padding-bottom: var(--sp-8); }
+  .hero__content.container{
+    flex: 1 0 auto;
+    justify-content: flex-start;
+    padding-top: var(--sp-4);
+    padding-bottom: var(--sp-8);
+  }
+  .hero__stage{
+    min-height: calc(100dvh - var(--header-h));
+    justify-content: flex-start;
+  }
   .hero__title{
-    margin-bottom: var(--sp-5);
+    margin-bottom: 0;
     font-size: clamp(1.65rem, 1.15rem + 3.8vw, 2.15rem);
   }
   .hero__subtitle,
   .hero__subtitle.in-view{
+    margin-top: auto;
+    margin-bottom: auto;
     font-size: var(--fs-base);
   }
-  .hero__actions{ flex-direction: column; width: 100%; }
+  .hero__actions{
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 0;
+  }
   .hero__actions .btn{ width: 100%; }
+  .hero__pills{
+    margin-top: var(--sp-10);
+  }
   .viz-cinematic{
     min-height: 100svh;
     padding: calc(var(--header-h) + var(--sp-8)) var(--sp-5) var(--sp-8);
