@@ -734,7 +734,7 @@ section{ position: relative; }
   font-family: var(--font-display);
   font-weight: 400;
   font-size: clamp(2.4rem, 1.6rem + 3.2vw, var(--fs-5xl));
-  line-height: 1.05;
+  line-height: 1.2;
   letter-spacing: -0.025em;
   text-transform: uppercase;
   color: var(--white);
@@ -2466,7 +2466,10 @@ body.modal-open, body.lightbox-open{ overflow: hidden; }
   .container{ padding: 0 var(--sp-5); }
   .section-head__text.in-view{ font-size: var(--fs-sm); }
   .hero__content.container{ padding-top: 25px; padding-bottom: var(--sp-8); }
-  .hero__title{ margin-bottom: var(--sp-5); }
+  .hero__title{
+    margin-bottom: var(--sp-5);
+    font-size: clamp(1.65rem, 1.15rem + 3.8vw, 2.15rem);
+  }
   .hero__actions{ flex-direction: column; width: 100%; }
   .hero__actions .btn{ width: 100%; }
   .viz-cinematic{
