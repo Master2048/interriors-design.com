@@ -1849,7 +1849,6 @@ html.is-lite-motion .service-panel__media img{
   font-size: var(--fs-base);
   font-weight: 600;
   letter-spacing: 0.02em;
-  text-transform: uppercase;
   line-height: 1.35;
   /* фиксируем высоту, чтобы вопрос с переносом на 2 строки не увеличивал item */
   height: calc(2.7em + var(--faq-q-pad-y) + var(--faq-q-pad-y));
@@ -1929,7 +1928,7 @@ html.is-lite-motion .service-panel__media img{
 .faq__answer p{
   margin: 0;
   padding-top: var(--sp-4);
-  color: var(--text-secondary);
+  color: #c8c5bf;
   font-size: var(--fs-sm);
   line-height: 1.7;
   border-top: 1px solid var(--border-soft);
