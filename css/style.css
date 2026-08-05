@@ -44,8 +44,8 @@
   --error:   #e2604f;
 
   /* Typography */
-  --font-display: 'Montserrat', 'Segoe UI', Arial, sans-serif;
-  --font-body: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+  --font-display: 'Cormorant Infant', Georgia, 'Times New Roman', serif;
+  --font-body: 'Manrope', 'Segoe UI', Arial, sans-serif;
 
   --fs-xs:   0.75rem;
   --fs-sm:   0.8125rem;
@@ -183,6 +183,10 @@ svg{ display: block; }
   margin-left: auto;
   margin-right: auto;
 }
+.hero__content .eyebrow.eyebrow--light,
+.hero__content .eyebrow.eyebrow--light.in-view{
+  margin-bottom: var(--sp-2);
+}
 .hero__content .eyebrow.eyebrow--light::before,
 .hero__content .eyebrow.eyebrow--light::after,
 .eyebrow.eyebrow--light.in-view::before,
@@ -202,11 +206,20 @@ svg{ display: block; }
 
 .h2{
   font-family: var(--font-display);
-  font-weight: 500;
+  font-weight: 600;
   font-size: clamp(2rem, 1.4rem + 2vw, var(--fs-4xl));
-  line-height: 1.15;
-  letter-spacing: -0.01em;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
   color: var(--white);
+}
+
+/* Display titles — uppercase (Cormorant Infant pairing) */
+.modal__title,
+.lightbox__caption h3,
+.form__success h3{
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
 }
 
 .section-head{
@@ -373,21 +386,33 @@ section{ position: relative; }
   flex-shrink: 0;
 }
 .logo__text{
-  display: flex; flex-direction: column;
-  font-family: var(--font-body);
-  font-weight: 700;
-  font-size: var(--fs-md);
-  letter-spacing: 0.08em;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: max-content;
   color: var(--white);
   line-height: 1.1;
 }
+.logo__name{
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-md);
+  /* Calibrated so «YMG DESIGN» matches width of «студия дизайна» */
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
 .logo__text small{
+  display: block;
+  font-family: var(--font-body);
   font-weight: 500;
   font-size: 10px;
   padding-top: 5px;
-  letter-spacing: 0.25em;
+  letter-spacing: 0.26em;
   text-transform: uppercase;
   color: rgba(245, 243, 239, 0.82);
+  white-space: nowrap;
 }
 
 /* =========================================================
@@ -537,7 +562,7 @@ section{ position: relative; }
   display: block;
   padding: var(--sp-4) 0;
   border-bottom: 1px solid var(--border);
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: var(--fs-base);
   color: var(--white);
 }
@@ -558,7 +583,7 @@ section{ position: relative; }
   cursor: pointer;
   text-align: left;
   font: inherit;
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: var(--fs-base);
   color: var(--white);
 }
@@ -673,7 +698,7 @@ section{ position: relative; }
   position: absolute;
   inset: 0;
   z-index: 0;
-  background: url('../assets/img/hero/hero-poster.webp') center 65% / cover no-repeat;
+  background: url('../assets/img/hero/hero-poster.webp?v=20260805-7') center 65% / cover no-repeat;
 }
 .hero__video{
   width: 100%;
@@ -707,10 +732,11 @@ section{ position: relative; }
 }
 .hero__title{
   font-family: var(--font-display);
-  font-weight: 500;
+  font-weight: 400;
   font-size: clamp(2.4rem, 1.6rem + 3.2vw, var(--fs-5xl));
-  line-height: 1.12;
-  letter-spacing: -0.01em;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  text-transform: uppercase;
   color: var(--white);
   margin-bottom: var(--sp-6);
   text-shadow: 0 4px 30px rgba(0,0,0,0.35);
@@ -822,8 +848,11 @@ body.is-intro-done .hero__content [data-reveal]{
   transition: opacity 800ms var(--ease), transform 800ms var(--ease);
 }
 .about__feature h3{
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: var(--fs-lg);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
   color: var(--white);
   margin-bottom: var(--sp-2);
 }
@@ -1043,9 +1072,11 @@ body.is-intro-done .hero__content [data-reveal]{
     linear-gradient(90deg, transparent 70%, rgba(7, 10, 14, 0.32) 100%);
 }
 .service-panel__body h3{
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: clamp(1.2rem, 1.65vw, 1.5rem);
   font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
   color: var(--white);
   margin: 0;
   line-height: 1.25;
@@ -1292,9 +1323,11 @@ html.is-lite-motion .service-panel__media img{
   position: relative;
   z-index: 3;
   width: 100%;
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-weight: 600;
-  font-size: var(--fs-md);
+  font-size: var(--fs-base);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
   color: var(--white);
   margin-bottom: var(--sp-2);
 }
@@ -1626,9 +1659,11 @@ html.is-lite-motion .service-panel__media img{
 }
 .project-card__title{
   display: block;
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-weight: 600;
-  font-size: clamp(1.25rem, 1.05rem + 0.7vw, var(--fs-xl));
+  font-size: var(--fs-md);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
   line-height: 1.25;
   color: var(--white);
   margin: 0;
@@ -1762,9 +1797,11 @@ html.is-lite-motion .service-panel__media img{
 }
 .faq__aside-title{
   margin: 0 0 var(--sp-3);
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: var(--fs-xl);
   font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
   color: var(--white);
 }
 .faq__aside-text{
@@ -1808,9 +1845,11 @@ html.is-lite-motion .service-panel__media img{
   border: 0;
   background: transparent;
   color: var(--white);
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: var(--fs-base);
-  font-weight: 500;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
   line-height: 1.35;
   /* фиксируем высоту, чтобы вопрос с переносом на 2 строки не увеличивал item */
   height: calc(2.7em + var(--faq-q-pad-y) + var(--faq-q-pad-y));
@@ -1936,21 +1975,23 @@ html.is-lite-motion .service-panel__media img{
   grid-template-columns: 0.85fr 1.15fr;
   gap: var(--sp-24);
 }
+.contacts__info .h2{
+  font-family: var(--font-body);
+  font-size: clamp(1.25rem, 0.9rem + 2vw, 1.75rem);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
 .contacts__lead{
   color: var(--text-secondary);
-  font-size: var(--fs-md);
+  font-size: var(--fs-base);
   line-height: 1.7;
   margin: var(--sp-5) 0 var(--sp-10);
-  transition: opacity 800ms var(--ease), transform 800ms var(--ease), font-size 800ms var(--ease);
 }
-.contacts__lead.in-view{ font-size: var(--fs-base); }
 .contacts__list{
   display: flex;
   flex-direction: column;
   gap: var(--sp-6);
-  transition: gap var(--t-normal) var(--ease);
 }
-.contacts__list.in-view{ gap: var(--sp-10); }
 .contacts__list li{ display: flex; align-items: flex-start; gap: var(--sp-4); }
 .contacts__icon{
   display: inline-flex; align-items: center; justify-content: center;
@@ -1970,24 +2011,8 @@ html.is-lite-motion .service-panel__media img{
   position: relative;
   isolation: isolate;
   border-radius: var(--radius-xl);
-  border: 1px solid var(--border);
-  padding: var(--sp-10);
-  background:
-    linear-gradient(155deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.015) 42%, transparent 70%),
-    rgba(23, 23, 26, 0.72);
-  backdrop-filter: blur(16px) saturate(140%);
-  -webkit-backdrop-filter: blur(16px) saturate(140%);
-  box-shadow: var(--shadow-md);
-  transition:
-    padding var(--t-normal) var(--ease),
-    background-color var(--t-normal) var(--ease),
-    border-color var(--t-normal) var(--ease),
-    box-shadow var(--t-normal) var(--ease),
-    backdrop-filter var(--t-normal) var(--ease);
-}
-.contacts__form-wrap.is-entered{
+  border: 1px solid var(--border-strong);
   padding: var(--sp-8);
-  border-color: var(--border-strong);
   background:
     linear-gradient(155deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 42%, transparent 70%),
     linear-gradient(145deg, rgba(255, 255, 255, 0.05), transparent 58%),
@@ -1998,51 +2023,15 @@ html.is-lite-motion .service-panel__media img{
     var(--shadow-lg),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
-.contacts__form-wrap.is-entered .field input,
-.contacts__form-wrap.is-entered .field textarea{
+.contacts__form-wrap .field input,
+.contacts__form-wrap .field textarea{
   background: rgba(255, 255, 255, 0.04);
   border-color: var(--border-strong);
 }
-.contacts__form-wrap.is-entered .field input:focus,
-.contacts__form-wrap.is-entered .field textarea:focus{
+.contacts__form-wrap .field input:focus,
+.contacts__form-wrap .field textarea:focus{
   background: rgba(255, 255, 255, 0.06);
   border-color: var(--accent-500);
-}
-
-/* Contacts enter choreography */
-.contacts [data-enter]{
-  --enter-dur: 620ms;
-  --enter-ease: cubic-bezier(0.22, 1, 0.36, 1);
-  opacity: 0;
-  transition:
-    opacity var(--enter-dur) var(--enter-ease),
-    transform var(--enter-dur) var(--enter-ease),
-    padding var(--t-normal) var(--ease),
-    background-color var(--t-normal) var(--ease),
-    border-color var(--t-normal) var(--ease),
-    box-shadow var(--t-normal) var(--ease),
-    backdrop-filter var(--t-normal) var(--ease);
-}
-.contacts [data-enter].is-animating{
-  will-change: transform, opacity;
-}
-.contacts [data-enter="left"]{ transform: translate3d(-40px, 0, 0); }
-.contacts [data-enter="right"]{ transform: translate3d(40px, 0, 0); }
-.contacts [data-enter].is-entered{
-  opacity: 1;
-  transform: translate3d(0, 0, 0);
-}
-.contacts [data-enter]:not(.is-entered) [data-reveal],
-.contacts [data-enter]:not(.is-content-ready) [data-reveal]{
-  opacity: 0 !important;
-  transform: translateY(20px) !important;
-  transition: none !important;
-}
-.contacts [data-enter].is-content-ready [data-reveal]{
-  transition:
-    opacity 480ms var(--ease),
-    transform 480ms var(--ease),
-    font-size 480ms var(--ease);
 }
 
 /* =========================================================
@@ -2444,20 +2433,32 @@ body.modal-open, body.lightbox-open{ overflow: hidden; }
   .collage--masonry{ max-width: 520px; margin: 0 auto; }
   .faq__aside-title{ font-size: var(--fs-lg); }
   .contacts__grid{ grid-template-columns: 1fr; gap: var(--sp-12); }
-  .contacts__list.in-view{ gap: var(--sp-6); }
-  .contacts__form-wrap.is-entered.is-content-ready{
-    padding: calc(var(--sp-8) * 0.5);
+  .contacts__info .eyebrow,
+  .contacts__info .h2,
+  .contacts__lead{
+    text-align: center;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .contacts__lead{ font-size: var(--fs-sm); }
+  .contacts__value{ font-size: var(--fs-sm); }
+  .contacts__info .eyebrow{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .contacts__info .eyebrow::after{
+    content: '';
+    width: 18px;
+    height: 1px;
+    background: currentColor;
   }
   .contacts__form-wrap .btn.btn--primary.btn--lg{
     padding: 11px 22px;
     min-height: 42px;
     font-size: var(--fs-sm);
   }
-  .contacts [data-enter="left"],
-  .contacts [data-enter="right"]{
-    transform: translate3d(0, 36px, 0);
-  }
-  .contacts__form-wrap .field{ transform: translateY(16px); }
 }
 
 @media (max-width: 720px){
@@ -2522,12 +2523,15 @@ body.modal-open, body.lightbox-open{ overflow: hidden; }
 
 @media (max-width: 480px){
   .header__inner .logo__text{
+    font-size: inherit;
+  }
+  .header__inner .logo__name{
     font-size: 0.9375rem;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.1em;
   }
   .header__inner .logo__text small{
     font-size: 9px;
-    letter-spacing: 0.16em;
+    letter-spacing: 0.26em;
   }
   .hero__pills{ flex-direction: column; align-items: stretch; }
   .pill{ justify-content: center; }
@@ -2537,13 +2541,6 @@ body.modal-open, body.lightbox-open{ overflow: hidden; }
   html{ scroll-behavior: auto; }
   .roadmap__img{ animation: none; }
   [data-reveal]{ transition: none; opacity: 1; transform: none; }
-  .contacts [data-enter],
-  .contacts [data-enter]:not(.is-entered) [data-reveal],
-  .contacts [data-enter]:not(.is-content-ready) [data-reveal]{
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none !important;
-  }
   .hero__scroll{ animation: none; }
   .tilt-card{ transition: none !important; }
   .project-card__media img{
@@ -2581,7 +2578,7 @@ body.modal-open, body.lightbox-open{ overflow: hidden; }
   }
   .hero__video{ display: none; }
   .hero__media{
-    background: url('../assets/img/hero/hero-bg.webp') center 65% / cover no-repeat;
+    background: url('../assets/img/hero/hero-bg.webp?v=20260805-7') center 65% / cover no-repeat;
   }
   .faq__answer,
   .faq__item.is-open .faq__answer,
@@ -2664,7 +2661,7 @@ body.hero-intro-pending .hero__pills .pill{
   display: inline-block;
 }
 
-/* Collage + form field stagger */
+/* Collage stagger */
 .collage__item{
   opacity: 0;
   transform: translateY(20px);
@@ -2676,27 +2673,6 @@ body.hero-intro-pending .hero__pills .pill{
   transform: translateY(0);
   /* even stagger: one source only (CSS), 80ms steps */
   transition-delay: calc(var(--stagger-i, 0) * 80ms);
-}
-.contacts__form-wrap .field,
-.contacts__form-wrap .form__consent,
-.contacts__form-wrap .form__fields > .btn{
-  opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 0.45s var(--ease), transform 0.45s var(--ease);
-}
-.contacts__form-wrap .field{
-  transition-delay: calc(80ms + var(--stagger-i, 0) * 55ms);
-}
-.contacts__form-wrap .form__consent{ transition-delay: 300ms; }
-.contacts__form-wrap .form__fields > .btn{ transition-delay: 360ms; }
-.contacts__form-wrap.is-content-ready .field,
-.contacts__form-wrap.is-content-ready .form__consent,
-.contacts__form-wrap.is-content-ready .form__fields > .btn,
-body.is-intro-done .contacts__form-wrap.is-content-ready .field,
-body.is-intro-done .contacts__form-wrap.is-content-ready .form__consent,
-body.is-intro-done .contacts__form-wrap.is-content-ready .form__fields > .btn{
-  opacity: 1;
-  transform: translateY(0);
 }
 
 .field.is-shaking{
@@ -2712,10 +2688,7 @@ body.is-intro-done .contacts__form-wrap.is-content-ready .form__fields > .btn{
     opacity: 1;
     transform: none;
   }
-  .collage__item,
-  .contacts__form-wrap .field,
-  .contacts__form-wrap .form__consent,
-  .contacts__form-wrap .form__fields > .btn{
+  .collage__item{
     opacity: 1;
     transform: none;
     transition: none;

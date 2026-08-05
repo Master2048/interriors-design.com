@@ -1,8 +1,8 @@
 {
   "designSystem": {
     "meta": {
-      "version": "2.0.0",
-      "updated": "2026-07-20",
+      "version": "2.1.0",
+      "updated": "2026-08-05",
       "brand": "YMG DESIGN",
       "description": "Живая дизайн-система лендинга interriors-design.com. Источник правды: css/style.css (:root), assets/css/fonts.css, flex-first layout.",
       "sources": [
@@ -10,7 +10,7 @@
         "assets/css/fonts.css",
         ".cursor/rules/flex-first-layout.mdc"
       ],
-      "philosophy": "Премиальный тёмный UI с тёплым оранжевым акцентом. Глубина — контраст и фото/видео, не декоративные карточки. Flexbox first; без новых CSS Grid."
+      "philosophy": "Премиальный тёмный UI с тёплым оранжевым акцентом. Глубина — контраст и фото/видео, не декоративные карточки. Flexbox first; без новых CSS Grid. Типографика: Cormorant Infant (display) + Manrope (body)."
     },
 
     "colors": {
@@ -60,19 +60,25 @@
 
     "typography": {
       "families": {
-        "display": "'Montserrat', 'Segoe UI', Arial, sans-serif",
-        "body": "'Montserrat', 'Segoe UI', Arial, sans-serif"
+        "display": "'Cormorant Infant', Georgia, 'Times New Roman', serif",
+        "body": "'Manrope', 'Segoe UI', Arial, sans-serif"
       },
       "files": {
         "dir": "assets/Fonts/",
         "css": "assets/css/fonts.css",
-        "weightsOnDisk": {
-          "400": "Montserrat-Regular.woff2",
-          "500": "Montserrat-Medium.woff2",
-          "600": "Montserrat-SemiBold.woff2",
-          "700": "Montserrat-Bold.woff2"
+        "display": {
+          "400": "CormorantInfant-Regular.woff",
+          "600": "CormorantInfant-SemiBold.woff",
+          "700": "CormorantInfant-Bold.woff"
         },
-        "note": "Thin / ExtraLight / Light / Black удалены — не в @font-face"
+        "body": {
+          "400": ["Manrope-400-cyrillic.woff2", "Manrope-400-latin.woff2"],
+          "500": ["Manrope-500-cyrillic.woff2", "Manrope-500-latin.woff2"],
+          "600": ["Manrope-600-cyrillic.woff2", "Manrope-600-latin.woff2"],
+          "700": ["Manrope-700-cyrillic.woff2", "Manrope-700-latin.woff2"]
+        },
+        "license": "SIL Open Font License 1.1",
+        "note": "Montserrat-*.woff2 оставлены на диске, в @font-face не подключены. Display titles — uppercase."
       },
       "sizesRem": {
         "xs": "0.75rem",
@@ -87,7 +93,7 @@
         "5xl": "4.25rem"
       },
       "roles": {
-        "heroTitle": "display, ~clamp to fs-5xl, weight 600–700, centered",
+        "heroTitle": "display, ~clamp to fs-5xl, weight 400, uppercase, centered",
         "sectionH2": "display, fs-3xl–4xl, weight 600",
         "body": "body, fs-base, line-height 1.6, text-secondary for supporting",
         "nav": "sm/base, weight 500, letter-spacing slightly wide",
@@ -175,7 +181,7 @@
     },
 
     "heroMedia": {
-      "video": "video/Video_1.mp4",
+      "video": "video/Video_2.mp4",
       "videoAttrs": "muted loop playsinline preload=none",
       "poster": "assets/img/hero/hero-poster.webp",
       "preload": "assets/img/hero/hero-poster.webp (type=image/webp)",

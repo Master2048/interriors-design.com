@@ -1,5 +1,5 @@
 /* =========================================================
-   YMG DESIGN — main script
+   YMG DESIGN - main script
    ========================================================= */
 (function () {
   'use strict';
@@ -110,7 +110,7 @@
   window.setTimeout(hidePreloader, 4000);
 
   /* ---------------------------------------------------------
-     Hero intro timeline (Web Animations API — GSAP-like sequence)
+     Hero intro timeline (Web Animations API - GSAP-like sequence)
   --------------------------------------------------------- */
   function splitHeroTitle() {
     var title = document.querySelector('.hero__title');
@@ -153,9 +153,6 @@
     Array.prototype.slice.call(document.querySelectorAll('.collage__item')).forEach(function (el, i) {
       el.style.setProperty('--stagger-i', String(i));
     });
-    Array.prototype.slice.call(document.querySelectorAll('.contacts__form-wrap .field')).forEach(function (el, i) {
-      el.style.setProperty('--stagger-i', String(i));
-    });
   }
 
   function setMotion(el, opacity, y) {
@@ -178,7 +175,7 @@
     clearMotion(el);
   }
 
-  /* Keep final WAAPI frame as inline styles before cancel — avoids opacity:0 flash */
+  /* Keep final WAAPI frame as inline styles before cancel - avoids opacity:0 flash */
   function commitMotion(el) {
     if (!el) return;
     if (el.getAnimations) {
@@ -385,7 +382,7 @@
   }
 
   /* ---------------------------------------------------------
-     Hero background video — stable CSS poster under video;
+     Hero background video - stable CSS poster under video;
      no load() (avoids poster wipe / hero “reload” on mobile)
   --------------------------------------------------------- */
   var heroVideo = document.querySelector('.hero__video');
@@ -428,7 +425,7 @@
       if (heroPlayArmed) return;
       heroPlayArmed = true;
       heroVideo.addEventListener('playing', queueHeroReveal);
-      /* play() starts the fetch — do not call load() (clears frame / feels like reload) */
+      /* play() starts the fetch - do not call load() (clears frame / feels like reload) */
       if (heroVideo.readyState >= 2) playHeroVideo();
       else {
         heroVideo.addEventListener('canplay', playHeroVideo, { once: true });
@@ -453,7 +450,7 @@
   }
 
   /* ---------------------------------------------------------
-     Viz showcase videos (cinematic) — play in view
+     Viz showcase videos (cinematic) - play in view
   --------------------------------------------------------- */
   (function initVizVideos() {
     var videos = Array.prototype.slice.call(document.querySelectorAll('.js-viz-video'));
@@ -595,7 +592,7 @@
     if (!preferLiteMotion) updateServicesRecede();
   }
 
-  /* Services sticky stack — 3D recede as next card overlays */
+  /* Services sticky stack - 3D recede as next card overlays */
   var servicePanels = Array.prototype.slice.call(document.querySelectorAll('.service-panel'));
   var serviceCards = servicePanels.map(function (panel) {
     return panel.querySelector('.service-panel__card');
@@ -805,7 +802,7 @@
   /* Ambient particles (GPU-friendly) */
   function initAmbientParticles(section, canvas, options) {
     options = options || {};
-    /* Off on mobile / lite devices — sticky cards need the GPU budget */
+    /* Off on mobile / lite devices - sticky cards need the GPU budget */
     if (!section || !canvas || preferLiteMotion) {
       if (canvas) canvas.style.display = 'none';
       return;
@@ -1130,7 +1127,7 @@
   bootHeroIntro();
 
   /* ---------------------------------------------------------
-     Lenis smooth scroll — desktop only; loaded on demand
+     Lenis smooth scroll - desktop only; loaded on demand
   --------------------------------------------------------- */
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
@@ -1876,77 +1873,12 @@
     cards.forEach(function (card) { portfolioObserver.observe(card); });
   })();
 
-  /* Contacts: coordinated enter, then nested reveals */
-  var contactsSection = document.querySelector('.contacts');
-  var contactsEnterPanels = Array.prototype.slice.call(document.querySelectorAll('.contacts [data-enter]'));
-  var contactsEnterDuration = 620;
-
-  function revealContactsChildren(panel) {
-    if (panel.classList.contains('is-content-ready')) return;
-    panel.classList.add('is-content-ready');
-    Array.prototype.slice.call(panel.querySelectorAll('[data-reveal]')).forEach(function (el, i) {
-      window.setTimeout(function () {
-        el.classList.add('in-view');
-      }, i * 65);
-    });
-  }
-
-  function onContactsPanelEntered(panel) {
-    function finishEnter(e) {
-      if (e && e.target !== panel) return;
-      if (e && e.propertyName && e.propertyName !== 'transform' && e.propertyName !== 'opacity') return;
-      panel.removeEventListener('transitionend', finishEnter);
-      window.clearTimeout(panel._contactsEnterFallback);
-      panel.classList.remove('is-animating');
-      revealContactsChildren(panel);
-    }
-
-    panel.addEventListener('transitionend', finishEnter);
-    panel._contactsEnterFallback = window.setTimeout(function () {
-      panel.removeEventListener('transitionend', finishEnter);
-      panel.classList.remove('is-animating');
-      revealContactsChildren(panel);
-    }, contactsEnterDuration + 50);
-  }
-
-  function playContactsEnter() {
-    if (!contactsEnterPanels.length) return;
-    contactsEnterPanels.forEach(function (panel) {
-      if (reduceMotion) {
-        panel.classList.add('is-entered');
-        revealContactsChildren(panel);
-        return;
-      }
-      var stagger = panel.getAttribute('data-enter') === 'right' ? 110 : 0;
-      window.setTimeout(function () {
-        panel.classList.add('is-animating');
-        panel.classList.add('is-entered');
-        onContactsPanelEntered(panel);
-      }, stagger);
-    });
-  }
-
-  if (contactsEnterPanels.length) {
-    if ('IntersectionObserver' in window && !reduceMotion && contactsSection) {
-      var contactsEnterObserver = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (!entry.isIntersecting) return;
-          contactsEnterObserver.unobserve(entry.target);
-          playContactsEnter();
-        });
-      }, { threshold: 0.2, rootMargin: '0px 0px -8% 0px' });
-      contactsEnterObserver.observe(contactsSection);
-    } else {
-      playContactsEnter();
-    }
-  }
-
   var collage = document.querySelector('.about__collage');
   if (collage && 'IntersectionObserver' in window) {
     var collageObserver = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (!entry.isIntersecting) return;
-        /* Add in-view together — stagger only via CSS --stagger-i (no JS timeouts) */
+        /* Add in-view together - stagger only via CSS --stagger-i (no JS timeouts) */
         Array.prototype.slice.call(collage.querySelectorAll('.collage__item')).forEach(function (item) {
           item.classList.add('in-view');
         });
@@ -2332,7 +2264,7 @@
     var num = (index + 1) < 10 ? '0' + (index + 1) : String(index + 1);
     var base = 'assets/img/portfolio/project-' + project + '/' + num;
     var p = String(project);
-    // Optimized WebP galleries: projects 1–6 (fallback via onerror)
+    // Optimized WebP galleries: projects 1-6 (fallback via onerror)
     if (supportsWebp() && (p === '1' || p === '2' || p === '3' || p === '4' || p === '5' || p === '6')) return base + '.webp';
     return base + '.jpg';
   }
@@ -2345,7 +2277,7 @@
     var tempImg = new Image();
     tempImg.onload = function () {
       lightboxImg.src = tempImg.src;
-      lightboxImg.alt = galleryState.title + ' — фото ' + (galleryState.index + 1);
+      lightboxImg.alt = galleryState.title + ' - фото ' + (galleryState.index + 1);
       requestAnimationFrame(function () {
         lightboxImg.classList.add('is-loaded');
       });
@@ -2356,7 +2288,7 @@
         return;
       }
       lightboxImg.removeAttribute('src');
-      lightboxImg.alt = galleryState.title + ' — фото недоступно';
+      lightboxImg.alt = galleryState.title + ' - фото недоступно';
     };
     tempImg.src = src;
 
