@@ -1741,8 +1741,8 @@ html.is-lite-motion .service-panel__media img{
   z-index: 1;
   pointer-events: none;
   background:
-    linear-gradient(180deg, rgba(6,6,7,0.5) 0%, rgba(6,6,7,0.28) 40%, rgba(6,6,7,0.72) 100%),
-    linear-gradient(90deg, rgba(6,6,7,0.35) 0%, rgba(6,6,7,0.1) 55%, rgba(6,6,7,0.3) 100%);
+    linear-gradient(180deg, rgba(6,6,7,0.36) 0%, rgba(6,6,7,0.16) 40%, rgba(6,6,7,0.55) 100%),
+    linear-gradient(90deg, rgba(6,6,7,0.22) 0%, rgba(6,6,7,0.05) 55%, rgba(6,6,7,0.18) 100%);
 }
 .viz-cinematic__content{
   position: relative;
@@ -2362,6 +2362,7 @@ body.modal-open, body.lightbox-open{ overflow: hidden; }
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 100%;
+    letter-spacing: 0.2em;
   }
   .header__actions{
     display: flex;
@@ -2538,7 +2539,7 @@ body.modal-open, body.lightbox-open{ overflow: hidden; }
   }
   .header__inner .logo__text small{
     font-size: 9px;
-    letter-spacing: 0.26em;
+    letter-spacing: 0.2em;
   }
   .hero__pills{ flex-direction: column; align-items: stretch; }
   .pill{ justify-content: center; }
@@ -2581,7 +2582,7 @@ body.modal-open, body.lightbox-open{ overflow: hidden; }
   .services__particles{ display: none; }
   .viz-cinematic__video{ display: none; }
   .viz-cinematic__media{
-    background: url('../assets/img/portfolio/project-1/01.jpg') center / cover no-repeat;
+    background: url('../assets/img/hero/viz-bg.webp?v=20260805-30') center / cover no-repeat;
   }
   .hero__video{ display: none; }
   .hero__media{
