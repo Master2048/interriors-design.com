@@ -906,7 +906,26 @@
 
   (function initServicePanelReveal() {
     if (!servicePanels.length) return;
-    servicePanels.forEach(function (panel) { panel.classList.add('is-shown'); });
+    if (reduceMotion || !('IntersectionObserver' in window)) {
+      servicePanels.forEach(function (panel) { panel.classList.add('is-shown'); });
+      return;
+    }
+
+    var revealIo = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        var panel = entry.target.classList.contains('service-panel')
+          ? entry.target
+          : (entry.target.closest && entry.target.closest('.service-panel'));
+        if (!panel || panel.classList.contains('is-shown')) return;
+        panel.classList.add('is-shown');
+        revealIo.unobserve(entry.target);
+      });
+    }, { threshold: 0, rootMargin: '0px 0px -50% 0px' });
+
+    servicePanels.forEach(function (panel) {
+      revealIo.observe(panel.querySelector('.service-panel__card') || panel);
+    });
   })();
 
   /* Ambient particles (GPU-friendly) */
