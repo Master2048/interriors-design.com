@@ -19,8 +19,10 @@
     if (/iP(hone|ad|od)/.test(ua)) return true;
     return navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1;
   })();
-  /* iOS Safari: Lenis + sticky pin drops native scroll ownership. Android keeps Lenis. */
-  var allowSmoothScroll = !preferLiteMotion && !isIosTouch;
+  var isCoarsePointer = !!(window.matchMedia && window.matchMedia('(pointer: coarse)').matches);
+  var isNarrowViewport = !!(window.matchMedia && window.matchMedia('(max-width: 1024px)').matches);
+  /* Lenis only on desktop. Phones keep native scroll: sticky pin stays stable, less JS. */
+  var allowSmoothScroll = !preferLiteMotion && !isCoarsePointer && !isNarrowViewport;
   var lenis = null;
 
   /* iPhone Safari: 100vh includes the area behind the bottom toolbar.
@@ -1258,7 +1260,7 @@
   bootHeroIntro();
 
   /* ---------------------------------------------------------
-     Lenis smooth scroll - on demand; touch stays native for sticky pin
+     Lenis smooth scroll - desktop only; loaded on demand
   --------------------------------------------------------- */
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
@@ -1271,10 +1273,6 @@
       smoothWheel: true,
       lerp: 0.09,
       wheelMultiplier: 1,
-      touchMultiplier: 1,
-      /* Native touch scroll keeps iOS sticky pin + roadmap scrub reliable.
-         Wheel still goes through Lenis on desktop / trackpads. */
-      syncTouch: false,
       autoRaf: false,
     });
     var lenisRafId = 0;
