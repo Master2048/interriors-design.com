@@ -1,0 +1,114 @@
+<section class="contacts" id="contacts">
+    <div class="contacts__bg" aria-hidden="true">
+      <picture class="contacts__bg-media">
+        <source
+          type="image/webp"
+          media="(max-width: 720px)"
+          srcset="assets/img/contacts/contacts-bg-640.webp 640w, assets/img/contacts/contacts-bg-960.webp 960w"
+          sizes="100vw">
+        <source
+          type="image/jpeg"
+          media="(max-width: 720px)"
+          srcset="assets/img/contacts/contacts-bg-640.jpg 640w, assets/img/contacts/contacts-bg-960.jpg 960w"
+          sizes="100vw">
+        <source
+          type="image/webp"
+          srcset="assets/img/contacts/contacts-bg-960.webp 960w, assets/img/contacts/contacts-bg-1440.webp 1440w, assets/img/contacts/contacts-bg-1600.webp 1600w"
+          sizes="100vw">
+        <source
+          type="image/jpeg"
+          srcset="assets/img/contacts/contacts-bg-960.jpg 960w, assets/img/contacts/contacts-bg-1440.jpg 1440w, assets/img/contacts/contacts-bg-1600.jpg 1600w"
+          sizes="100vw">
+        <img src="assets/img/contacts/contacts-bg-960.jpg" alt="" width="1600" height="1200" loading="lazy" decoding="async">
+      </picture>
+    </div>
+    <div class="container">
+      <div class="section-head contacts__head">
+        <h2 class="h2" data-reveal>Расскажите о доме</h2>
+        <p class="section-head__text" data-reveal>
+          Оставьте контакты, свяжемся в ближайший рабочий день и обсудим участок, состав работ и ваши пожелания.
+        </p>
+      </div>
+      <div class="contacts__card">
+        <div class="contacts__form-wrap" data-reveal>
+          <form class="form" id="contact-form" novalidate>
+            <h3 class="contacts__pane-title">Обсудим ваш проект</h3>
+            <p class="contacts__form-lead">Имя и телефон обязательны. Почту и сообщение можно добавить, если удобно.</p>
+
+            <div class="form__success" id="form-success" hidden role="status">
+              <svg class="icon" width="40" height="40" aria-hidden="true"><use href="#icon-check"/></svg>
+              <h3>Заявка отправлена</h3>
+              <p>Спасибо за доверие. Мы получили ваше сообщение и свяжемся с вами в ближайший рабочий день.</p>
+            </div>
+
+            <div class="form__fields">
+              <div class="form__row">
+                <div class="field field--required">
+                  <label class="visually-hidden" for="name">Ваше имя</label>
+                  <input type="text" id="name" name="name" placeholder="Ваше имя" autocomplete="name" maxlength="80" aria-required="true" aria-describedby="name-error">
+                  <span class="field__hint" aria-hidden="true">Ваше имя<span class="field__star">*</span></span>
+                  <span class="field__error" id="name-error"></span>
+                </div>
+                <div class="field field--required">
+                  <label class="visually-hidden" for="phone">Телефон</label>
+                  <input type="tel" id="phone" name="phone" placeholder="Телефон" autocomplete="tel" inputmode="tel" maxlength="20" aria-required="true" aria-describedby="phone-error">
+                  <span class="field__hint" aria-hidden="true">Телефон<span class="field__star">*</span></span>
+                  <span class="field__error" id="phone-error"></span>
+                </div>
+              </div>
+              <div class="field">
+                <label class="visually-hidden" for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Email" autocomplete="email" maxlength="120" aria-describedby="email-error">
+                <span class="field__error" id="email-error"></span>
+              </div>
+              <div class="field">
+                <label class="visually-hidden" for="message">Сообщение</label>
+                <textarea id="message" name="message" rows="4" placeholder="Сообщение" maxlength="2000"></textarea>
+              </div>
+              <button type="submit" class="btn btn--lg btn--specular">
+                <span class="btn__fx" aria-hidden="true"></span>
+                <span class="btn__label">Отправить</span>
+                <span class="btn__spinner" aria-hidden="true"></span>
+              </button>
+              <div class="form__consent">
+                <label class="checkbox">
+                  <input type="checkbox" id="consent" name="consent" aria-required="true" aria-describedby="consent-error">
+                  <span class="checkbox__box" aria-hidden="true"><svg class="icon" width="14" height="14"><use href="#icon-check"/></svg></span>
+                  <span class="checkbox__text">Я согласен на обработку персональных данных в соответствии с
+                    требованиями законодательства РФ и <a href="privacy.html">политикой конфиденциальности</a> <span>*</span></span>
+                </label>
+                <span class="field__error field__error--consent" id="consent-error"></span>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div class="contacts__info" data-reveal>
+          <h3 class="contacts__pane-title">Будем рады знакомству</h3>
+          <p class="contacts__form-lead">Позвоните или напишите, обсудим ваш проект без презентации «о компании».</p>
+          <ul class="contacts__list">
+            <li>
+              <span class="contacts__icon"><svg class="icon icon--fill" width="32" height="32" aria-hidden="true"><use href="#icon-clock"/></svg></span>
+              <span class="contacts__value">Пн-Пт: 10:00-19:00 · Сб-Вс: выходной</span>
+            </li>
+            <li>
+              <span class="contacts__icon"><svg class="icon icon--fill" width="32" height="32" aria-hidden="true"><use href="#icon-phone"/></svg></span>
+              <a class="contacts__value contacts__value--link" href="tel:+79312350202">+7 (931) 235 02 02</a>
+            </li>
+            <li>
+              <span class="contacts__icon"><svg class="icon icon--fill" width="32" height="32" aria-hidden="true"><use href="#icon-phone"/></svg></span>
+              <a class="contacts__value contacts__value--link" href="tel:+79643364248">8 (964) 336 42 48</a>
+            </li>
+            <li>
+              <span class="contacts__icon"><svg class="icon icon--fill" width="32" height="32" aria-hidden="true"><use href="#icon-mail"/></svg></span>
+              <a class="contacts__value contacts__value--link" href="mailto:info@ymg-design.com">info@ymg-design.com</a>
+            </li>
+            <li>
+              <span class="contacts__icon"><svg class="icon icon--fill" width="32" height="32" aria-hidden="true"><use href="#icon-instagram"/></svg></span>
+              <a class="contacts__value contacts__value--link" href="https://www.instagram.com/ymg.design/" target="_blank" rel="noopener noreferrer">@ymg.design</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>

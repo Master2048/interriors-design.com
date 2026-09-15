@@ -1,0 +1,394 @@
+{
+  "tool": "comp-spec",
+  "version": 1,
+  "createdAt": "2026-09-13T12:08:49.206Z",
+  "comp": ".impeccable\\mocks\\decision\\manifesto.png",
+  "warnings": [
+    "region hero-photo: \"bleed\": true set in the regions file (the clipped-artwork refusal is overridden: the page crops it there)"
+  ],
+  "uncoveredInkCells": [],
+  "compSize": {
+    "width": 1280,
+    "height": 720
+  },
+  "aspect": 1.7778,
+  "orientation": "landscape",
+  "palette": [
+    {
+      "hex": "#2d231c",
+      "coverage": 0.8731
+    },
+    {
+      "hex": "#0d0d0d",
+      "coverage": 0.0994
+    },
+    {
+      "hex": "#f6ede2",
+      "coverage": 0.0158
+    },
+    {
+      "hex": "#e17c2e",
+      "coverage": 0.0068
+    },
+    {
+      "hex": "#4f4a47",
+      "coverage": 0.0048
+    }
+  ],
+  "bands": [
+    {
+      "y": 0.3611,
+      "strength": 0.2429
+    },
+    {
+      "y": 0.4167,
+      "strength": 0.3079
+    },
+    {
+      "y": 0.4722,
+      "strength": 0.2273
+    },
+    {
+      "y": 0.5278,
+      "strength": 0.4046
+    },
+    {
+      "y": 0.5972,
+      "strength": 0.5331
+    }
+  ],
+  "regions": [
+    {
+      "id": "hero-photo",
+      "kind": "plate",
+      "note": "Full-bleed photograph of a cream dining kitchen with round marble table, blush chairs, and gold pendant lights",
+      "grid": "A0:J9",
+      "bleed": true,
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "px": {
+        "x": 0,
+        "y": 0,
+        "w": 1280,
+        "h": 720
+      },
+      "aspect": 1.7778,
+      "palette": [
+        {
+          "hex": "#2d231c",
+          "coverage": 0.8731
+        },
+        {
+          "hex": "#0d0d0d",
+          "coverage": 0.0994
+        },
+        {
+          "hex": "#f6ede2",
+          "coverage": 0.0158
+        },
+        {
+          "hex": "#e17c2e",
+          "coverage": 0.0068
+        },
+        {
+          "hex": "#4f4a47",
+          "coverage": 0.0048
+        }
+      ],
+      "detail": {
+        "energy": 15.0526
+      },
+      "medium": "raster",
+      "plate": "assets/plates/hero-photo.png",
+      "text": null
+    },
+    {
+      "id": "header",
+      "kind": "chrome",
+      "note": "Glass pill header with Y mark, YMG DESIGN wordmark, nav, phone, and small outline button",
+      "grid": "A0:J1",
+      "box": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 0.2
+      },
+      "px": {
+        "x": 0,
+        "y": 0,
+        "w": 1280,
+        "h": 144
+      },
+      "aspect": 8.8889,
+      "palette": [
+        {
+          "hex": "#271e17",
+          "coverage": 0.9841
+        },
+        {
+          "hex": "#4b4642",
+          "coverage": 0.0063
+        },
+        {
+          "hex": "#f5f3ec",
+          "coverage": 0.0042
+        },
+        {
+          "hex": "#9e918e",
+          "coverage": 0.0033
+        },
+        {
+          "hex": "#babaaa",
+          "coverage": 0.0021
+        }
+      ],
+      "detail": {
+        "energy": 9.3693
+      },
+      "medium": "semantic",
+      "plate": null,
+      "text": null
+    },
+    {
+      "id": "title",
+      "kind": "text",
+      "note": "Two-line warm off-white serif headline Начинаем с дома, не с легенды",
+      "grid": "B3:H5",
+      "snap": false,
+      "box": {
+        "x": 0.1,
+        "y": 0.3,
+        "w": 0.7,
+        "h": 0.3
+      },
+      "px": {
+        "x": 128,
+        "y": 216,
+        "w": 896,
+        "h": 216
+      },
+      "aspect": 4.1481,
+      "palette": [
+        {
+          "hex": "#383428",
+          "coverage": 0.4674
+        },
+        {
+          "hex": "#201815",
+          "coverage": 0.4552
+        },
+        {
+          "hex": "#f5e9de",
+          "coverage": 0.0643
+        },
+        {
+          "hex": "#6b5f55",
+          "coverage": 0.0112
+        },
+        {
+          "hex": "#989888",
+          "coverage": 0.0019
+        }
+      ],
+      "detail": {
+        "energy": 33.8514
+      },
+      "medium": "semantic",
+      "plate": null,
+      "text": null,
+      "type": {
+        "comp": {
+          "lines": 1,
+          "glyphs": 12,
+          "capHeightPx": 53.2,
+          "inkIsDark": false,
+          "allCaps": false,
+          "advance": 0.771,
+          "advTall": 0.9778,
+          "advX": 0.724,
+          "gap": 0.0752,
+          "xRatio": 0.6854,
+          "stemW": 0.136,
+          "contrast": 2.507,
+          "serif": 1.7916,
+          "densTall": 0.375,
+          "densX": 0.5062,
+          "weight": 0.375
+        },
+        "widthClass": "wide",
+        "weightClass": "regular",
+        "chosen": {
+          "family": "Elsie",
+          "weight": 400,
+          "fontSizePx": 76,
+          "source": "catalog",
+          "estimatedSize": true,
+          "stamp": "68ba6fdf4950"
+        }
+      }
+    },
+    {
+      "id": "subtitle",
+      "kind": "text",
+      "note": "One centered supporting line about a young full-cycle studio",
+      "grid": "C6:G6",
+      "snap": false,
+      "box": {
+        "x": 0.2,
+        "y": 0.6,
+        "w": 0.5,
+        "h": 0.1
+      },
+      "px": {
+        "x": 256,
+        "y": 432,
+        "w": 640,
+        "h": 72
+      },
+      "aspect": 8.8889,
+      "palette": [
+        {
+          "hex": "#30251b",
+          "coverage": 0.8749
+        },
+        {
+          "hex": "#e27d2e",
+          "coverage": 0.0729
+        },
+        {
+          "hex": "#f4f0eb",
+          "coverage": 0.0248
+        },
+        {
+          "hex": "#61574f",
+          "coverage": 0.0144
+        },
+        {
+          "hex": "#190808",
+          "coverage": 0.013
+        }
+      ],
+      "detail": {
+        "energy": 22.7271
+      },
+      "medium": "semantic",
+      "plate": null,
+      "text": null,
+      "type": {
+        "comp": null,
+        "measuredAt": "2026-09-13T12:08:58.048Z",
+        "note": "no separable lettering in the crop; size by the region box"
+      }
+    },
+    {
+      "id": "btn-primary",
+      "kind": "control",
+      "note": "Warm orange pill button Обсудить проект with arrow",
+      "grid": "D7:E7",
+      "coverBox": {
+        "x": 0.3,
+        "y": 0.7,
+        "w": 0.2,
+        "h": 0.1
+      },
+      "box": {
+        "x": 0.3375,
+        "y": 0.7,
+        "w": 0.1625,
+        "h": 0.05
+      },
+      "px": {
+        "x": 432,
+        "y": 504,
+        "w": 208,
+        "h": 36
+      },
+      "aspect": 5.7778,
+      "palette": [
+        {
+          "hex": "#df7c2f",
+          "coverage": 0.6085
+        },
+        {
+          "hex": "#3c3828",
+          "coverage": 0.2169
+        },
+        {
+          "hex": "#692d08",
+          "coverage": 0.0741
+        },
+        {
+          "hex": "#c98c4f",
+          "coverage": 0.0516
+        },
+        {
+          "hex": "#312018",
+          "coverage": 0.0489
+        }
+      ],
+      "detail": {
+        "energy": 17.2587
+      },
+      "medium": "semantic",
+      "plate": null,
+      "text": null
+    },
+    {
+      "id": "btn-ghost",
+      "kind": "control",
+      "note": "White outline pill button Смотреть дома",
+      "grid": "F7:G7",
+      "coverBox": {
+        "x": 0.5,
+        "y": 0.7,
+        "w": 0.2,
+        "h": 0.1
+      },
+      "box": {
+        "x": 0.5,
+        "y": 0.7,
+        "w": 0.1547,
+        "h": 0.05
+      },
+      "px": {
+        "x": 640,
+        "y": 504,
+        "w": 198,
+        "h": 36
+      },
+      "aspect": 5.5,
+      "palette": [
+        {
+          "hex": "#3f3528",
+          "coverage": 0.8652
+        },
+        {
+          "hex": "#6f675a",
+          "coverage": 0.086
+        },
+        {
+          "hex": "#f7f5ed",
+          "coverage": 0.0205
+        },
+        {
+          "hex": "#aba19a",
+          "coverage": 0.018
+        },
+        {
+          "hex": "#261816",
+          "coverage": 0.0103
+        }
+      ],
+      "detail": {
+        "energy": 27.0285
+      },
+      "medium": "semantic",
+      "plate": null,
+      "text": null
+    }
+  ]
+}

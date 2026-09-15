@@ -25,13 +25,13 @@ async function convertOne(file) {
     await image
       .clone()
       .resize({ width, height: Math.round((width * 3) / 4), fit: 'cover', position: 'centre' })
-      .webp({ quality: 78, effort: 5 })
+      .webp({ quality: 68, effort: 6 })
       .toFile(outWebp);
 
     await image
       .clone()
       .resize({ width, height: Math.round((width * 3) / 4), fit: 'cover', position: 'centre' })
-      .jpeg({ quality: 82, mozjpeg: true })
+      .jpeg({ quality: 72, mozjpeg: true, progressive: true })
       .toFile(outJpg);
 
     const webpStat = fs.statSync(outWebp);

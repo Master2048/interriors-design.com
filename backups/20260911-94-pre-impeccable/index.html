@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>YMG DESIGN - Архитектура, дизайн и строительство частных домов под ключ</title>
+<meta name="description" content="Архитектурно-строительная студия YMG DESIGN. Проектируем и строим частные дома комфорт-класса под ключ: архитектура, дизайн-проект, строительство, отделка и ландшафт.">
+<meta name="theme-color" content="#0b0b0c">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="YMG DESIGN - дома, в которых живёт ваш внутренний мир">
+<meta property="og:description" content="Полный цикл строительства частных домов: архитектура, дизайн, строительство, отделка и ландшафт под ключ.">
+<meta property="og:image" content="assets/img/hero/hero-bg.jpg">
+<link rel="preload" as="image" href="assets/img/hero/hero-poster.webp?v=20260807-1" type="image/webp">
+
+<link rel="stylesheet" href="assets/css/fonts.css">
+<!-- Asset cache-bust: bump ?v= when css/style.css or js/script.js change; run npm run build after edits -->
+<link rel="stylesheet" href="css/style.min.css?v=20260911-94">
+</head>
+<body>
+
+<!-- ============ SVG ICON SPRITE ============ -->
+<svg class="icon-sprite" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden">
+  <defs>
+    <symbol id="icon-menu" viewBox="0 0 24 24"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></symbol>
+    <symbol id="icon-close" viewBox="0 0 24 24"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></symbol>
+    <symbol id="icon-phone" viewBox="0 -64 512 640"><path fill="currentColor" fill-rule="evenodd" d="M337.43185,11H174.56808a52.59357,52.59357,0,0,0-52.43939,52.43951v385.121A52.59354,52.59354,0,0,0,174.56808,501H337.43185a52.59359,52.59359,0,0,0,52.43946-52.43951V63.43951A52.59363,52.59363,0,0,0,337.43185,11Zm36.43946,437.56049A36.48075,36.48075,0,0,1,337.43185,485H174.56808a36.4807,36.4807,0,0,1-36.43939-36.43951V63.43951A36.48066,36.48066,0,0,1,174.56808,27H337.43185a36.48071,36.48071,0,0,1,36.43946,36.43951Z"/><path fill="currentColor" d="M256,46.41748a13.68579,13.68579,0,1,0,13.68555,13.686A13.70127,13.70127,0,0,0,256,46.41748Zm0,16a2.31421,2.31421,0,1,1,2.31445-2.314A2.31675,2.31675,0,0,1,256,62.41748Z"/></symbol>
+    <symbol id="icon-mail" viewBox="-5 -10 110 135"><path fill="currentColor" fill-rule="evenodd" d="m89.062 18.75c2.5898 0 4.6875 2.0977 4.6875 4.6875v53.125c0 2.5898-2.0977 4.6875-4.6875 4.6875h-78.125c-2.5898 0-4.6875-2.0977-4.6875-4.6875v-53.125c0-2.5898 2.0977-4.6875 4.6875-4.6875zm-1.9531 3.125h-74.219l36.141 28.496c0.57031 0.44922 1.3672 0.44922 1.9375 0zm-77.699 1.2344c-0.023437 0.10547-0.035156 0.21484-0.035156 0.32812v53.125c0 0.86328 0.69922 1.5625 1.5625 1.5625h78.125c0.86328 0 1.5625-0.69922 1.5625-1.5625v-53.125c0-0.11328-0.011719-0.22266-0.035156-0.32812l-37.688 29.719c-1.7031 1.3398-4.1016 1.3398-5.8047 0z"/></symbol>
+    <symbol id="icon-clock" viewBox="-5 -10 110 135"><path fill="currentColor" fill-rule="evenodd" d="m50 4.293c-25.23 0-45.715 20.484-45.715 45.715 0 25.23 20.484 45.703 45.715 45.703s45.715-20.473 45.715-45.703v-0.054687-0.003906-0.015625c-0.039063-25.195-20.508-45.641-45.715-45.641zm-1.4219 2.8828v4.3594c0 0.78516 0.63672 1.418 1.4219 1.4219 0.78516-0.003906 1.418-0.63672 1.4219-1.4219v-4.3594c22.551 0.73438 40.668 18.848 41.41 41.398h-4.3594v-0.003907c-0.38281 0-0.74609 0.15234-1.0117 0.42188-0.26953 0.26953-0.41797 0.63281-0.41406 1.0117 0 0.78906 0.63672 1.4219 1.4258 1.4258h4.3594c-0.73438 22.555-18.855 40.676-41.41 41.41v-4.3633c0.003906-0.37891-0.14844-0.74219-0.41406-1.0117-0.26562-0.26953-0.62891-0.42188-1.0078-0.42188s-0.74219 0.15234-1.0078 0.42188c-0.26953 0.26953-0.41797 0.63281-0.41406 1.0117v4.3594c-22.555-0.73438-40.676-18.855-41.41-41.41h4.3594v0.003907c0.78906-0.003907 1.4258-0.63672 1.4258-1.4258 0.003906-0.37891-0.14453-0.74219-0.41406-1.0117-0.26562-0.26953-0.62891-0.42188-1.0117-0.42188h-4.3594c0.73828-22.547 18.859-40.664 41.41-41.398zm1.4219 17.562c-0.78906 0.003907-1.4258 0.64453-1.4219 1.4336v23.223l-13.848 13.211c-0.56641 0.54688-0.58594 1.4453-0.042969 2.0156 0.25781 0.27734 0.61719 0.4375 1 0.44531 0.37891 0.011719 0.74609-0.12891 1.0234-0.39062l14.281-13.637h-0.003907c0.28125-0.26953 0.4375-0.64453 0.43359-1.0352v-23.832 0.003906c0-0.37891-0.14844-0.74219-0.41406-1.0117-0.26562-0.26953-0.62891-0.42187-1.0078-0.42187z"/></symbol>
+    <symbol id="icon-instagram" viewBox="-5 -10 110 135"><path fill="currentColor" fill-rule="evenodd" d="m82.812 3.125h-65.625c-7.7539 0-14.062 6.3086-14.062 14.062v65.625c0 7.7539 6.3086 14.062 14.062 14.062h65.625c7.7539 0 14.062-6.3086 14.062-14.062v-65.625c0-7.7539-6.3086-14.062-14.062-14.062zm10.938 79.688c0 6.0312-4.9062 10.938-10.938 10.938h-65.625c-6.0312 0-10.938-4.9062-10.938-10.938v-65.625c0-6.0312 4.9062-10.938 10.938-10.938h65.625c6.0312 0 10.938 4.9062 10.938 10.938zm-43.75-60.938c-15.508 0-28.125 12.617-28.125 28.125s12.617 28.125 28.125 28.125 28.125-12.617 28.125-28.125-12.617-28.125-28.125-28.125zm0 53.125c-13.785 0-25-11.215-25-25s11.215-25 25-25 25 11.215 25 25-11.215 25-25 25zm32.812-54.688c0 1.7227-1.4023 3.125-3.125 3.125s-3.125-1.4023-3.125-3.125 1.4023-3.125 3.125-3.125 3.125 1.4023 3.125 3.125z"/></symbol>
+    <symbol id="icon-arrow-right" viewBox="0 0 24 24"><line x1="4" y1="12" x2="20" y2="12"/><path d="M14 6l6 6-6 6"/></symbol>
+    <symbol id="icon-arrow-left" viewBox="0 0 24 24"><line x1="20" y1="12" x2="4" y2="12"/><path d="M10 6l-6 6 6 6"/></symbol>
+    <symbol id="icon-chevron-down" viewBox="0 0 24 24"><path d="M5 8l7 7 7-7"/></symbol>
+    <symbol id="icon-check" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 7"/></symbol>
+    <symbol id="icon-send" viewBox="0 0 24 24"><path d="M21 3 3 10.5l7 2.5m11-10L14.5 20l-4.5-7m11-10L10 13"/></symbol>
+    <symbol id="icon-quote" viewBox="0 0 24 24"><path d="M7 7c-2.2 1.3-3.5 3.2-3.5 5.8C3.5 15.4 5.3 17 7.4 17c1.7 0 3-1.2 3-2.9 0-1.6-1.1-2.7-2.6-2.7-.3 0-.6 0-.8.1.2-1.6 1.4-3 3.2-3.9L9 7Zm10 0c-2.2 1.3-3.5 3.2-3.5 5.8 0 2.6 1.8 4.2 3.9 4.2 1.7 0 3-1.2 3-2.9 0-1.6-1.1-2.7-2.6-2.7-.3 0-.6 0-.8.1.2-1.6 1.4-3 3.2-3.9L19 7Z" stroke="none" fill="currentColor"/></symbol>
+    <symbol id="icon-scroll" viewBox="0 0 24 24"><rect x="8" y="3" width="8" height="14" rx="4"/><line x1="12" y1="7" x2="12" y2="10"/></symbol>
+  </defs>
+</svg>
+
+<!-- ============ PRELOADER ============ -->
+<div class="preloader" id="preloader" aria-hidden="true">
+  <span class="preloader__mark">Y</span>
+</div>
+
+<!-- ============ HEADER ============ -->
+<header class="header" id="header">
+  <div class="header__pill">
+    <div class="container header__inner">
+      <a href="#home" class="logo">
+        <span class="logo__mark">Y</span>
+        <span class="logo__text"><span class="logo__name">YMG DESIGN</span><small>студия дизайна</small></span>
+      </a>
+
+      <nav class="nav" aria-label="Основная навигация">
+        <ul class="nav__list">
+          <li><a href="#about" class="nav__link">О нас</a></li>
+          <li><a href="#services" class="nav__link">Услуги</a></li>
+          <li><a href="#portfolio" class="nav__link">Портфолио</a></li>
+          <li><a href="#faq" class="nav__link">Вопросы</a></li>
+          <li><a href="#contacts" class="nav__link">Контакты</a></li>
+        </ul>
+      </nav>
+
+      <div class="header__actions">
+        <a href="tel:+79312350202" class="header__phone">+7 (931) 235&nbsp;02&nbsp;02</a>
+        <a href="#contacts" class="btn btn--sm btn--specular">
+          <span class="btn__fx" aria-hidden="true"></span>
+          <span class="btn__label">Обсудить проект</span>
+        </a>
+        <button class="burger" id="burger" aria-label="Открыть меню" aria-expanded="false" aria-controls="mobile-menu">
+          <svg class="icon" width="24" height="24"><use href="#icon-menu"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ MOBILE MENU ============ -->
+<div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+  <div class="mobile-menu__top">
+    <a href="#home" class="logo logo--light">
+      <span class="logo__mark">Y</span>
+      <span class="logo__text"><span class="logo__name">YMG DESIGN</span><small>студия дизайна</small></span>
+    </a>
+    <button class="burger burger--close" id="burger-close" aria-label="Закрыть меню">
+      <svg class="icon" width="26" height="26"><use href="#icon-close"/></svg>
+    </button>
+  </div>
+  <ul class="mobile-menu__list">
+    <li><a href="#about" class="mobile-menu__link">О нас</a></li>
+    <li class="mobile-menu__item--accordion">
+      <button
+        type="button"
+        class="mobile-menu__link mobile-menu__accordion-btn"
+        id="mobile-services-toggle"
+        aria-expanded="false"
+        aria-controls="mobile-services-submenu"
+      >
+        <span>Услуги</span>
+        <span class="mobile-menu__chevron" aria-hidden="true"></span>
+      </button>
+      <div class="mobile-menu__panel" id="mobile-services-submenu" aria-hidden="true">
+        <ul class="mobile-menu__submenu">
+          <li><a href="#services" class="mobile-menu__sublink">Архитектурное проектирование</a></li>
+          <li><a href="#services" class="mobile-menu__sublink">Дизайн-проект под ключ</a></li>
+          <li><a href="#services" class="mobile-menu__sublink">Строительство домов</a></li>
+          <li><a href="#services" class="mobile-menu__sublink">Отделочные работы</a></li>
+          <li><a href="#services" class="mobile-menu__sublink">Ландшафтное проектирование</a></li>
+        </ul>
+      </div>
+    </li>
+    <li><a href="#portfolio" class="mobile-menu__link">Портфолио</a></li>
+    <li><a href="#faq" class="mobile-menu__link">Вопросы</a></li>
+    <li><a href="#contacts" class="mobile-menu__link">Контакты</a></li>
+  </ul>
+  <div class="mobile-menu__footer">
+    <a href="tel:+79312350202" class="mobile-menu__phone">
+      <svg class="icon icon--fill" width="18" height="18" aria-hidden="true"><use href="#icon-phone"/></svg>
+      <span>+7 (931) 235 02 02</span>
+    </a>
+    <a href="#contacts" class="btn btn--sm btn--specular">
+      <span class="btn__fx" aria-hidden="true"></span>
+      <span class="btn__label">Обсудить проект</span>
+    </a>
+  </div>
+</div>
+
+<main>
+
+  <!-- ============ HERO ============ -->
+  <section class="hero" id="home">
+    <div class="hero__media">
+      <video class="hero__video" muted loop playsinline preload="metadata" aria-hidden="true">
+        <source src="video/Video_5.mp4" type="video/mp4">
+      </video>
+      <div class="hero__overlay" aria-hidden="true"></div>
+    </div>
+
+    <div class="container hero__content">
+      <p class="eyebrow eyebrow--light" data-reveal>Архитектура · Дизайн · Строительство</p>
+      <h1 class="hero__title" data-reveal data-reveal-delay="1">Дома, в которых<br>живёт ваш внутренний мир</h1>
+      <p class="hero__subtitle" data-reveal data-reveal-delay="2">
+        Проектируем и строим частные дома комфорт-класса под ключ - от архитектурной
+        идеи до последнего штриха в интерьере. Сохраняйте привычный образ жизни,
+        пока мы воплощаем ваши мечты.
+      </p>
+
+      <div class="hero__actions" data-reveal data-reveal-delay="3">
+        <a href="#contacts" class="btn btn--primary btn--lg">
+          Обсудить проект
+          <svg class="icon" width="18" height="18"><use href="#icon-arrow-right"/></svg>
+        </a>
+        <a href="#portfolio" class="btn btn--outline btn--lg">Смотреть портфолио</a>
+      </div>
+
+      <ul class="hero__pills" data-reveal data-reveal-delay="4">
+        <li class="pill">Индивидуальный подход</li>
+        <li class="pill">Полный цикл под ключ</li>
+        <li class="pill">Онлайн-наблюдение 24/7</li>
+      </ul>
+    </div>
+
+    <a href="#about" class="hero__scroll" aria-label="Прокрутить вниз">
+      <svg class="icon" width="22" height="22"><use href="#icon-scroll"/></svg>
+      <span>прокрутите вниз</span>
+    </a>
+  </section>
+
+  <!-- ============ ABOUT ============ -->
+  <section class="about" id="about">
+    <div class="container">
+      <div class="section-head about__head">
+        <p class="eyebrow" data-reveal>О нас</p>
+        <h2 class="h2" data-reveal>Комфорт, спроектированный с душой</h2>
+        <p class="section-head__text" data-reveal>
+          Создаём дома, в которых архитектура, интерьер и образ жизни соединяются
+          в одно гармоничное пространство.
+        </p>
+      </div>
+
+      <div class="about__grid">
+        <div class="about__text">
+          <p class="about__lead" data-reveal>
+          Мы - архитектурно-строительная студия, занимающаяся созданием, проектированием
+          и реализацией домов комфорт- и комфорт+ класса. Не спешим называть себя
+            премиум-бюро: по-настоящему комфортный дом сегодня - это уже высокий уровень.
+          </p>
+          <p data-reveal>
+          Наша главная задача - создать максимально комфортное пространство для заказчика:
+          гармоничное, отражающее его внутренний мир, вкусы и интересы. Мы относимся к
+          каждому проекту с душой и, буквально, растим его вместе с заказчиками. Работа
+          с нами - это не проектирование и строительство в привычном понимании.
+          </p>
+
+          <blockquote class="quote" data-reveal>
+            <svg class="icon quote__icon" width="28" height="28"><use href="#icon-quote"/></svg>
+            <p>Сохраняйте привычный образ жизни, пока мы воплощаем ваши мечты.</p>
+          </blockquote>
+
+          <div class="about__feature" data-reveal>
+            <h3>Индивидуальный подход</h3>
+            <p>Проект создаётся только для вас - по индивидуальным эскизам, без типовых
+               решений и готовых шаблонов.</p>
+          </div>
+        </div>
+
+        <div class="about__collage">
+          <div class="collage collage--masonry">
+            <div class="collage__column collage__column--a">
+              <figure class="collage__item" data-collage-enter="up">
+                <button type="button" class="collage__hit" data-full="assets/img/about/about-1.webp" data-caption="Кухня в тёплых деревянных тонах" aria-label="Открыть фото: Кухня в тёплых деревянных тонах">
+                  <picture>
+                    <source
+                      type="image/webp"
+                      srcset="assets/img/about/about-1-480.webp 480w, assets/img/about/about-1-720.webp 720w"
+                      sizes="(max-width: 1024px) 31vw, 15vw">
+                    <source
+                      type="image/jpeg"
+                      srcset="assets/img/about/about-1-480.jpg 480w, assets/img/about/about-1-720.jpg 720w"
+                      sizes="(max-width: 1024px) 31vw, 15vw">
+                    <img src="assets/img/about/about-1-480.jpg" alt="" class="collage__img" width="480" height="600" loading="lazy" decoding="async">
+                  </picture>
+                </button>
+              </figure>
+              <figure class="collage__item" data-collage-enter="rise">
+                <button type="button" class="collage__hit" data-full="assets/img/portfolio/project-1/01.webp" data-caption="Гостиная в тёплых бежевых тонах" aria-label="Открыть фото: Гостиная в тёплых бежевых тонах">
+                  <picture>
+                    <source
+                      type="image/webp"
+                      srcset="assets/img/portfolio/project-1/01-480.webp 480w, assets/img/portfolio/project-1/01-720.webp 720w"
+                      sizes="(max-width: 1024px) 31vw, 15vw">
+                    <source
+                      type="image/jpeg"
+                      srcset="assets/img/portfolio/project-1/01-480.jpg 480w, assets/img/portfolio/project-1/01-720.jpg 720w"
+                      sizes="(max-width: 1024px) 31vw, 15vw">
+                    <img src="assets/img/portfolio/project-1/01-480.jpg" alt="" class="collage__img" width="480" height="345" loading="lazy" decoding="async">
+                  </picture>
+                </button>
+              </figure>
+            </div>
+            <div class="collage__column collage__column--b">
+              <figure class="collage__item" data-collage-enter="zoom">
+                <button type="button" class="collage__hit" data-full="assets/img/about/about-2.webp" data-caption="Обеденная зона с круглым столом и золотистыми светильниками" aria-label="Открыть фото: Обеденная зона с круглым столом и золотистыми светильниками">
+                  <picture>
+                    <source
+                      type="image/webp"
+                      srcset="assets/img/about/about-2-480.webp 480w, assets/img/about/about-2-720.webp 720w"
+                      sizes="(max-width: 1024px) 31vw, 15vw">
+                    <source
+                      type="image/jpeg"
+                      srcset="assets/img/about/about-2-480.jpg 480w, assets/img/about/about-2-720.jpg 720w"
+                      sizes="(max-width: 1024px) 31vw, 15vw">
+                    <img src="assets/img/about/about-2-480.jpg" alt="" class="collage__img" width="480" height="720" loading="lazy" decoding="async">
+                  </picture>
+                </button>
+              </figure>
+              <figure class="collage__item" data-collage-enter="up">
+                <button type="button" class="collage__hit" data-full="assets/img/about/about-4.webp" data-caption="Кухня-столовая с бордовыми акцентами" aria-label="Открыть фото: Кухня-столовая с бордовыми акцентами">
+                  <picture>
+                    <source
+                      type="image/webp"
+                      srcset="assets/img/about/about-4-480.webp 480w, assets/img/about/about-4-720.webp 720w"
+                      sizes="(max-width: 1024px) 31vw, 15vw">
+                    <source
+                      type="image/jpeg"
+                      srcset="assets/img/about/about-4-480.jpg 480w, assets/img/about/about-4-720.jpg 720w"
+                      sizes="(max-width: 1024px) 31vw, 15vw">
+                    <img src="assets/img/about/about-4-480.jpg" alt="" class="collage__img" width="480" height="600" loading="lazy" decoding="async">
+                  </picture>
+                </button>
+              </figure>
+            </div>
+            <div class="collage__column collage__column--c">
+              <figure class="collage__item" data-collage-enter="rise">
+                <button type="button" class="collage__hit" data-full="assets/img/portfolio/project-2/01.webp" data-caption="Гостиная с лестницей и тёплым деревом" aria-label="Открыть фото: Гостиная с лестницей и тёплым деревом">
+                  <picture>
+                    <source
+                      type="image/webp"
+                      srcset="assets/img/portfolio/project-2/01-480.webp 480w, assets/img/portfolio/project-2/01-720.webp 720w"
+                      sizes="(max-width: 1024px) 31vw, 15vw">
+                    <source
+                      type="image/jpeg"
+                      srcset="assets/img/portfolio/project-2/01-480.jpg 480w, assets/img/portfolio/project-2/01-720.jpg 720w"
+                      sizes="(max-width: 1024px) 31vw, 15vw">
+                    <img src="assets/img/portfolio/project-2/01-480.jpg" alt="" class="collage__img" width="480" height="360" loading="lazy" decoding="async">
+                  </picture>
+                </button>
+              </figure>
+              <figure class="collage__item" data-collage-enter="zoom">
+                <button type="button" class="collage__hit" data-full="assets/img/portfolio/project-6/01.webp" data-caption="Гостиная с оливковым диваном" aria-label="Открыть фото: Гостиная с оливковым диваном">
+                  <picture>
+                    <source
+                      type="image/webp"
+                      srcset="assets/img/portfolio/project-6/01-480.webp 480w, assets/img/portfolio/project-6/01-720.webp 720w"
+                      sizes="(max-width: 1024px) 31vw, 15vw">
+                    <source
+                      type="image/jpeg"
+                      srcset="assets/img/portfolio/project-6/01-480.jpg 480w, assets/img/portfolio/project-6/01-720.jpg 720w"
+                      sizes="(max-width: 1024px) 31vw, 15vw">
+                    <img src="assets/img/portfolio/project-6/01-480.jpg" alt="" class="collage__img" width="480" height="360" loading="lazy" decoding="async">
+                  </picture>
+                </button>
+              </figure>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SERVICES ============ -->
+  <section class="services" id="services">
+    <canvas class="services__particles" aria-hidden="true"></canvas>
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow" data-reveal>Услуги</p>
+        <h2 class="h2" data-reveal>Полный цикл - от идеи<br>до готового дома</h2>
+        <p class="section-head__text" data-reveal>
+          Наше преимущество в том, что вам не нужно искать разных подрядчиков на разные
+          виды работ. Приобретая участок, вы можете проработать с нами весь комплекс
+          работ - экономя энергию, время и бюджет.
+        </p>
+      </div>
+    </div>
+
+    <div class="services-stack-wrap">
+      <aside class="services-progress" aria-hidden="true">
+        <span class="services-progress__current" data-services-current>01</span>
+        <div class="services-progress__track">
+          <div class="services-progress__fill" data-services-fill></div>
+        </div>
+        <span class="services-progress__total" data-services-total>06</span>
+      </aside>
+      <div class="services-stack">
+      <article class="service-panel">
+        <div class="service-panel__card">
+          <div class="service-panel__body">
+            <h3>Архитектурное проектирование</h3>
+            <ul class="service-panel__list">
+              <li>Обмеры и техническое задание</li>
+              <li>Эскизная концепция дома</li>
+              <li>3D-визуализации и видео-обзор</li>
+              <li>Рабочий пакет строительных чертежей</li>
+            </ul>
+            <a class="btn btn--glass" href="#contacts"><span>Подробнее</span><svg class="icon" width="16" height="16" aria-hidden="true"><use href="#icon-arrow-right"/></svg></a>
+          </div>
+          <div class="service-panel__media">
+            <picture>
+              <source
+                type="image/webp"
+                srcset="
+                  assets/img/services/01-architecture-800.webp 800w,
+                  assets/img/services/01-architecture-1200.webp 1200w,
+                  assets/img/services/01-architecture-1600.webp 1600w"
+                sizes="(max-width: 1024px) 100vw, min(720px, 52vw)">
+              <source
+                type="image/jpeg"
+                srcset="
+                  assets/img/services/01-architecture-800.jpg 800w,
+                  assets/img/services/01-architecture-1200.jpg 1200w,
+                  assets/img/services/01-architecture-1600.jpg 1600w"
+                sizes="(max-width: 1024px) 100vw, min(720px, 52vw)">
+              <img src="assets/img/services/01-architecture.jpg" alt="Архитектурное проектирование частного дома" width="1600" height="1200" loading="lazy" decoding="async">
+            </picture>
+          </div>
+        </div>
+      </article>
+
+      <article class="service-panel">
+        <div class="service-panel__card">
+          <div class="service-panel__body">
+            <h3>Дизайн-проект под ключ</h3>
+            <ul class="service-panel__list">
+              <li>Планировочные решения</li>
+              <li>Интерьерные концепты и визуализации</li>
+              <li>Полный пакет чертежей</li>
+              <li>Ведомость отделки и комплектация</li>
+            </ul>
+            <a class="btn btn--glass" href="#contacts"><span>Подробнее</span><svg class="icon" width="16" height="16" aria-hidden="true"><use href="#icon-arrow-right"/></svg></a>
+          </div>
+          <div class="service-panel__media">
+            <picture>
+              <source
+                type="image/webp"
+                srcset="
+                  assets/img/services/02-interior-design-800.webp 800w,
+                  assets/img/services/02-interior-design-1200.webp 1200w,
+                  assets/img/services/02-interior-design-1600.webp 1600w"
+                sizes="(max-width: 1024px) 100vw, min(720px, 52vw)">
+              <source
+                type="image/jpeg"
+                srcset="
+                  assets/img/services/02-interior-design-800.jpg 800w,
+                  assets/img/services/02-interior-design-1200.jpg 1200w,
+                  assets/img/services/02-interior-design-1600.jpg 1600w"
+                sizes="(max-width: 1024px) 100vw, min(720px, 52vw)">
+              <img src="assets/img/services/02-interior-design.jpg" alt="Дизайн-проект интерьера под ключ" width="1600" height="1200" loading="lazy" decoding="async">
+            </picture>
+          </div>
+        </div>
+      </article>
+
+      <article class="service-panel">
+        <div class="service-panel__card">
+          <div class="service-panel__body">
+            <h3>Строительство частных домов</h3>
+            <ul class="service-panel__list">
+              <li>Организация стройки «под ключ»</li>
+              <li>Поэтапный фото- и видеоотчёт</li>
+              <li>Онлайн-наблюдение за объектом</li>
+              <li>Контроль сроков и качества</li>
+            </ul>
+            <a class="btn btn--glass" href="#contacts"><span>Подробнее</span><svg class="icon" width="16" height="16" aria-hidden="true"><use href="#icon-arrow-right"/></svg></a>
+          </div>
+          <div class="service-panel__media">
+            <picture>
+              <source
+                type="image/webp"
+                srcset="
+                  assets/img/services/03-construction-800.webp 800w,
+                  assets/img/services/03-construction-1200.webp 1200w,
+                  assets/img/services/03-construction-1600.webp 1600w"
+                sizes="(max-width: 1024px) 100vw, min(720px, 52vw)">
+              <source
+                type="image/jpeg"
+                srcset="
+                  assets/img/services/03-construction-800.jpg 800w,
+                  assets/img/services/03-construction-1200.jpg 1200w,
+                  assets/img/services/03-construction-1600.jpg 1600w"
+                sizes="(max-width: 1024px) 100vw, min(720px, 52vw)">
+              <img src="assets/img/services/03-construction.jpg" alt="Строительство частного дома" width="1600" height="1200" loading="lazy" decoding="async">
+            </picture>
+          </div>
+        </div>
+      </article>
+
+      <article class="service-panel">
+        <div class="service-panel__card">
+          <div class="service-panel__body">
+            <h3>Отделочные работы под ключ</h3>
+            <ul class="service-panel__list">
+              <li>Черновая и чистовая отделка</li>
+              <li>Инженерные сети и чистовой монтаж</li>
+              <li>Финальный декор помещений</li>
+              <li>Сдача объекта с гарантийными обязательствами</li>
+            </ul>
+            <a class="btn btn--glass" href="#contacts"><span>Подробнее</span><svg class="icon" width="16" height="16" aria-hidden="true"><use href="#icon-arrow-right"/></svg></a>
+          </div>
+          <div class="service-panel__media">
+            <picture>
+              <source
+                type="image/webp"
+                srcset="
+                  assets/img/services/04-finishing-800.webp 800w,
+                  assets/img/services/04-finishing-1200.webp 1200w,
+                  assets/img/services/04-finishing-1600.webp 1600w"
+                sizes="(max-width: 1024px) 100vw, min(720px, 52vw)">
+              <source
+                type="image/jpeg"
+                srcset="
+                  assets/img/services/04-finishing-800.jpg 800w,
+                  assets/img/services/04-finishing-1200.jpg 1200w,
+                  assets/img/services/04-finishing-1600.jpg 1600w"
+                sizes="(max-width: 1024px) 100vw, min(720px, 52vw)">
+              <img src="assets/img/services/04-finishing.jpg" alt="Отделочные работы под ключ" width="1600" height="1200" loading="lazy" decoding="async">
+            </picture>
+          </div>
+        </div>
+      </article>
+
+      <article class="service-panel">
+        <div class="service-panel__card">
+          <div class="service-panel__body">
+            <h3>Ландшафтное проектирование</h3>
+            <ul class="service-panel__list">
+              <li>Концепция участка</li>
+              <li>3D и видео-прогулка по ландшафту</li>
+              <li>Посадочный и планировочный планы</li>
+              <li>Пакет чертежей для реализации</li>
+            </ul>
+            <a class="btn btn--glass" href="#contacts"><span>Подробнее</span><svg class="icon" width="16" height="16" aria-hidden="true"><use href="#icon-arrow-right"/></svg></a>
+          </div>
+          <div class="service-panel__media">
+            <picture>
+              <source
+                type="image/webp"
+                srcset="
+                  assets/img/services/05-landscape-design-800.webp 800w,
+                  assets/img/services/05-landscape-design-1200.webp 1200w,
+                  assets/img/services/05-landscape-design-1600.webp 1600w"
+                sizes="(max-width: 1024px) 100vw, min(720px, 52vw)">
+              <source
+                type="image/jpeg"
+                srcset="
+                  assets/img/services/05-landscape-design-800.jpg 800w,
+                  assets/img/services/05-landscape-design-1200.jpg 1200w,
+                  assets/img/services/05-landscape-design-1600.jpg 1600w"
+                sizes="(max-width: 1024px) 100vw, min(720px, 52vw)">
+              <img src="assets/img/services/05-landscape-design.jpg" alt="Ландшафтное проектирование участка" width="1600" height="1200" loading="lazy" decoding="async">
+            </picture>
+          </div>
+        </div>
+      </article>
+
+      <article class="service-panel">
+        <div class="service-panel__card">
+          <div class="service-panel__body">
+            <h3>Реализация ландшафта под ключ</h3>
+            <ul class="service-panel__list">
+              <li>Озеленение и подготовка грунта</li>
+              <li>Мощение и дорожки</li>
+              <li>Система автополива</li>
+              <li>Малые формы: перголы, навесы, хозблоки</li>
+            </ul>
+            <a class="btn btn--glass" href="#contacts"><span>Подробнее</span><svg class="icon" width="16" height="16" aria-hidden="true"><use href="#icon-arrow-right"/></svg></a>
+          </div>
+          <div class="service-panel__media">
+            <picture>
+              <source
+                type="image/webp"
+                srcset="
+                  assets/img/services/06-landscape-build-800.webp 800w,
+                  assets/img/services/06-landscape-build-1200.webp 1200w,
+                  assets/img/services/06-landscape-build-1600.webp 1600w"
+                sizes="(max-width: 1024px) 100vw, min(720px, 52vw)">
+              <source
+                type="image/jpeg"
+                srcset="
+                  assets/img/services/06-landscape-build-800.jpg 800w,
+                  assets/img/services/06-landscape-build-1200.jpg 1200w,
+                  assets/img/services/06-landscape-build-1600.jpg 1600w"
+                sizes="(max-width: 1024px) 100vw, min(720px, 52vw)">
+              <img src="assets/img/services/06-landscape-build.jpg" alt="Реализация ландшафта под ключ" width="1600" height="1200" loading="lazy" decoding="async">
+            </picture>
+          </div>
+        </div>
+      </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ROADMAP - glass pill stepper ============ -->
+  <section class="roadmap" id="roadmap">
+    <div class="roadmap-pin" id="roadmap-pin">
+      <div class="roadmap-pin__sticky">
+        <div class="roadmap__media" aria-hidden="true">
+          <picture>
+            <source type="image/webp" srcset="assets/img/hero/roadmap-bg.webp">
+            <img class="roadmap__img" src="assets/img/hero/roadmap-bg.jpg" alt="" width="1400" height="788" loading="lazy" decoding="async">
+          </picture>
+          <div class="roadmap__overlay"></div>
+        </div>
+        <div class="container">
+          <div class="section-head">
+            <p class="eyebrow" data-reveal>Дорожная карта</p>
+            <h2 class="h2" data-reveal>Понятная система<br>ведения проекта</h2>
+            <p class="section-head__text" data-reveal>
+              Прозрачный процесс с контрольными точками вашего согласования на каждом
+              этапе - вы всегда знаете, что происходит с вашим проектом.
+            </p>
+          </div>
+
+          <div class="glass-stepper" id="glass-stepper">
+        <div class="glass-stepper__line"><div class="glass-stepper__line-fill" id="glass-stepper-fill"></div></div>
+        <div class="swiper roadmap-swiper glass-stepper__track" id="roadmap-swiper">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <div class="glass-stepper__item border-glow-card">
+                <div class="edge-light" aria-hidden="true"></div>
+                <span class="glass-stepper__num" aria-hidden="true">1</span><h3>Заявка и знакомство</h3><p>Обсуждаем задачи, бюджет и пожелания к будущему дому.</p>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="glass-stepper__item border-glow-card">
+                <div class="edge-light" aria-hidden="true"></div>
+                <span class="glass-stepper__num" aria-hidden="true">2</span><h3>Индивидуальный эскиз</h3><p>Разрабатываем идею и планировку именно под ваш образ жизни.</p>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="glass-stepper__item border-glow-card">
+                <div class="edge-light" aria-hidden="true"></div>
+                <span class="glass-stepper__num" aria-hidden="true">3</span><h3>Архитектурный проект</h3><p>Готовим визуализации и полный пакет строительных чертежей.</p>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="glass-stepper__item border-glow-card">
+                <div class="edge-light" aria-hidden="true"></div>
+                <span class="glass-stepper__num" aria-hidden="true">4</span><h3>Дизайн-проект интерьера</h3><p>Прорабатываем каждое пространство до мельчайшей детали.</p>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="glass-stepper__item border-glow-card">
+                <div class="edge-light" aria-hidden="true"></div>
+                <span class="glass-stepper__num" aria-hidden="true">5</span><h3>Строительство</h3><p>Возводим дом с фото/видео отчётами и онлайн-наблюдением 24/7.</p>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="glass-stepper__item border-glow-card">
+                <div class="edge-light" aria-hidden="true"></div>
+                <span class="glass-stepper__num" aria-hidden="true">6</span><h3>Отделка и ландшафт</h3><p>Выполняем отделочные работы и реализуем ландшафт участка.</p>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="glass-stepper__item border-glow-card">
+                <div class="edge-light" aria-hidden="true"></div>
+                <span class="glass-stepper__num" aria-hidden="true">7</span><h3>Дом под ключ</h3><p>Передаём готовый объект, в который сразу можно заезжать жить.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PRICING ============ -->
+  <section class="pricing" id="pricing">
+    <div class="container">
+      <div class="section-head pricing__head">
+        <p class="eyebrow" data-reveal>Форматы работы</p>
+        <h2 class="h2" data-reveal>Выберите свой<br>сценарий проекта</h2>
+        <p class="section-head__text" data-reveal>
+          Стоимость рассчитывается индивидуально — после знакомства,
+          понимания задачи и площади объекта.
+        </p>
+      </div>
+
+      <div class="pricing__list">
+        <article class="pricing__item" data-reveal>
+          <div class="pricing__top">
+            <span class="pricing__number">01</span>
+            <span class="pricing__tag">Для старта</span>
+          </div>
+          <h3>Консультация</h3>
+          <p>Разбираем задачу, участок, пожелания и возможный путь реализации.</p>
+          <span class="pricing__price">от 5 000 ₽</span>
+          <a class="pricing__link" href="#contacts">Обсудить задачу <svg class="icon" width="16" height="16" aria-hidden="true"><use href="#icon-arrow-right"/></svg></a>
+        </article>
+        <article class="pricing__item pricing__item--featured" data-reveal data-reveal-delay="1">
+          <div class="pricing__top">
+            <span class="pricing__number">02</span>
+            <span class="pricing__tag">Популярный формат</span>
+          </div>
+          <h3>Дизайн-проект</h3>
+          <p>От концепции и планировки до визуализаций, чертежей и подбора материалов.</p>
+          <span class="pricing__price">от 3 500 ₽/м²</span>
+          <a class="pricing__link" href="#contacts">Получить расчёт <svg class="icon" width="16" height="16" aria-hidden="true"><use href="#icon-arrow-right"/></svg></a>
+        </article>
+        <article class="pricing__item" data-reveal data-reveal-delay="2">
+          <div class="pricing__top">
+            <span class="pricing__number">03</span>
+            <span class="pricing__tag">Полный цикл</span>
+          </div>
+          <h3>Дом под ключ</h3>
+          <p>Архитектура, строительство, интерьер, отделка и ландшафт в одном проекте.</p>
+          <span class="pricing__price">Рассчитаем под вас</span>
+          <a class="pricing__link" href="#contacts">Запросить смету <svg class="icon" width="16" height="16" aria-hidden="true"><use href="#icon-arrow-right"/></svg></a>
+        </article>
+      </div>
+      <p class="pricing__note" data-reveal>Финальная стоимость зависит от площади, состава работ, выбранных материалов и сложности объекта.</p>
+    </div>
+  </section>
+
+  <!-- ============ PORTFOLIO - projects5 style ============ -->
+  <section class="portfolio" id="portfolio">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow" data-reveal>Портфолио</p>
+        <h2 class="h2" data-reveal>Проекты, в которые<br>мы вложили душу</h2>
+        <p class="section-head__text" data-reveal>
+          Визуализации и фотографии готовых объектов - интерьеры, снятые изнутри
+          и снаружи.
+        </p>
+      </div>
+
+      <div class="portfolio__grid">
+
+        <article class="project-card tilt-card" data-reveal data-tilt data-project="1" data-count="10" data-title="Дом с тёплым очагом" data-desc="Кухня-столовая в тёплых природных тонах с акцентом на уют и дерево.">
+          <button class="project-card__btn" type="button" aria-label="Открыть галерею проекта «Дом с тёплым очагом»">
+            <span class="project-card__media">
+              <picture>
+                <source type="image/webp" srcset="assets/img/portfolio/project-1/01.webp">
+                <img src="assets/img/portfolio/project-1/01.jpg" alt="Дом с тёплым очагом - кухня со столовой зоной" width="1600" height="1151" loading="lazy" decoding="async">
+              </picture>
+            </span>
+            <span class="project-card__body">
+              <span class="project-card__meta">Дизайн-проект</span>
+              <span class="project-card__title">Дом с тёплым очагом</span>
+              <span class="project-card__desc">Кухня-столовая в тёплых природных тонах с акцентом на уют и дерево.</span>
+              <span class="project-card__cta">Смотреть галерею<svg class="icon" width="16" height="16" aria-hidden="true"><use href="#icon-arrow-right"/></svg></span>
+            </span>
+          </button>
+        </article>
+
+        <article class="project-card tilt-card" data-reveal data-reveal-delay="1" data-tilt data-project="2" data-count="10" data-title="Дом на природе" data-desc="Современный минимализм: тёплое дерево, латунь и мягкий свет.">
+          <button class="project-card__btn" type="button" aria-label="Открыть галерею проекта «Дом на природе»">
+            <span class="project-card__media">
+              <picture>
+                <source type="image/webp" srcset="assets/img/portfolio/project-2/01.webp">
+                <img src="assets/img/portfolio/project-2/01.jpg" alt="Дом на природе - кухня в дереве и латуни" width="1600" height="1200" loading="lazy" decoding="async">
+              </picture>
+            </span>
+            <span class="project-card__body">
+              <span class="project-card__meta">Дизайн-проект</span>
+              <span class="project-card__title">Дом на природе</span>
+              <span class="project-card__desc">Современный минимализм: тёплое дерево, латунь и мягкий свет.</span>
+              <span class="project-card__cta">Смотреть галерею<svg class="icon" width="16" height="16" aria-hidden="true"><use href="#icon-arrow-right"/></svg></span>
+            </span>
+          </button>
+        </article>
+
+        <article class="project-card tilt-card" data-reveal data-reveal-delay="2" data-tilt data-project="3" data-count="10" data-title="Светлый простор" data-desc="Светлая классика с плавными линиями и панорамными окнами.">
+          <button class="project-card__btn" type="button" aria-label="Открыть галерею проекта «Светлый простор»">
+            <span class="project-card__media">
+              <picture>
+                <source type="image/webp" srcset="assets/img/portfolio/project-3/01.webp">
+                <img src="assets/img/portfolio/project-3/01.jpg" alt="Светлый простор - обеденная зона с панорамными окнами" width="1600" height="1200" loading="lazy" decoding="async">
+              </picture>
+            </span>
+            <span class="project-card__body">
+              <span class="project-card__meta">Дизайн-проект</span>
+              <span class="project-card__title">Светлый простор</span>
+              <span class="project-card__desc">Светлая классика с плавными линиями и панорамными окнами.</span>
+              <span class="project-card__cta">Смотреть галерею<svg class="icon" width="16" height="16" aria-hidden="true"><use href="#icon-arrow-right"/></svg></span>
+            </span>
+          </button>
+        </article>
+
+        <article class="project-card tilt-card" data-reveal data-reveal-delay="3" data-tilt data-project="4" data-count="10" data-title="Акцент бордо" data-desc="Насыщенный акцент терракотового и бордового на фоне светлой отделки.">
+          <button class="project-card__btn" type="button" aria-label="Открыть галерею проекта «Акцент бордо»">
+            <span class="project-card__media">
+              <picture>
+                <source type="image/webp" srcset="assets/img/portfolio/project-4/01.webp">
+                <img src="assets/img/portfolio/project-4/01.jpg" alt="Акцент бордо - кухня-гостиная с бордовыми фасадами" width="1600" height="1200" loading="lazy" decoding="async">
+              </picture>
+            </span>
+            <span class="project-card__body">
+              <span class="project-card__meta">Дизайн-проект</span>
+              <span class="project-card__title">Акцент бордо</span>
+              <span class="project-card__desc">Насыщенный акцент терракотового и бордового на фоне светлой отделки.</span>
+              <span class="project-card__cta">Смотреть галерею<svg class="icon" width="16" height="16" aria-hidden="true"><use href="#icon-arrow-right"/></svg></span>
+            </span>
+          </button>
+        </article>
+
+        <article class="project-card tilt-card" data-reveal data-reveal-delay="4" data-tilt data-project="5" data-count="10" data-title="Дом с золотым светом" data-desc="Реализованный проект: тёплое золото света и мраморные акценты.">
+          <button class="project-card__btn" type="button" aria-label="Открыть галерею проекта «Дом с золотым светом»">
+            <span class="project-card__media">
+              <picture>
+                <source type="image/webp" srcset="assets/img/portfolio/project-5/01.webp">
+                <img src="assets/img/portfolio/project-5/01.jpg" alt="Дом с золотым светом - реализованная столовая зона" width="1600" height="1067" loading="lazy" decoding="async">
+              </picture>
+            </span>
+            <span class="project-card__body">
+              <span class="project-card__meta">Реализация</span>
+              <span class="project-card__title">Дом с золотым светом</span>
+              <span class="project-card__desc">Реализованный проект: тёплое золото света и мраморные акценты.</span>
+              <span class="project-card__cta">Смотреть галерею<svg class="icon" width="16" height="16" aria-hidden="true"><use href="#icon-arrow-right"/></svg></span>
+            </span>
+          </button>
+        </article>
+
+        <article class="project-card tilt-card" data-reveal data-reveal-delay="5" data-tilt data-project="6" data-count="10" data-title="Оливковый бархат" data-desc="Гостиная и кухня с оливковым бархатом, тёмным деревом и мягким золотым светом.">
+          <button class="project-card__btn" type="button" aria-label="Открыть галерею проекта «Оливковый бархат»">
+            <span class="project-card__media">
+              <picture>
+                <source type="image/webp" srcset="assets/img/portfolio/project-6/01.webp">
+                <img src="assets/img/portfolio/project-6/01.jpg" alt="Оливковый бархат - гостиная с оливковым диваном" width="1600" height="1200" loading="lazy" decoding="async">
+              </picture>
+            </span>
+            <span class="project-card__body">
+              <span class="project-card__meta">Дизайн-проект</span>
+              <span class="project-card__title">Оливковый бархат</span>
+              <span class="project-card__desc">Гостиная и кухня с оливковым бархатом, тёмным деревом и мягким золотым светом.</span>
+              <span class="project-card__cta">Смотреть галерею<svg class="icon" width="16" height="16" aria-hidden="true"><use href="#icon-arrow-right"/></svg></span>
+            </span>
+          </button>
+        </article>
+
+      </div>
+
+      <div class="portfolio__more" data-reveal>
+        <a href="#contacts" class="btn btn--glass">
+          <span>Все проекты</span>
+          <svg class="icon" width="16" height="16" aria-hidden="true"><use href="#icon-arrow-right"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+  <!-- ============ VISUALIZATION - cinematic ============ -->
+  <section class="viz-cinematic" id="viz-cinematic" aria-label="3D-визуализация">
+    <div class="viz-cinematic__media" aria-hidden="true">
+      <video
+        class="viz-cinematic__video js-viz-video"
+        muted
+        loop
+        playsinline
+        preload="none"
+        poster="assets/img/hero/viz-poster.webp?v=20260805-30"
+      >
+        <source src="video/Video_4.mp4" type="video/mp4">
+      </video>
+      <div class="viz-cinematic__overlay"></div>
+    </div>
+    <div class="container viz-cinematic__content">
+      <p class="eyebrow eyebrow--light" data-reveal>3D-визуализация</p>
+      <h2 class="h2" data-reveal>Визуализация<br>до начала стройки</h2>
+      <p class="viz-cinematic__text" data-reveal>
+        Показываем архитектурную и интерьерную концепцию в объёме - до начала стройки
+        вы уже понимаете, как будет выглядеть ваш дом.
+      </p>
+      <div class="viz-cinematic__actions" data-reveal>
+        <a href="#contacts" class="btn btn--glass">
+          <span>Подробнее</span>
+          <svg class="icon" width="16" height="16" aria-hidden="true"><use href="#icon-arrow-right"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section class="faq" id="faq">
+    <div class="container">
+      <div class="section-head faq__head">
+        <p class="eyebrow" data-reveal>Вопросы</p>
+        <h2 class="h2" data-reveal>Ваши вопросы</h2>
+        <p class="section-head__text" data-reveal>
+          Собрали ответы на частые вопросы о проектировании, строительстве
+          и сопровождении дома - чтобы быстрее понять, как мы работаем.
+        </p>
+      </div>
+
+      <div class="faq__list" data-accordion>
+        <div class="faq__item" data-reveal data-reveal-delay="1">
+          <button class="faq__question" type="button" aria-expanded="false">
+            <span>Сколько длится проектирование и строительство?</span>
+            <span class="faq__toggle" aria-hidden="true"></span>
+          </button>
+          <div class="faq__answer" aria-hidden="true">
+            <div class="faq__answer-inner">
+              <p>Сроки зависят от площади, сложности и выбранного комплекта услуг. После знакомства фиксируем этапы в дорожной карте - с понятными контрольными точками согласования.</p>
+            </div>
+          </div>
+        </div>
+        <div class="faq__item" data-reveal data-reveal-delay="2">
+          <button class="faq__question" type="button" aria-expanded="false">
+            <span>Делаете ли вы полный цикл «под ключ»?</span>
+            <span class="faq__toggle" aria-hidden="true"></span>
+          </button>
+          <div class="faq__answer" aria-hidden="true">
+            <div class="faq__answer-inner">
+              <p>Да. Архитектура, дизайн-проект, строительство, отделка и ландшафт могут идти в одном контуре - без поиска отдельных подрядчиков на каждый этап.</p>
+            </div>
+          </div>
+        </div>
+        <div class="faq__item" data-reveal data-reveal-delay="3">
+          <button class="faq__question" type="button" aria-expanded="false">
+            <span>Можно ли увидеть дом в 3D до начала работ?</span>
+            <span class="faq__toggle" aria-hidden="true"></span>
+          </button>
+          <div class="faq__answer" aria-hidden="true">
+            <div class="faq__answer-inner">
+              <p>Да. Делаем визуализации и объёмные обзоры, чтобы вы заранее понимали, как будет выглядеть пространство - до первых работ на участке.</p>
+            </div>
+          </div>
+        </div>
+        <div class="faq__item" data-reveal data-reveal-delay="4">
+          <button class="faq__question" type="button" aria-expanded="false">
+            <span>Как контролируется качество на стройке?</span>
+            <span class="faq__toggle" aria-hidden="true"></span>
+          </button>
+          <div class="faq__answer" aria-hidden="true">
+            <div class="faq__answer-inner">
+              <p>Ведём поэтапные фото- и видеоотчёты, при необходимости подключаем онлайн-наблюдение. Вы всегда видите статус работ и решения на каждом шаге.</p>
+            </div>
+          </div>
+        </div>
+        <div class="faq__item" data-reveal data-reveal-delay="5">
+          <button class="faq__question" type="button" aria-expanded="false">
+            <span>Можно ли менять решения в процессе?</span>
+            <span class="faq__toggle" aria-hidden="true"></span>
+          </button>
+          <div class="faq__answer" aria-hidden="true">
+            <div class="faq__answer-inner">
+              <p>Да, в согласованных рамках. Обсуждаем правки на контрольных точках, чтобы изменения были понятны по срокам и бюджету до запуска следующего этапа.</p>
+            </div>
+          </div>
+        </div>
+        <div class="faq__item" data-reveal data-reveal-delay="6">
+          <button class="faq__question" type="button" aria-expanded="false">
+            <span>В каких городах вы работаете?</span>
+            <span class="faq__toggle" aria-hidden="true"></span>
+          </button>
+          <div class="faq__answer" aria-hidden="true">
+            <div class="faq__answer-inner">
+              <p>Основной фокус - Санкт-Петербург и Ленинградская область. Возможность работы в других регионах обсуждаем индивидуально после заявки.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq__aside" data-reveal>
+        <p class="faq__aside-title">Остались вопросы?</p>
+        <p class="faq__aside-text">
+          Напишите нам - разберём ваш случай и подскажем, с чего лучше начать.
+        </p>
+        <a href="#contacts" class="btn btn--glass">
+          <span>Задать вопрос</span>
+          <svg class="icon" width="16" height="16" aria-hidden="true"><use href="#icon-arrow-right"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============ TRUST ============ -->
+  <section class="trust" id="trust">
+    <div class="container">
+      <div class="section-head trust__head">
+        <p class="eyebrow" data-reveal>Прозрачность</p>
+        <h2 class="h2" data-reveal>Понятно до результата</h2>
+        <p class="section-head__text" data-reveal>
+          Мы заранее проговариваем состав работ, точки согласования и формат взаимодействия —
+          чтобы проект двигался уверенно.
+        </p>
+      </div>
+
+      <div class="trust__layout">
+        <figure class="trust__visual" data-reveal>
+          <picture>
+            <source type="image/webp" srcset="
+              assets/img/services/01-architecture-800.webp 800w,
+              assets/img/services/01-architecture-1200.webp 1200w,
+              assets/img/services/01-architecture-1600.webp 1600w" sizes="(max-width: 720px) 100vw, 50vw">
+            <img src="assets/img/services/01-architecture-1200.jpg"
+              srcset="
+                assets/img/services/01-architecture-800.jpg 800w,
+                assets/img/services/01-architecture-1200.jpg 1200w,
+                assets/img/services/01-architecture-1600.jpg 1600w"
+              sizes="(max-width: 720px) 100vw, 50vw"
+              alt="Современный загородный дом в окружении леса"
+              width="1600" height="1200" loading="lazy" decoding="async">
+          </picture>
+          <span class="trust__visual-shade" aria-hidden="true"></span>
+          <figcaption class="trust__visual-caption">
+            <span class="trust__visual-mark" aria-hidden="true"><svg class="icon" width="18" height="18"><use href="#icon-check"/></svg></span>
+            <span><strong>Без неожиданных решений</strong><small>Каждый этап согласован с вами</small></span>
+          </figcaption>
+        </figure>
+
+        <div class="trust__list">
+          <div class="trust__item" data-reveal>
+            <span class="trust__mark" aria-hidden="true"><svg class="icon" width="18" height="18"><use href="#icon-check"/></svg></span>
+            <div><h3>Договор и понятные этапы</h3><p>Фиксируем объём работ, порядок согласований и ключевые сроки до старта.</p></div>
+          </div>
+          <div class="trust__item" data-reveal data-reveal-delay="1">
+            <span class="trust__mark" aria-hidden="true"><svg class="icon" width="18" height="18"><use href="#icon-check"/></svg></span>
+            <div><h3>Контроль бюджета</h3><p>Обсуждаем решения и изменения заранее, чтобы стоимость не становилась неожиданностью.</p></div>
+          </div>
+          <div class="trust__item" data-reveal data-reveal-delay="2">
+            <span class="trust__mark" aria-hidden="true"><svg class="icon" width="18" height="18"><use href="#icon-check"/></svg></span>
+            <div><h3>Гарантийные обязательства</h3><p>Условия гарантии и порядок обращения закрепляем в договоре и сопровождаем после сдачи.</p></div>
+          </div>
+          <div class="trust__item" data-reveal data-reveal-delay="3">
+            <span class="trust__mark" aria-hidden="true"><svg class="icon" width="18" height="18"><use href="#icon-check"/></svg></span>
+            <div><h3>Отчётность по проекту</h3><p>Показываем ход работ через фото- и видеоотчёты, а решения принимаем вместе с вами.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CONTACTS ============ -->
+  <section class="contacts" id="contacts">
+    <div class="contacts__bg" aria-hidden="true">
+      <picture class="contacts__bg-media">
+        <source
+          type="image/webp"
+          media="(max-width: 720px)"
+          srcset="
+            assets/img/contacts/contacts-bg-640.webp 640w,
+            assets/img/contacts/contacts-bg-960.webp 960w"
+          sizes="100vw">
+        <source
+          type="image/jpeg"
+          media="(max-width: 720px)"
+          srcset="
+            assets/img/contacts/contacts-bg-640.jpg 640w,
+            assets/img/contacts/contacts-bg-960.jpg 960w"
+          sizes="100vw">
+        <source
+          type="image/webp"
+          srcset="
+            assets/img/contacts/contacts-bg-960.webp 960w,
+            assets/img/contacts/contacts-bg-1440.webp 1440w,
+            assets/img/contacts/contacts-bg-1600.webp 1600w"
+          sizes="100vw">
+        <source
+          type="image/jpeg"
+          srcset="
+            assets/img/contacts/contacts-bg-960.jpg 960w,
+            assets/img/contacts/contacts-bg-1440.jpg 1440w,
+            assets/img/contacts/contacts-bg-1600.jpg 1600w"
+          sizes="100vw">
+        <img
+          src="assets/img/contacts/contacts-bg-960.jpg"
+          alt=""
+          width="1600"
+          height="1200"
+          loading="lazy"
+          decoding="async">
+      </picture>
+    </div>
+    <div class="container">
+      <div class="section-head contacts__head">
+        <h2 class="h2" data-reveal>Наши контакты</h2>
+        <p class="section-head__text" data-reveal>
+          Расскажите нам о доме, который хотите создать. Мы внимательно выслушаем
+          ваши пожелания и предложим путь, который подойдёт именно вам.
+        </p>
+      </div>
+      <div class="contacts__card" data-reveal>
+
+        <div class="contacts__form-wrap" data-reveal>
+          <form class="form" id="contact-form" novalidate>
+            <h3 class="contacts__pane-title">Обсудим ваш проект</h3>
+            <p class="contacts__form-lead">Оставьте контакты — свяжемся в ближайший рабочий день и обсудим ваши идеи.</p>
+
+            <div class="form__success" id="form-success" hidden role="status">
+              <svg class="icon" width="40" height="40" aria-hidden="true"><use href="#icon-check"/></svg>
+              <h3>Заявка отправлена</h3>
+              <p>Спасибо за доверие. Мы получили ваше сообщение и свяжемся с вами в ближайший рабочий день.</p>
+            </div>
+
+            <div class="form__fields">
+              <div class="form__row">
+                <div class="field field--required">
+                  <label class="visually-hidden" for="name">Ваше имя</label>
+                  <input type="text" id="name" name="name" placeholder="Ваше имя" autocomplete="name" maxlength="80" aria-required="true" aria-describedby="name-error">
+                  <span class="field__hint" aria-hidden="true">Ваше имя<span class="field__star">*</span></span>
+                  <span class="field__error" id="name-error"></span>
+                </div>
+                <div class="field field--required">
+                  <label class="visually-hidden" for="phone">Телефон</label>
+                  <input type="tel" id="phone" name="phone" placeholder="Телефон" autocomplete="tel" inputmode="tel" maxlength="20" aria-required="true" aria-describedby="phone-error">
+                  <span class="field__hint" aria-hidden="true">Телефон<span class="field__star">*</span></span>
+                  <span class="field__error" id="phone-error"></span>
+                </div>
+              </div>
+
+              <div class="field">
+                <label class="visually-hidden" for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Email" autocomplete="email" maxlength="120" aria-describedby="email-error">
+                <span class="field__error" id="email-error"></span>
+              </div>
+
+              <div class="field">
+                <label class="visually-hidden" for="message">Сообщение</label>
+                <textarea id="message" name="message" rows="4" placeholder="Сообщение" maxlength="2000"></textarea>
+              </div>
+
+              <button type="submit" class="btn btn--lg btn--specular">
+                <span class="btn__fx" aria-hidden="true"></span>
+                <span class="btn__label">Отправить</span>
+                <span class="btn__spinner" aria-hidden="true"></span>
+              </button>
+
+              <div class="form__consent">
+                <label class="checkbox">
+                  <input type="checkbox" id="consent" name="consent" aria-required="true" aria-describedby="consent-error">
+                  <span class="checkbox__box" aria-hidden="true"><svg class="icon" width="14" height="14"><use href="#icon-check"/></svg></span>
+                  <span class="checkbox__text">Я согласен на обработку персональных данных в соответствии с
+                    требованиями законодательства РФ и <a href="privacy.html">политикой конфиденциальности</a> <span>*</span></span>
+                </label>
+                <span class="field__error field__error--consent" id="consent-error"></span>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div class="contacts__info" data-reveal>
+          <h3 class="contacts__pane-title">Будем рады знакомству</h3>
+          <p class="contacts__form-lead">Позвоните или напишите — с удовольствием обсудим ваш проект.</p>
+
+          <ul class="contacts__list">
+            <li>
+              <span class="contacts__icon"><svg class="icon icon--fill" width="32" height="32" aria-hidden="true"><use href="#icon-clock"/></svg></span>
+              <span class="contacts__value">Пн-Пт: 10:00-19:00 · Сб-Вс: выходной</span>
+            </li>
+            <li>
+              <span class="contacts__icon"><svg class="icon icon--fill" width="32" height="32" aria-hidden="true"><use href="#icon-phone"/></svg></span>
+              <a class="contacts__value contacts__value--link" href="tel:+79312350202">+7 (931) 235 02 02</a>
+            </li>
+            <li>
+              <span class="contacts__icon"><svg class="icon icon--fill" width="32" height="32" aria-hidden="true"><use href="#icon-phone"/></svg></span>
+              <a class="contacts__value contacts__value--link" href="tel:+79643364248">8 (964) 336 42 48</a>
+            </li>
+            <li>
+              <span class="contacts__icon"><svg class="icon icon--fill" width="32" height="32" aria-hidden="true"><use href="#icon-mail"/></svg></span>
+              <a class="contacts__value contacts__value--link" href="mailto:info@ymg-design.com">info@ymg-design.com</a>
+            </li>
+            <li>
+              <span class="contacts__icon"><svg class="icon icon--fill" width="32" height="32" aria-hidden="true"><use href="#icon-instagram"/></svg></span>
+              <a class="contacts__value contacts__value--link" href="https://www.instagram.com/ymg.design/" target="_blank" rel="noopener noreferrer">@ymg.design</a>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+
+    <div class="footer__col footer__col--about">
+      <a href="#home" class="logo logo--light">
+        <span class="logo__mark">Y</span>
+        <span class="logo__text"><span class="logo__name">YMG DESIGN</span><small>студия дизайна</small></span>
+      </a>
+    </div>
+
+    <div class="footer__col">
+      <h4>Навигация</h4>
+      <ul>
+        <li><a href="#about">О нас</a></li>
+        <li><a href="#services">Услуги</a></li>
+        <li><a href="#portfolio">Портфолио</a></li>
+        <li><a href="#faq">Вопросы</a></li>
+        <li><a href="#contacts">Контакты</a></li>
+      </ul>
+    </div>
+
+    <div class="footer__col footer__col--services">
+      <h4>Услуги</h4>
+      <ul>
+        <li><a href="#services">Архитектурное проектирование</a></li>
+        <li><a href="#services">Дизайн-проект под ключ</a></li>
+        <li><a href="#services">Строительство домов</a></li>
+        <li><a href="#services">Отделочные работы</a></li>
+        <li><a href="#services">Ландшафтное проектирование</a></li>
+      </ul>
+    </div>
+
+    <div class="footer__col footer__col--contacts">
+      <h4>Контакты</h4>
+      <ul class="footer__contacts">
+        <li><a href="tel:+79312350202">+7 (931) 235 02 02</a></li>
+        <li><a href="tel:+79643364248">8 (964) 336 42 48</a></li>
+        <li><a href="mailto:info@ymg-design.com">info@ymg-design.com</a></li>
+        <li>Пн-Пт: 10:00-19:00</li>
+        <li>Сб-Вс: выходной</li>
+      </ul>
+      <a href="https://www.instagram.com/ymg.design/" class="social" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+        <svg class="icon icon--fill" width="18" height="18"><use href="#icon-instagram"/></svg>
+      </a>
+    </div>
+
+    </div>
+
+    <div class="footer__bottom">
+      <p>© 2026 YMG DESIGN</p>
+      <a href="privacy.html">Политика конфиденциальности</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ FLOATING QUICK CTA ============ -->
+<button class="quick-cta" id="quick-cta">
+  <svg class="icon" width="18" height="18"><use href="#icon-send"/></svg>
+  <span>Оставить заявку</span>
+</button>
+
+<button class="to-top" id="to-top" aria-label="Наверх">
+  <svg class="icon" width="18" height="18"><use href="#icon-chevron-down"/></svg>
+</button>
+
+<!-- ============ QUICK MODAL ============ -->
+<div class="modal" id="quick-modal" aria-hidden="true">
+  <div class="modal__overlay" data-close-modal></div>
+  <div class="modal__panel" role="dialog" aria-modal="true" aria-labelledby="quick-modal-title">
+    <button class="modal__close" data-close-modal aria-label="Закрыть">
+      <svg class="icon" width="20" height="20"><use href="#icon-close"/></svg>
+    </button>
+
+    <div class="form__success" id="quick-form-success" hidden role="status">
+      <svg class="icon" width="40" height="40" aria-hidden="true"><use href="#icon-check"/></svg>
+      <h3>Заявка отправлена</h3>
+      <p>Спасибо за доверие. Мы получили ваше сообщение и свяжемся с вами в ближайший рабочий день.</p>
+    </div>
+
+    <form class="form" id="quick-form" novalidate>
+      <h3 id="quick-modal-title" class="modal__title">Начать разговор</h3>
+      <p class="modal__subtitle">Оставьте номер — мы свяжемся с вами и бережно обсудим ваш будущий дом.</p>
+
+      <div class="form__fields">
+        <div class="field">
+          <label for="quick-name">Ваше имя <span>*</span></label>
+          <input type="text" id="quick-name" name="name" placeholder="Как к вам обращаться" autocomplete="name" maxlength="80" aria-required="true" aria-describedby="quick-name-error">
+          <span class="field__error" id="quick-name-error"></span>
+        </div>
+        <div class="field">
+          <label for="quick-phone">Телефон <span>*</span></label>
+          <input type="tel" id="quick-phone" name="phone" placeholder="+7 (___) ___ __ __" autocomplete="tel" inputmode="tel" maxlength="20" aria-required="true" aria-describedby="quick-phone-error">
+          <span class="field__error" id="quick-phone-error"></span>
+        </div>
+
+        <div class="form__consent">
+          <label class="checkbox">
+            <input type="checkbox" id="quick-consent" name="consent" aria-required="true" aria-describedby="quick-consent-error">
+            <span class="checkbox__box" aria-hidden="true"><svg class="icon" width="14" height="14"><use href="#icon-check"/></svg></span>
+            <span class="checkbox__text">Согласен на обработку персональных данных и <a href="privacy.html">политику конфиденциальности</a> <span>*</span></span>
+          </label>
+          <span class="field__error field__error--consent" id="quick-consent-error"></span>
+        </div>
+
+        <button type="submit" class="btn btn--primary btn--lg btn--block">
+          <span class="btn__label">Отправить</span>
+          <span class="btn__spinner" aria-hidden="true"></span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ============ LIGHTBOX ============ -->
+<div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Галерея проекта">
+  <div class="lightbox__overlay" data-close-lightbox></div>
+
+  <button class="lightbox__close" id="lightbox-close" aria-label="Закрыть галерею">
+    <svg class="icon" width="24" height="24"><use href="#icon-close"/></svg>
+  </button>
+
+  <button class="lightbox__nav lightbox__nav--prev" id="lightbox-prev" aria-label="Предыдущее фото">
+    <svg class="icon" width="24" height="24"><use href="#icon-arrow-left"/></svg>
+  </button>
+
+  <div class="lightbox__stage">
+    <button type="button" class="lightbox__photo" id="lightbox-photo" aria-label="Следующее фото">
+      <img alt="" id="lightbox-img" class="lightbox__img" width="960" height="1200">
+    </button>
+    <div class="lightbox__caption">
+      <h3 id="lightbox-title"></h3>
+      <p id="lightbox-desc"></p>
+    </div>
+  </div>
+
+  <button class="lightbox__nav lightbox__nav--next" id="lightbox-next" aria-label="Следующее фото">
+    <svg class="icon" width="24" height="24"><use href="#icon-arrow-right"/></svg>
+  </button>
+
+  <div class="lightbox__counter"><span id="lightbox-current"></span> / <span id="lightbox-total"></span></div>
+</div>
+
+<script src="js/script.min.js?v=20260911-94" defer></script>
+</body>
+</html>

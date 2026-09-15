@@ -1,0 +1,14 @@
+﻿Rollback to state before homepage blocks + rebuild (20260915-185216):
+
+Copy-Item -Force "C:\OSPanel\domains\interriors-design.com\backups\safety-before-homepage-blocks-20260915-185216\index.html" .\index.html
+Copy-Item -Force "C:\OSPanel\domains\interriors-design.com\backups\safety-before-homepage-blocks-20260915-185216\about.html" .\about.html
+Copy-Item -Force "C:\OSPanel\domains\interriors-design.com\backups\safety-before-homepage-blocks-20260915-185216\services.html" .\services.html
+Copy-Item -Force "C:\OSPanel\domains\interriors-design.com\backups\safety-before-homepage-blocks-20260915-185216\portfolio.html" .\portfolio.html
+Copy-Item -Force "C:\OSPanel\domains\interriors-design.com\backups\safety-before-homepage-blocks-20260915-185216\faq.html" .\faq.html
+Copy-Item -Force "C:\OSPanel\domains\interriors-design.com\backups\safety-before-homepage-blocks-20260915-185216\contacts.html" .\contacts.html
+Copy-Item -Force "C:\OSPanel\domains\interriors-design.com\backups\safety-before-homepage-blocks-20260915-185216\css\style.css" .\css\style.css
+Copy-Item -Force "C:\OSPanel\domains\interriors-design.com\backups\safety-before-homepage-blocks-20260915-185216\css\style.min.css" .\css\style.min.css
+Copy-Item -Force "C:\OSPanel\domains\interriors-design.com\backups\safety-before-homepage-blocks-20260915-185216\js\script.js" .\js\script.js
+Copy-Item -Force "C:\OSPanel\domains\interriors-design.com\backups\safety-before-homepage-blocks-20260915-185216\js\script.min.js" .\js\script.min.js
+
+Or tell the agent: «откатывай homepage-blocks 20260915-185216»

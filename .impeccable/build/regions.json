@@ -1,0 +1,43 @@
+{
+  "regions": [
+    {
+      "id": "hero-photo",
+      "kind": "plate",
+      "grid": "A0:J9",
+      "bleed": true,
+      "note": "Full-bleed photograph of a cream dining kitchen with round marble table, blush chairs, and gold pendant lights"
+    },
+    {
+      "id": "header",
+      "kind": "chrome",
+      "grid": "A0:J1",
+      "note": "Glass pill header with Y mark, YMG DESIGN wordmark, nav, phone, and small outline button"
+    },
+    {
+      "id": "title",
+      "kind": "text",
+      "grid": "B3:H5",
+      "snap": false,
+      "note": "Two-line warm off-white serif headline Начинаем с дома, не с легенды"
+    },
+    {
+      "id": "subtitle",
+      "kind": "text",
+      "grid": "C6:G6",
+      "snap": false,
+      "note": "One centered supporting line about a young full-cycle studio"
+    },
+    {
+      "id": "btn-primary",
+      "kind": "control",
+      "grid": "D7:E7",
+      "note": "Warm orange pill button Обсудить проект with arrow"
+    },
+    {
+      "id": "btn-ghost",
+      "kind": "control",
+      "grid": "F7:G7",
+      "note": "White outline pill button Смотреть дома"
+    }
+  ]
+}

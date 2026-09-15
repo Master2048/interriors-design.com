@@ -1,0 +1,110 @@
+{
+  "tool": "build-phase",
+  "version": 2,
+  "startedAt": "2026-09-13T12:07:58.056Z",
+  "comp": ".impeccable\\mocks\\decision\\manifesto.png",
+  "direction": null,
+  "breakpoint": "1280x720",
+  "artifact": null,
+  "phase": "plates",
+  "phases": {
+    "comps": {
+      "status": "skipped",
+      "openedAt": null,
+      "closedAt": null,
+      "attempts": 0,
+      "notes": [
+        {
+          "at": "2026-09-13T12:07:58.056Z",
+          "text": "started with an approved comp; the comp round happened before this state (surface round or manual)"
+        }
+      ],
+      "gate": null,
+      "forced": null
+    },
+    "spec": {
+      "status": "closed",
+      "openedAt": "2026-09-13T12:07:58.056Z",
+      "closedAt": "2026-09-13T12:12:55.600Z",
+      "attempts": 1,
+      "notes": [],
+      "gate": {
+        "ok": true,
+        "reasons": [],
+        "summary": "6 regions, 1 plates, 2 text regions measured",
+        "at": "2026-09-13T12:12:55.600Z"
+      },
+      "forced": null
+    },
+    "plates": {
+      "status": "open",
+      "openedAt": "2026-09-13T12:12:55.600Z",
+      "closedAt": null,
+      "attempts": 2,
+      "notes": [],
+      "gate": {
+        "ok": false,
+        "reasons": [
+          "plate assets/plates/hero-photo.png: structure 30% against the comp region hero-photo: the composition of the plate is not the region's (different subject, orientation, or crop); regenerate with comp-spec.mjs --crop hero-photo as the reference image",
+          "plate assets/plates/hero-photo.png: scores 24% against the comp region hero-photo (structure 30%, color 53%, detail 5%); regenerate with the crop as --ref and the comp-spec plate prompt"
+        ],
+        "summary": "1/1 plates",
+        "at": "2026-09-13T12:13:11.637Z"
+      },
+      "forced": null
+    },
+    "hero": {
+      "status": "pending",
+      "openedAt": null,
+      "closedAt": null,
+      "attempts": 0,
+      "notes": [],
+      "gate": null,
+      "forced": null
+    },
+    "sections": {
+      "status": "pending",
+      "openedAt": null,
+      "closedAt": null,
+      "attempts": 0,
+      "notes": [],
+      "gate": null,
+      "forced": null
+    },
+    "motion": {
+      "status": "pending",
+      "openedAt": null,
+      "closedAt": null,
+      "attempts": 0,
+      "notes": [],
+      "gate": null,
+      "forced": null
+    },
+    "responsive": {
+      "status": "pending",
+      "openedAt": null,
+      "closedAt": null,
+      "attempts": 0,
+      "notes": [],
+      "gate": null,
+      "forced": null
+    },
+    "review": {
+      "status": "pending",
+      "openedAt": null,
+      "closedAt": null,
+      "attempts": 0,
+      "notes": [],
+      "gate": null,
+      "forced": null
+    }
+  },
+  "finish": null,
+  "plates": {
+    "hero-photo": {
+      "status": "ok",
+      "score": 0.2352,
+      "size": "1920x1080"
+    }
+  }
+}
