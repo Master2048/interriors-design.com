@@ -14,7 +14,13 @@
   var saveData = !!(navigator.connection && navigator.connection.saveData);
   /* Full motion by default; lite only for reduced-motion or Save-Data. */
   var preferLiteMotion = reduceMotion || saveData;
-  var allowSmoothScroll = !preferLiteMotion;
+  var isIosTouch = (function () {
+    var ua = navigator.userAgent || '';
+    if (/iP(hone|ad|od)/.test(ua)) return true;
+    return navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1;
+  })();
+  /* iOS Safari: Lenis + sticky pin drops native scroll ownership. Android keeps Lenis. */
+  var allowSmoothScroll = !preferLiteMotion && !isIosTouch;
   var lenis = null;
 
   /* iPhone Safari: 100vh includes the area behind the bottom toolbar.
@@ -1471,13 +1477,20 @@
   }
 
   function getRoadmapScrollBounds() {
-    if (!roadmapSwiper) return { start: 0, end: 0, range: 0 };
+    var fallback = getRoadmapFallbackRange();
+    if (!roadmapSwiper) {
+      return { start: 0, end: -fallback, range: fallback };
+    }
 
     var swiper = roadmapSwiper;
     var startT = swiper.minTranslate();
     var endT = getRoadmapEndTranslate();
+    var range = startT - endT;
+    if (!(range > 8)) {
+      return { start: startT, end: startT - fallback, range: fallback };
+    }
 
-    return { start: startT, end: endT, range: startT - endT };
+    return { start: startT, end: endT, range: range };
   }
 
   function getRoadmapProgressFromTranslate(translate) {
@@ -1577,8 +1590,17 @@
     }
   }
 
+  function getRoadmapFallbackRange() {
+    var track = roadmapSwiperEl;
+    if (!track) return 0;
+    var slides = track.querySelectorAll('.swiper-slide');
+    if (slides.length < 2) return 0;
+    var slideW = slides[0].offsetWidth || 286;
+    return (slides.length - 1) * (slideW + 24);
+  }
+
   function applyRoadmapScrollProgress(progress, options) {
-    if (!roadmapSwiper || roadmapSwiper.isLocked) return;
+    if (!roadmapSwiper) return;
 
     var opts = options || {};
     var p = Math.max(0, Math.min(1, progress));
@@ -1624,9 +1646,9 @@
   }
 
   function updateRoadmapPinHeight() {
-    if (!roadmapPinEl || !roadmapSwiper) return;
+    if (!roadmapPinEl) return;
 
-    if (!isRoadmapPinEnabled() || roadmapSwiper.isLocked) {
+    if (!isRoadmapPinEnabled()) {
       roadmapPinEl.style.height = '';
       roadmapPinEl.classList.remove('is-active');
       return;
@@ -1729,7 +1751,7 @@
       slidesPerView: 'auto',
       spaceBetween: 24,
       grabCursor: !isRoadmapPinEnabled(),
-      watchOverflow: true,
+      watchOverflow: false,
       allowTouchMove: !isRoadmapPinEnabled(),
       simulateTouch: !isRoadmapPinEnabled(),
       /* iOS Safari: default preventDefault on touchstart blocks vertical page scroll. */
@@ -1751,6 +1773,18 @@
           updateRoadmapPinHeight();
           updateRoadmapFromPageScroll();
           updateRoadmapProgress(swiper, { immediate: true });
+          window.setTimeout(function () {
+            if (!roadmapSwiper || roadmapSwiper.destroyed) return;
+            roadmapSwiper.update();
+            updateRoadmapPinHeight();
+            updateRoadmapFromPageScroll();
+          }, 80);
+          window.setTimeout(function () {
+            if (!roadmapSwiper || roadmapSwiper.destroyed) return;
+            roadmapSwiper.update();
+            updateRoadmapPinHeight();
+            updateRoadmapFromPageScroll();
+          }, 360);
         },
         progress: function (swiper) {
           if (!roadmapAnim.rafId && !roadmapPinState.scrollDriving) updateRoadmapProgress(swiper);
@@ -1793,7 +1827,7 @@
     }
 
     var observeTarget = roadmapPinEl || roadmapSwiperEl;
-    if (!('IntersectionObserver' in window)) {
+    if (isIosTouch || !('IntersectionObserver' in window)) {
       loadAndMount();
       return;
     }
@@ -1808,6 +1842,7 @@
   }
 
   scheduleRoadmapSwiper();
+  updateRoadmapPinHeight();
 
   window.addEventListener('resize', function () {
     syncHeaderMetrics();

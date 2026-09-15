@@ -107,7 +107,9 @@
 html{
   scroll-behavior: auto;
   -webkit-text-size-adjust: 100%;
-  overflow-x: clip;
+}
+@supports not (-webkit-touch-callout: none){
+  html{ overflow-x: clip; }
 }
 body{
   margin: 0;
