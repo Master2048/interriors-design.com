@@ -3,7 +3,7 @@ const fs = require('fs');
 let updated = 0;
 for (const file of fs.readdirSync('.').filter((name) => name.endsWith('.html'))) {
   const html = fs.readFileSync(file, 'utf8');
-  const next = html.replaceAll('20260916-3', '20260916-4');
+  const next = html.replaceAll('20260916-12', '20260916-13');
   if (next !== html) {
     fs.writeFileSync(file, next, 'utf8');
     updated += 1;
