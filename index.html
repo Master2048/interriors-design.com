@@ -19,7 +19,7 @@
 
 <link rel="stylesheet" href="assets/css/fonts.css">
 <!-- Asset cache-bust: bump ?v= when css/style.css or js/script.js change; run npm run build after edits -->
-<link rel="stylesheet" href="css/style.min.css?v=20260916-9">
+<link rel="stylesheet" href="css/style.min.css?v=20260916-12">
 </head>
 <body class="hero-intro-pending">
 
@@ -535,7 +535,7 @@
                   assets/img/services/06-landscape-build-1200.jpg 1200w,
                   assets/img/services/06-landscape-build-1600.jpg 1600w"
                 sizes="(max-width: 1024px) 100vw, min(720px, 52vw)">
-              <img src="assets/img/services/06-landscape-build.jpg" alt="Реализация ландшафта под ключ" width="1600" height="1200" loading="lazy" decoding="async">
+              <img src="assets/img/services/06-landscape-build.jpg" alt="Реализация ландшафта под ключ" width="1600" height="1200" loading="eager" decoding="async" fetchpriority="low">
             </picture>
           </div>
         </div>
@@ -1280,6 +1280,6 @@
   <div class="lightbox__counter"><span id="lightbox-current"></span> / <span id="lightbox-total"></span></div>
 </div>
 
-<script src="js/script.min.js?v=20260916-9" defer></script>
+<script src="js/script.min.js?v=20260916-12" defer></script>
 </body>
 </html>

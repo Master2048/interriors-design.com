@@ -914,14 +914,70 @@
       servicePanels.forEach(function (panel) { panel.classList.add('is-shown'); });
       return;
     }
+
+    /* Mobile sticky cards are tall: the panel intersects early by its bottom media,
+       while title/list/button are still below the fold. Watch the text block instead.
+       The last card has almost no sticky travel, so use a softer trigger + scroll fallback. */
+    var mobileServices = !!(window.matchMedia && window.matchMedia('(max-width: 1024px)').matches);
+    var lastPanel = servicePanels[servicePanels.length - 1];
+
+    function showServicePanel(panel) {
+      if (!panel || panel.classList.contains('is-shown')) return;
+      panel.classList.add('is-shown');
+    }
+
+    function ensureLastServicePanelShown() {
+      if (!lastPanel || lastPanel.classList.contains('is-shown')) return;
+      var body = lastPanel.querySelector('.service-panel__body') || lastPanel;
+      var rect = body.getBoundingClientRect();
+      var vh = window.innerHeight || document.documentElement.clientHeight || 0;
+      if (!vh) return;
+      if (rect.top < vh * 0.78 && rect.bottom > vh * 0.16) {
+        showServicePanel(lastPanel);
+      }
+    }
+
     var revealIo = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (!entry.isIntersecting) return;
-        entry.target.classList.add('is-shown');
+        var panel = entry.target.classList.contains('service-panel')
+          ? entry.target
+          : (entry.target.closest && entry.target.closest('.service-panel'));
+        if (!panel) return;
+        showServicePanel(panel);
         revealIo.unobserve(entry.target);
       });
-    }, { threshold: 0.28, rootMargin: '0px 0px -8% 0px' });
-    servicePanels.forEach(function (panel) { revealIo.observe(panel); });
+    }, mobileServices
+      ? { threshold: 0.45, rootMargin: '0px 0px -20% 0px' }
+      : { threshold: 0.28, rootMargin: '0px 0px -8% 0px' });
+
+    var lastRevealIo = null;
+    if (mobileServices && lastPanel) {
+      lastRevealIo = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          showServicePanel(lastPanel);
+          lastRevealIo.unobserve(entry.target);
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+    }
+
+    servicePanels.forEach(function (panel) {
+      var target = mobileServices
+        ? (panel.querySelector('.service-panel__body') || panel)
+        : panel;
+      if (mobileServices && panel === lastPanel && lastRevealIo) {
+        lastRevealIo.observe(target);
+        return;
+      }
+      revealIo.observe(target);
+    });
+
+    if (mobileServices && lastPanel) {
+      window.addEventListener('scroll', ensureLastServicePanelShown, { passive: true });
+      window.addEventListener('resize', ensureLastServicePanelShown, { passive: true });
+      ensureLastServicePanelShown();
+    }
   })();
 
   /* Ambient particles (GPU-friendly) */

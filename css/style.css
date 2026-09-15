@@ -1399,6 +1399,10 @@ html.is-lite-motion .collage__item{
   top: var(--services-sticky-top);
   padding-bottom: var(--sp-6);
 }
+/* Last sticky card needs travel room, otherwise it flashes past and never settles. */
+.service-panel:last-child{
+  padding-bottom: clamp(140px, 36vh, 380px);
+}
 .service-panel:nth-child(1){ z-index: 1; }
 .service-panel:nth-child(2){ z-index: 2; }
 .service-panel:nth-child(3){ z-index: 3; }
@@ -3326,6 +3330,9 @@ body.modal-open, body.lightbox-open{ overflow: hidden; }
   .service-panel{
     padding-bottom: var(--sp-5);
   }
+  .service-panel:last-child{
+    padding-bottom: clamp(160px, 48vh, 520px);
+  }
   .service-panel__card{
     flex-direction: column;
     height: min(570px, calc(100svh - var(--services-sticky-top) - 20px));
@@ -3344,10 +3351,10 @@ body.modal-open, body.lightbox-open{ overflow: hidden; }
     gap: var(--sp-8);
   }
   .service-panel__body h3{
-    font-size: var(--fs-base);
+    font-size: clamp(0.8125rem, 3.55vw, 1rem);
+    letter-spacing: 0.01em;
     margin-bottom: 0;
-    white-space: normal;
-    overflow-wrap: break-word;
+    white-space: nowrap;
   }
   .service-panel__body .btn{
     width: 100%;
@@ -3556,7 +3563,14 @@ body.modal-open, body.lightbox-open{ overflow: hidden; }
   }
   .viz-cinematic__actions .btn{ width: auto; }
   .services-stack-wrap{ padding-left: var(--sp-5); padding-right: var(--sp-5); }
-  .service-panel__body h3{ font-size: 0.9375rem; }
+  .service-panel__body{
+    padding-left: var(--sp-5);
+    padding-right: var(--sp-5);
+  }
+  .service-panel__body h3{
+    font-size: clamp(0.75rem, 3.4vw, 0.9375rem);
+    letter-spacing: 0.005em;
+  }
   .faq__aside-title{ font-size: var(--fs-md); }
   .faq__question{
     font-size: var(--fs-sm);
