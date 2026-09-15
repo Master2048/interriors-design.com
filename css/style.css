@@ -97,7 +97,6 @@
   /* Match .header__pill height so first paint does not jump when JS measures */
   --header-h: 80px;
   --roadmap-pin-top: var(--header-h);
-  --roadmap-pin-bottom: 30vh;
   --services-sticky-top: calc(var(--header-h) + 16px);
 }
 
@@ -1659,35 +1658,109 @@ html.is-lite-motion .service-panel__media img{
   box-shadow: inset 0 -1px 0 var(--border-soft);
 }
 .glass-stepper__line{
-  position: relative; height: 3px;
+  position: relative;
+  height: 32px;
+  margin: 0 0 var(--sp-8);
+}
+.glass-stepper__line::before{
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 4px;
+  height: 3px;
   background: var(--accent-gradient-soft);
-  margin: 0 0 var(--sp-10);
   border-radius: var(--radius-full);
-  overflow: hidden;
 }
 .glass-stepper__line-fill{
-  position: absolute; top: 0; left: 0;
-  height: 100%; width: 0%;
+  position: absolute;
+  left: 0;
+  bottom: 4px;
+  height: 3px;
+  width: 0%;
   background: var(--accent-gradient);
   background-repeat: no-repeat;
   border-radius: var(--radius-full);
   box-shadow: 0 0 14px var(--accent-glow-soft);
   transition: width 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 1;
 }
 .glass-stepper__line-fill.is-scrubbing{
   transition: none;
   will-change: width;
 }
-.glass-stepper__track,
-.roadmap-swiper{
-  padding: var(--sp-6) var(--sp-2) var(--sp-10);
+.glass-stepper__ticks{
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+.glass-stepper__tick{
+  position: absolute;
+  bottom: 2px;
+  width: 7px;
+  height: 7px;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.28);
+  box-shadow: 0 0 0 2px rgba(6, 6, 7, 0.55);
+  transform: translateX(-50%);
+  transition: background-color var(--t-normal) var(--ease), box-shadow var(--t-normal) var(--ease);
+}
+.glass-stepper__tick:nth-child(1){ left: 0%; }
+.glass-stepper__tick:nth-child(2){ left: 16.666%; }
+.glass-stepper__tick:nth-child(3){ left: 33.333%; }
+.glass-stepper__tick:nth-child(4){ left: 50%; }
+.glass-stepper__tick:nth-child(5){ left: 66.666%; }
+.glass-stepper__tick:nth-child(6){ left: 83.333%; }
+.glass-stepper__tick:nth-child(7){ left: 100%; }
+.glass-stepper__tick.is-passed{
+  background: var(--accent-400);
+}
+.glass-stepper__tick.is-active{
+  background: var(--accent-300);
+  box-shadow:
+    0 0 0 2px rgba(6, 6, 7, 0.55),
+    0 0 10px var(--accent-glow-soft);
+}
+.glass-stepper__tick-num{
+  position: absolute;
+  left: 50%;
+  bottom: 14px;
+  transform: translateX(-50%);
+  font-family: var(--font-display);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  color: rgba(245, 243, 239, 0.52);
+  transition: color var(--t-normal) var(--ease);
+}
+.glass-stepper__tick:nth-child(1) .glass-stepper__tick-num{
+  left: 0;
+  transform: none;
+}
+.glass-stepper__tick:nth-child(7) .glass-stepper__tick-num{
+  left: auto;
+  right: 0;
+  transform: none;
+}
+.glass-stepper__tick.is-passed .glass-stepper__tick-num,
+.glass-stepper__tick.is-active .glass-stepper__tick-num{
+  color: var(--accent-300);
+}
+html.is-lite-motion .glass-stepper__tick,
+html.is-lite-motion .glass-stepper__tick-num{
+  transition: none;
+}
+.swiper.roadmap-swiper{
+  padding: var(--sp-5) 0 var(--sp-8);
   overflow: hidden;
 }
 .roadmap-swiper .swiper-wrapper{
   align-items: stretch;
 }
 .roadmap-swiper .swiper-slide{
-  width: 310px;
+  width: min(310px, calc(100% - 48px));
   height: auto;
 }
 .glass-stepper__item{
@@ -1698,7 +1771,7 @@ html.is-lite-motion .service-panel__media img{
   align-items: center;
   width: 100%;
   height: 100%;
-  padding: calc(var(--sp-6) * 1.728) var(--sp-6);
+  padding: var(--sp-10) var(--sp-6);
   overflow: visible;
   text-align: center;
 }
@@ -1726,16 +1799,27 @@ html.is-lite-motion .service-panel__media img{
   letter-spacing: 0.02em;
   text-transform: uppercase;
   color: var(--white);
-  margin-bottom: var(--sp-2);
+  margin-bottom: 0;
+}
+.glass-stepper__item h3::after{
+  content: "";
+  display: block;
+  width: 2.75rem;
+  height: 1px;
+  margin: var(--sp-5) auto 0;
+  background: rgba(255, 255, 255, 0.09);
 }
 .glass-stepper__item p{
   position: relative;
   z-index: 3;
   width: 100%;
-  color: var(--text-secondary);
-  margin: 0;
+  color: rgba(245, 243, 239, 0.82);
+  margin: var(--sp-5) 0 0;
   font-size: var(--fs-sm);
   line-height: 1.6;
+}
+.glass-stepper__frost{
+  display: none;
 }
 
 /* Border glow — glass morphism + warm orange edge glow */
@@ -1778,6 +1862,44 @@ html.is-lite-motion .service-panel__media img{
     var(--shadow-lg),
     inset 0 1px 0 rgba(255, 255, 255, 0.14),
     inset 0 -1px 0 rgba(0, 0, 0, 0.18);
+}
+@supports (-moz-appearance: none){
+  .glass-stepper__item.border-glow-card{
+    transform: none;
+    background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  .glass-stepper__frost{
+    display: block;
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    border-radius: inherit;
+    pointer-events: none;
+  }
+  .glass-stepper__frost::before{
+    content: "";
+    position: absolute;
+    left: var(--frost-x, 0px);
+    top: var(--frost-y, 0px);
+    width: var(--frost-w, 100%);
+    height: var(--frost-h, 100%);
+    background-image: -moz-element(#roadmap-media), url('../assets/img/hero/roadmap-bg.webp');
+    background-repeat: no-repeat, no-repeat;
+    background-size: 100% 100%, cover;
+    background-position: 0 0, center 55%;
+    filter: blur(28px) saturate(160%);
+  }
+  .glass-stepper__frost::after{
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(155deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.02) 42%, transparent 70%),
+      rgba(18, 16, 14, 0.38);
+  }
 }
 .glass-stepper__item.border-glow-card::before,
 .glass-stepper__item.border-glow-card::after,
@@ -3126,7 +3248,21 @@ body.modal-open, body.lightbox-open{ overflow: hidden; }
 }
 
 @media (max-width: 1024px){
-  :root{ --roadmap-pin-bottom: 22vh; }
+  .roadmap-pin__sticky{
+    padding: var(--sp-8) 0 var(--sp-6);
+  }
+  .roadmap-pin__sticky .section-head{
+    margin-bottom: var(--sp-8);
+  }
+  .glass-stepper__line{
+    margin-bottom: var(--sp-6);
+  }
+  .swiper.roadmap-swiper{
+    padding: var(--sp-4) 0 var(--sp-6);
+  }
+  .glass-stepper__item{
+    padding: var(--sp-8) var(--sp-5);
+  }
   .header__inner{
     gap: var(--sp-4);
     min-height: 40px;
@@ -3311,7 +3447,36 @@ body.modal-open, body.lightbox-open{ overflow: hidden; }
 }
 
 @media (max-width: 720px){
-  :root{ --section-pad: 72px; --roadmap-pin-bottom: 16vh; }
+  :root{ --section-pad: 72px; }
+  .roadmap-pin__sticky{
+    padding: var(--sp-6) 0 var(--sp-5);
+  }
+  .roadmap-pin__sticky .section-head{
+    margin-bottom: var(--sp-6);
+  }
+  .glass-stepper__line{
+    height: 28px;
+    margin-bottom: var(--sp-5);
+  }
+  .glass-stepper__tick-num{
+    bottom: 12px;
+    font-size: 0.625rem;
+  }
+  .swiper.roadmap-swiper{
+    padding: var(--sp-3) 0 var(--sp-5);
+  }
+  .roadmap-swiper .swiper-slide{
+    width: min(286px, calc(100% - 44px));
+  }
+  .glass-stepper__item{
+    padding: var(--sp-6) var(--sp-5);
+  }
+  .glass-stepper__item h3::after{
+    margin-top: var(--sp-4);
+  }
+  .glass-stepper__item p{
+    margin-top: var(--sp-4);
+  }
   .container{ padding: 0 var(--sp-5); }
   .section-head__text.in-view{ font-size: var(--fs-sm); }
   .hero{
@@ -3518,6 +3683,8 @@ body.modal-open, body.lightbox-open{ overflow: hidden; }
   .glass-stepper__item.border-glow-card::after,
   .glass-stepper__item.border-glow-card > .edge-light{ display: none; }
   .glass-stepper__line-fill{ transition: none; }
+  .glass-stepper__tick,
+  .glass-stepper__tick-num{ transition: none; }
   .service-panel{
     position: relative;
     top: auto;

@@ -19,7 +19,7 @@
 
 <link rel="stylesheet" href="assets/css/fonts.css">
 <!-- Asset cache-bust: bump ?v= when css/style.css or js/script.js change; run npm run build after edits -->
-<link rel="stylesheet" href="css/style.min.css?v=20260915-64">
+<link rel="stylesheet" href="css/style.min.css?v=20260916-4">
 </head>
 <body class="hero-intro-pending">
 
@@ -544,11 +544,11 @@
     </div>
   </section>
 
-  <!-- ============ ROADMAP - glass pill stepper ============ -->
+      <!-- ============ ROADMAP - glass pill stepper ============ -->
   <section class="roadmap" id="roadmap">
     <div class="roadmap-pin" id="roadmap-pin">
       <div class="roadmap-pin__sticky">
-        <div class="roadmap__media" aria-hidden="true">
+        <div class="roadmap__media" id="roadmap-media" aria-hidden="true">
           <picture>
             <source type="image/webp" srcset="assets/img/hero/roadmap-bg.webp">
             <img class="roadmap__img" src="assets/img/hero/roadmap-bg.jpg" alt="" width="1400" height="788" loading="lazy" decoding="async">
@@ -566,60 +566,92 @@
           </div>
 
           <div class="glass-stepper" id="glass-stepper">
-        <div class="glass-stepper__line"><div class="glass-stepper__line-fill" id="glass-stepper-fill"></div></div>
-        <div class="swiper roadmap-swiper glass-stepper__track" id="roadmap-swiper">
-          <div class="swiper-wrapper">
-            <div class="swiper-slide">
-              <div class="glass-stepper__item border-glow-card">
-                <div class="edge-light" aria-hidden="true"></div>
-                <span class="glass-stepper__num" aria-hidden="true">1</span><h3>Заявка и знакомство</h3><p>Обсуждаем задачи, бюджет и пожелания к будущему дому.</p>
+            <div class="glass-stepper__line" aria-hidden="true">
+              <div class="glass-stepper__line-fill" id="glass-stepper-fill"></div>
+              <div class="glass-stepper__ticks">
+                <span class="glass-stepper__tick is-active"><span class="glass-stepper__tick-num">1</span></span>
+                <span class="glass-stepper__tick"><span class="glass-stepper__tick-num">2</span></span>
+                <span class="glass-stepper__tick"><span class="glass-stepper__tick-num">3</span></span>
+                <span class="glass-stepper__tick"><span class="glass-stepper__tick-num">4</span></span>
+                <span class="glass-stepper__tick"><span class="glass-stepper__tick-num">5</span></span>
+                <span class="glass-stepper__tick"><span class="glass-stepper__tick-num">6</span></span>
+                <span class="glass-stepper__tick"><span class="glass-stepper__tick-num">7</span></span>
               </div>
             </div>
-            <div class="swiper-slide">
-              <div class="glass-stepper__item border-glow-card">
-                <div class="edge-light" aria-hidden="true"></div>
-                <span class="glass-stepper__num" aria-hidden="true">2</span><h3>Индивидуальный эскиз</h3><p>Разрабатываем идею и планировку именно под ваш образ жизни.</p>
+            <div class="swiper roadmap-swiper" id="roadmap-swiper">
+              <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                  <div class="glass-stepper__item border-glow-card">
+                    <div class="glass-stepper__frost" aria-hidden="true"></div>
+                    <div class="edge-light" aria-hidden="true"></div>
+                    <span class="glass-stepper__num" aria-hidden="true">1</span>
+                    <h3>Заявка и знакомство</h3>
+                    <p>Обсуждаем задачи, бюджет и пожелания к будущему дому.</p>
+                  </div>
+                </div>
+                <div class="swiper-slide">
+                  <div class="glass-stepper__item border-glow-card">
+                    <div class="glass-stepper__frost" aria-hidden="true"></div>
+                    <div class="edge-light" aria-hidden="true"></div>
+                    <span class="glass-stepper__num" aria-hidden="true">2</span>
+                    <h3>Индивидуальный эскиз</h3>
+                    <p>Разрабатываем идею и планировку именно под ваш образ жизни.</p>
+                  </div>
+                </div>
+                <div class="swiper-slide">
+                  <div class="glass-stepper__item border-glow-card">
+                    <div class="glass-stepper__frost" aria-hidden="true"></div>
+                    <div class="edge-light" aria-hidden="true"></div>
+                    <span class="glass-stepper__num" aria-hidden="true">3</span>
+                    <h3>Архитектурный проект</h3>
+                    <p>Готовим визуализации и полный пакет строительных чертежей.</p>
+                  </div>
+                </div>
+                <div class="swiper-slide">
+                  <div class="glass-stepper__item border-glow-card">
+                    <div class="glass-stepper__frost" aria-hidden="true"></div>
+                    <div class="edge-light" aria-hidden="true"></div>
+                    <span class="glass-stepper__num" aria-hidden="true">4</span>
+                    <h3>Дизайн-проект интерьера</h3>
+                    <p>Прорабатываем каждое пространство до мельчайшей детали.</p>
+                  </div>
+                </div>
+                <div class="swiper-slide">
+                  <div class="glass-stepper__item border-glow-card">
+                    <div class="glass-stepper__frost" aria-hidden="true"></div>
+                    <div class="edge-light" aria-hidden="true"></div>
+                    <span class="glass-stepper__num" aria-hidden="true">5</span>
+                    <h3>Строительство</h3>
+                    <p>Возводим дом с фото/видео отчётами и онлайн-наблюдением 24/7.</p>
+                  </div>
+                </div>
+                <div class="swiper-slide">
+                  <div class="glass-stepper__item border-glow-card">
+                    <div class="glass-stepper__frost" aria-hidden="true"></div>
+                    <div class="edge-light" aria-hidden="true"></div>
+                    <span class="glass-stepper__num" aria-hidden="true">6</span>
+                    <h3>Отделка и ландшафт</h3>
+                    <p>Выполняем отделочные работы и реализуем ландшафт участка.</p>
+                  </div>
+                </div>
+                <div class="swiper-slide">
+                  <div class="glass-stepper__item border-glow-card">
+                    <div class="glass-stepper__frost" aria-hidden="true"></div>
+                    <div class="edge-light" aria-hidden="true"></div>
+                    <span class="glass-stepper__num" aria-hidden="true">7</span>
+                    <h3>Дом под ключ</h3>
+                    <p>Передаём готовый объект, в который сразу можно заезжать жить.</p>
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="swiper-slide">
-              <div class="glass-stepper__item border-glow-card">
-                <div class="edge-light" aria-hidden="true"></div>
-                <span class="glass-stepper__num" aria-hidden="true">3</span><h3>Архитектурный проект</h3><p>Готовим визуализации и полный пакет строительных чертежей.</p>
-              </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="glass-stepper__item border-glow-card">
-                <div class="edge-light" aria-hidden="true"></div>
-                <span class="glass-stepper__num" aria-hidden="true">4</span><h3>Дизайн-проект интерьера</h3><p>Прорабатываем каждое пространство до мельчайшей детали.</p>
-              </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="glass-stepper__item border-glow-card">
-                <div class="edge-light" aria-hidden="true"></div>
-                <span class="glass-stepper__num" aria-hidden="true">5</span><h3>Строительство</h3><p>Возводим дом с фото/видео отчётами и онлайн-наблюдением 24/7.</p>
-              </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="glass-stepper__item border-glow-card">
-                <div class="edge-light" aria-hidden="true"></div>
-                <span class="glass-stepper__num" aria-hidden="true">6</span><h3>Отделка и ландшафт</h3><p>Выполняем отделочные работы и реализуем ландшафт участка.</p>
-              </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="glass-stepper__item border-glow-card">
-                <div class="edge-light" aria-hidden="true"></div>
-                <span class="glass-stepper__num" aria-hidden="true">7</span><h3>Дом под ключ</h3><p>Передаём готовый объект, в который сразу можно заезжать жить.</p>
-              </div>
-            </div>
-          </div>
-        </div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ============ PRICING ============ -->
+<!-- ============ PRICING ============ -->
   <section class="pricing" id="pricing">
     <div class="container">
       <div class="section-head pricing__head">
@@ -1248,6 +1280,6 @@
   <div class="lightbox__counter"><span id="lightbox-current"></span> / <span id="lightbox-total"></span></div>
 </div>
 
-<script src="js/script.min.js?v=20260915-64" defer></script>
+<script src="js/script.min.js?v=20260916-4" defer></script>
 </body>
 </html>

@@ -682,6 +682,7 @@
     });
 
     if (roadmapSwiper) updateRoadmapFromPageScroll();
+    syncRoadmapFrost();
 
     if (heroVideo && heroVideo.classList.contains('is-playing') && !reduceMotion && !preferLiteMotion) {
       var hero = document.querySelector('.hero');
@@ -1359,6 +1360,40 @@
   var roadmapSwiperEl = document.getElementById('roadmap-swiper');
   var roadmapPinEl = document.getElementById('roadmap-pin');
   var roadmapSwiper = null;
+  var roadmapTicks = [];
+  var ticksRoot = document.querySelector('.glass-stepper__ticks');
+  if (ticksRoot) {
+    roadmapTicks = Array.prototype.slice.call(ticksRoot.querySelectorAll('.glass-stepper__tick'));
+  }
+  var roadmapMediaEl = document.getElementById('roadmap-media');
+  var roadmapFrostNodes = [];
+  var useMozRoadmapFrost = typeof CSS !== 'undefined' && CSS.supports('-moz-appearance', 'none');
+  if (useMozRoadmapFrost) {
+    roadmapFrostNodes = Array.prototype.slice.call(
+      document.querySelectorAll('#glass-stepper .glass-stepper__frost')
+    );
+  }
+
+  function syncRoadmapFrost() {
+    if (!useMozRoadmapFrost || !roadmapMediaEl || !roadmapFrostNodes.length) return;
+    var mediaRect = roadmapMediaEl.getBoundingClientRect();
+    if (mediaRect.bottom < -80 || mediaRect.top > (window.innerHeight + 80)) return;
+    for (var i = 0; i < roadmapFrostNodes.length; i++) {
+      var frost = roadmapFrostNodes[i];
+      var card = frost.parentElement;
+      if (!card) continue;
+      var cardRect = card.getBoundingClientRect();
+      frost.style.setProperty('--frost-x', (mediaRect.left - cardRect.left) + 'px');
+      frost.style.setProperty('--frost-y', (mediaRect.top - cardRect.top) + 'px');
+      frost.style.setProperty('--frost-w', mediaRect.width + 'px');
+      frost.style.setProperty('--frost-h', mediaRect.height + 'px');
+    }
+  }
+
+  if (useMozRoadmapFrost) {
+    syncRoadmapFrost();
+    window.addEventListener('load', syncRoadmapFrost, { passive: true });
+  }
   var roadmapAnim = {
     targetTranslate: 0,
     rafId: null,
@@ -1370,7 +1405,6 @@
   var roadmapPinState = {
     enabled: !reduceMotion,
     scrollDriving: false,
-    updating: false,
   };
 
   if (reduceMotion) {
@@ -1448,14 +1482,26 @@
     return Math.max(0, Math.min(1, (bounds.start - translate) / bounds.range));
   }
 
+  function syncRoadmapTicks(progress) {
+    if (!roadmapTicks.length) return;
+    var n = roadmapTicks.length;
+    var index = Math.round(Math.max(0, Math.min(1, progress)) * (n - 1));
+    for (var t = 0; t < n; t++) {
+      roadmapTicks[t].classList.toggle('is-active', t === index);
+      roadmapTicks[t].classList.toggle('is-passed', t < index);
+    }
+  }
+
   function setRoadmapProgressWidth(progress, scrubbing) {
     if (!stepperFill) return;
     var line = stepperFill.parentElement;
     if (line) {
       stepperFill.style.backgroundSize = line.offsetWidth + 'px 100%';
     }
+    var p = Math.max(0, Math.min(1, progress));
     stepperFill.classList.toggle('is-scrubbing', !!scrubbing);
-    stepperFill.style.width = (Math.max(0, Math.min(1, progress)) * 100) + '%';
+    stepperFill.style.width = (p * 100) + '%';
+    syncRoadmapTicks(p);
   }
 
   function updateRoadmapProgress(swiper, options) {
@@ -1572,19 +1618,6 @@
       : getRoadmapViewZone();
   }
 
-  function updateRoadmapSlidesOffsetAfter() {
-    if (!roadmapSwiper) return;
-
-    // No virtual card gap: last slide stops at container right edge
-    var offsetAfter = 0;
-    if (roadmapSwiper.params.slidesOffsetAfter === offsetAfter) return;
-
-    roadmapPinState.updating = true;
-    roadmapSwiper.params.slidesOffsetAfter = offsetAfter;
-    roadmapSwiper.update();
-    roadmapPinState.updating = false;
-  }
-
   function updateRoadmapPinHeight() {
     if (!roadmapPinEl || !roadmapSwiper) return;
 
@@ -1594,7 +1627,6 @@
       return;
     }
 
-    updateRoadmapSlidesOffsetAfter();
     var bounds = getRoadmapScrollBounds();
     var horizontalDistance = bounds.range;
     var stickyHeight = getRoadmapStickyHeight();
@@ -1716,7 +1748,6 @@
           if (!roadmapAnim.rafId && !roadmapPinState.scrollDriving) updateRoadmapProgress(swiper);
         },
         resize: function (swiper) {
-          if (roadmapPinState.updating) return;
           updateRoadmapPinHeight();
           updateRoadmapFromPageScroll();
           roadmapAnim.targetTranslate = swiper.getTranslate();
@@ -1727,6 +1758,7 @@
             roadmapAnim.targetTranslate = swiper.getTranslate();
             updateRoadmapProgress(swiper);
           }
+          syncRoadmapFrost();
         },
         touchEnd: function (swiper) {
           roadmapAnim.targetTranslate = swiper.getTranslate();
@@ -1740,6 +1772,7 @@
 
     syncRoadmapPinMode();
     initRoadmapWheelScroll();
+    syncRoadmapFrost();
   }
 
   function scheduleRoadmapSwiper() {
@@ -1776,6 +1809,7 @@
       roadmapAnim.targetTranslate = roadmapSwiper.getTranslate();
       updateRoadmapProgress(roadmapSwiper, { immediate: true });
     }
+    syncRoadmapFrost();
   }, { passive: true });
 
   /* ---------------------------------------------------------
