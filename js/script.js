@@ -18,6 +18,15 @@
   /* Full motion by default; lite only for reduced-motion or Save-Data. */
   var preferLiteMotion = reduceMotion || saveData;
   var lenis = null;
+
+  /* iPhone Safari: 100vh includes the area behind the bottom toolbar.
+     visualViewport.height is the visible screen; set once per resize, not on chrome collapse. */
+  function syncAppViewport() {
+    var h = Math.round((window.visualViewport && window.visualViewport.height) || window.innerHeight || 0);
+    if (!h) return;
+    document.documentElement.style.setProperty('--app-vh', h + 'px');
+  }
+  syncAppViewport();
   var scriptLoaders = {};
   var styleLoaders = {};
 
@@ -1222,10 +1231,15 @@
   })();
 
   window.addEventListener('resize', function () {
+    syncAppViewport();
     syncHeaderMetrics();
     refreshServicesMetrics();
   }, { passive: true });
-  window.addEventListener('load', syncHeaderMetrics);
+  window.addEventListener('orientationchange', syncAppViewport);
+  window.addEventListener('load', function () {
+    syncAppViewport();
+    syncHeaderMetrics();
+  });
   syncHeaderMetrics();
   measureServicesAnchors();
   bootHeroIntro();

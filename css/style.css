@@ -909,8 +909,10 @@ section{ position: relative; }
    ========================================================= */
 .hero{
   position: relative;
+  /* svh / --app-vh: visible height with iOS Safari chrome, not 100vh behind the toolbar */
   min-height: 100vh;
-  min-height: 100dvh;
+  min-height: 100svh;
+  min-height: var(--app-vh, 100svh);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1115,7 +1117,9 @@ section{ position: relative; }
 @media (max-height: 700px){
   .hero{
     height: auto;
+    min-height: 100vh;
     min-height: 100svh;
+    min-height: var(--app-vh, 100svh);
     overflow-x: clip;
     overflow-y: visible;
   }
@@ -3300,12 +3304,14 @@ body.modal-open, body.lightbox-open{ overflow: hidden; }
   .container{ padding: 0 var(--sp-5); }
   .section-head__text.in-view{ font-size: var(--fs-sm); }
   .hero{
-    /* Grow past the viewport on short phones so gaps are never crushed */
+    min-height: 100vh;
     min-height: 100svh;
+    min-height: var(--app-vh, 100svh);
     height: auto;
     overflow-x: clip;
     overflow-y: visible;
-    --hero-bottom-chrome: max(var(--sp-4), env(safe-area-inset-bottom, 0px));
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    --hero-bottom-chrome: max(12px, env(safe-area-inset-bottom, 0px));
   }
   .hero__content.container{
     justify-content: space-between;
@@ -3352,14 +3358,16 @@ body.modal-open, body.lightbox-open{ overflow: hidden; }
   }
   .hero__pills{
     flex-direction: column;
-    gap: max(10px, clamp(10px, 1.4vh, 14px));
+    gap: 8px;
     width: 100%;
     margin: 0;
-    padding-top: 6px;
+    padding-top: 2px;
   }
   .hero__pills .pill{
     width: 100%;
     justify-content: center;
+    padding: 8px 14px;
+    font-size: 11px;
   }
   .hero__scroll{
     flex-shrink: 0;
