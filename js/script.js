@@ -14,6 +14,7 @@
   var saveData = !!(navigator.connection && navigator.connection.saveData);
   /* Full motion by default; lite only for reduced-motion or Save-Data. */
   var preferLiteMotion = reduceMotion || saveData;
+  var allowSmoothScroll = !preferLiteMotion;
   var lenis = null;
 
   /* iPhone Safari: 100vh includes the area behind the bottom toolbar.
@@ -594,7 +595,8 @@
 
   function getPageScrollY() {
     if (lenis && typeof lenis.scroll === 'number') return lenis.scroll;
-    return window.scrollY || window.pageYOffset || 0;
+    var doc = document.documentElement;
+    return window.scrollY || window.pageYOffset || doc.scrollTop || 0;
   }
 
   var contactsSection = document.getElementById('contacts');
@@ -1250,20 +1252,23 @@
   bootHeroIntro();
 
   /* ---------------------------------------------------------
-     Lenis smooth scroll - desktop only; loaded on demand
+     Lenis smooth scroll - on demand; touch stays native for sticky pin
   --------------------------------------------------------- */
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
   function initLenisSmoothScroll() {
-    if (preferLiteMotion || typeof Lenis === 'undefined' || lenis) return;
+    if (!allowSmoothScroll || typeof Lenis === 'undefined' || lenis) return;
 
     lenis = new Lenis({
       duration: 1.1,
       smoothWheel: true,
       lerp: 0.09,
       wheelMultiplier: 1,
-      touchMultiplier: 1.2,
+      touchMultiplier: 1,
+      /* Native touch scroll keeps iOS sticky pin + roadmap scrub reliable.
+         Wheel still goes through Lenis on desktop / trackpads. */
+      syncTouch: false,
       autoRaf: false,
     });
     var lenisRafId = 0;
@@ -1347,7 +1352,7 @@
     window.setTimeout(refreshServicesMetrics, 50);
   }
 
-  if (!preferLiteMotion) {
+  if (allowSmoothScroll) {
     loadVendor('css/vendor/lenis/lenis.css', 'js/vendor/lenis/lenis.min.js')
       .then(initLenisSmoothScroll)
       .catch(function () {});
@@ -1727,6 +1732,9 @@
       watchOverflow: true,
       allowTouchMove: !isRoadmapPinEnabled(),
       simulateTouch: !isRoadmapPinEnabled(),
+      /* iOS Safari: default preventDefault on touchstart blocks vertical page scroll. */
+      touchStartPreventDefault: false,
+      touchMoveStopPropagation: false,
       speed: 650,
       freeMode: isRoadmapPinEnabled() ? false : {
         enabled: true,
@@ -1811,6 +1819,24 @@
     }
     syncRoadmapFrost();
   }, { passive: true });
+
+  /* iOS Safari URL-bar show/hide changes layout without a reliable window.resize. */
+  if (window.visualViewport) {
+    var roadmapViewportRaf = 0;
+    function onRoadmapViewportChange() {
+      if (roadmapViewportRaf) return;
+      roadmapViewportRaf = window.requestAnimationFrame(function () {
+        roadmapViewportRaf = 0;
+        syncAppViewport();
+        syncHeaderMetrics();
+        if (!roadmapSwiper) return;
+        updateRoadmapPinHeight();
+        updateRoadmapFromPageScroll();
+      });
+    }
+    window.visualViewport.addEventListener('resize', onRoadmapViewportChange, { passive: true });
+    window.visualViewport.addEventListener('scroll', onRoadmapViewportChange, { passive: true });
+  }
 
   /* ---------------------------------------------------------
      Border glow on roadmap cards (reactbits-style)

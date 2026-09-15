@@ -1593,6 +1593,8 @@ html.is-lite-motion .service-panel__media img{
 .roadmap-pin.is-pin-mode .glass-stepper,
 .roadmap-pin.is-pin-mode .roadmap-swiper{
   touch-action: pan-y;
+  -webkit-user-select: none;
+  user-select: none;
 }
 .roadmap{ padding: 0; background:
   radial-gradient(90% 60% at 70% 20%, var(--cool-glow-soft), transparent 55%),
@@ -3260,9 +3262,6 @@ body.modal-open, body.lightbox-open{ overflow: hidden; }
   .swiper.roadmap-swiper{
     padding: var(--sp-4) 0 var(--sp-6);
   }
-  .glass-stepper__item{
-    padding: var(--sp-8) var(--sp-5);
-  }
   .header__inner{
     gap: var(--sp-4);
     min-height: 40px;
@@ -3469,13 +3468,7 @@ body.modal-open, body.lightbox-open{ overflow: hidden; }
     width: min(286px, calc(100% - 44px));
   }
   .glass-stepper__item{
-    padding: var(--sp-6) var(--sp-5);
-  }
-  .glass-stepper__item h3::after{
-    margin-top: var(--sp-4);
-  }
-  .glass-stepper__item p{
-    margin-top: var(--sp-4);
+    padding: var(--sp-8) var(--sp-5);
   }
   .container{ padding: 0 var(--sp-5); }
   .section-head__text.in-view{ font-size: var(--fs-sm); }
