@@ -159,12 +159,6 @@
     title.setAttribute('aria-label', title.textContent.replace(/\s+/g, ' ').trim());
   }
 
-  function setStaggerIndices() {
-    Array.prototype.slice.call(document.querySelectorAll('.collage__item')).forEach(function (el, i) {
-      el.style.setProperty('--stagger-i', String(i));
-    });
-  }
-
   function setMotion(el, opacity, y) {
     if (!el) return;
     el.style.opacity = String(opacity);
@@ -389,12 +383,10 @@
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', function () {
-      setStaggerIndices();
       /* Split while still hidden so Firefox does not rewrite title mid-intro */
       splitHeroTitle();
     });
   } else {
-    setStaggerIndices();
     splitHeroTitle();
   }
 
@@ -2287,17 +2279,22 @@
   })();
 
   var collageItems = Array.prototype.slice.call(document.querySelectorAll('.about__collage .collage__item'));
-  if (collageItems.length && 'IntersectionObserver' in window) {
-    var collageObserver = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (!entry.isIntersecting) return;
-        entry.target.classList.add('in-view');
-        collageObserver.unobserve(entry.target);
-      });
-    }, { threshold: 0.16, rootMargin: '0px 0px -6% 0px' });
-    collageItems.forEach(function (item) { collageObserver.observe(item); });
-  } else {
-    collageItems.forEach(function (item) { item.classList.add('in-view'); });
+  if (collageItems.length) {
+    collageItems.forEach(function (item, i) {
+      item.style.setProperty('--stagger-i', String(i));
+    });
+    if (preferLiteMotion || !('IntersectionObserver' in window)) {
+      collageItems.forEach(function (item) { item.classList.add('in-view'); });
+    } else {
+      var collageObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('in-view');
+          collageObserver.unobserve(entry.target);
+        });
+      }, { threshold: 0.16, rootMargin: '0px 0px -6% 0px' });
+      collageItems.forEach(function (item) { collageObserver.observe(item); });
+    }
   }
 
   /* ---------------------------------------------------------
