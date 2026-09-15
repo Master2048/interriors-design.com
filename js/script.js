@@ -11,10 +11,7 @@
   var quickCta     = document.getElementById('quick-cta');
   var preloader    = document.getElementById('preloader');
   var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var coarsePointer = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
-  var narrowViewport = window.matchMedia && window.matchMedia('(max-width: 1024px)').matches;
   var saveData = !!(navigator.connection && navigator.connection.saveData);
-  var lowEndDevice = (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) || saveData;
   /* Full motion by default; lite only for reduced-motion or Save-Data. */
   var preferLiteMotion = reduceMotion || saveData;
   var lenis = null;
@@ -107,15 +104,16 @@
      Preloader
   --------------------------------------------------------- */
   function hidePreloader() {
-    if (!preloader) return;
+    if (!preloader || !preloader.parentNode) return;
     preloader.classList.add('is-hidden');
     window.setTimeout(function () {
       if (preloader && preloader.parentNode) {
         preloader.parentNode.removeChild(preloader);
       }
+      preloader = null;
     }, 600);
   }
-  window.setTimeout(hidePreloader, 4000);
+  window.setTimeout(hidePreloader, 2500);
 
   /* ---------------------------------------------------------
      Hero intro timeline (Web Animations API - GSAP-like sequence)
@@ -202,9 +200,15 @@
   }
 
   function startHeroIntro() {
-    if (reduceMotion) {
+    var hasHeroTitle = !!document.querySelector('.hero__title');
+
+    if (!hasHeroTitle || reduceMotion) {
       document.body.classList.remove('hero-intro-pending');
       document.body.classList.add('is-intro-done');
+      if (!hasHeroTitle) {
+        hidePreloader();
+        return;
+      }
       Array.prototype.slice.call(document.querySelectorAll('[data-reveal]')).forEach(function (el) {
         el.classList.add('in-view');
       });
@@ -245,7 +249,10 @@
       word.style.transform = 'translateY(105%)';
     });
 
-    if (preloader) preloader.classList.add('is-animating');
+    if (preloader) {
+      preloader.classList.add('is-animating');
+      window.setTimeout(hidePreloader, 900);
+    }
 
     var jobs = [];
     var introFinished = false;
@@ -362,11 +369,15 @@
   }
 
   function bootHeroIntro() {
+    if (!document.querySelector('.hero__title')) {
+      startHeroIntro();
+      return;
+    }
     var run = function () {
       startHeroIntro();
     };
     /* Wait for display/body fonts before intro — Firefox late swap was jumping hero layout */
-    if (document.fonts) {
+    if (document.fonts && document.fonts.status !== 'loaded') {
       var loads = [];
       try {
         loads.push(document.fonts.load('400 4rem "Cormorant Infant"'));
@@ -692,9 +703,7 @@
     }
 
     updateContactsParallax();
-
-    /* Lite/mobile: skip 3D recede + progress math (progress UI hidden ≤1200px) */
-    if (!preferLiteMotion) updateServicesRecede();
+    if (!reduceMotion) updateServicesRecede();
   }
 
   /* Services sticky stack - 3D recede as next card overlays */
@@ -720,10 +729,6 @@
 
   if (servicesProgressTotal && servicePanels.length) {
     servicesProgressTotal.textContent = padServicesIndex(servicePanels.length);
-  }
-
-  function getServicesScrollY() {
-    return getPageScrollY();
   }
 
   function getServicesStickyTop() {
@@ -775,7 +780,7 @@
     if (!servicesAnchorsReady) measureServicesAnchors();
     if (!servicesAnchorsReady) return;
 
-    var y = getServicesScrollY();
+    var y = getPageScrollY();
     var start = servicesAnchors[0];
     var end = servicesAnchors[total - 1];
     var span = Math.max(1, end - start);
@@ -803,13 +808,18 @@
     }
   }
 
+  function isServicesRecedeOff() {
+    return !!(window.matchMedia && window.matchMedia('(max-width: 480px)').matches);
+  }
+
   function updateServicesRecede() {
-    if (!servicePanels.length || preferLiteMotion || reduceMotion) return;
+    if (!servicePanels.length || reduceMotion) return;
+    if (isServicesRecedeOff()) return;
     if (servicesRecedeQueued) return;
     servicesRecedeQueued = true;
     window.requestAnimationFrame(function () {
       servicesRecedeQueued = false;
-      if (preferLiteMotion || reduceMotion) return;
+      if (reduceMotion) return;
 
       var sectionRect = servicesSectionEl
         ? servicesSectionEl.getBoundingClientRect()
@@ -820,7 +830,6 @@
         : true;
 
       if (!near) {
-        /* Keep bar coherent when leaving the section up/down */
         if (sectionRect) {
           if (sectionRect.top >= vh * 0.98) applyServicesProgress(0, 0);
           else if (sectionRect.bottom <= vh * 0.02) {
@@ -868,9 +877,9 @@
   }
 
   function refreshServicesMetrics() {
-    if (preferLiteMotion || reduceMotion) {
+    if (reduceMotion || isServicesRecedeOff()) {
       clearServicesRecedeStyles();
-      return;
+      if (reduceMotion) return;
     }
     measureServicesAnchors();
     servicesLastFill = -1;
@@ -907,8 +916,8 @@
   /* Ambient particles (GPU-friendly) */
   function initAmbientParticles(section, canvas, options) {
     options = options || {};
-    /* Off on mobile / lite devices - sticky cards need the GPU budget */
-    if (!section || !canvas || preferLiteMotion) {
+    if (!section || !canvas || preferLiteMotion ||
+        (window.matchMedia && window.matchMedia('(max-width: 1024px)').matches)) {
       if (canvas) canvas.style.display = 'none';
       return;
     }
@@ -1227,13 +1236,16 @@
     syncHeaderMetrics();
     refreshServicesMetrics();
   }, { passive: true });
-  window.addEventListener('orientationchange', syncAppViewport);
+  window.addEventListener('orientationchange', function () {
+    syncAppViewport();
+    window.setTimeout(refreshServicesMetrics, 120);
+  });
   window.addEventListener('load', function () {
     syncAppViewport();
     syncHeaderMetrics();
   });
   syncHeaderMetrics();
-  measureServicesAnchors();
+  refreshServicesMetrics();
   bootHeroIntro();
 
   /* ---------------------------------------------------------
