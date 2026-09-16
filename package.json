@@ -8,9 +8,12 @@
     "build:css": "esbuild css/style.css --minify --outfile=css/style.min.css",
     "build:swiper": "node scripts/build-swiper.mjs",
     "optimize:services": "node scripts/optimize-services.mjs",
+    "optimize:trust": "node scripts/optimize-trust.mjs",
+    "optimize:roadmap": "node scripts/optimize-roadmap.mjs",
     "optimize:contacts": "node scripts/optimize-contacts.mjs",
     "optimize:collage": "node scripts/optimize-collage.mjs",
     "optimize:pages": "node scripts/optimize-pages.mjs",
+    "optimize:portfolio-cards": "node scripts/optimize-portfolio-cards.mjs",
     "build": "npm run build:js && npm run build:css"
   },
   "dependencies": {

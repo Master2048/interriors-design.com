@@ -1,0 +1,126 @@
+id="portfolio">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow" data-reveal>#########</p>
+        <h2 class="h2" data-reveal>#######, # #######<br>## ####### ####</h2>
+        <p class="section-head__text" data-reveal>
+          ############ # ########## ####### ######## - #########, ###### #######
+          # #######.
+        </p>
+      </div>
+
+      <div class="portfolio__grid">
+
+        <article class="project-card tilt-card" data-reveal data-tilt data-project="1" data-count="10" data-title="### # ###### ######" data-desc="#####-######## # ###### ######### ##### # ######## ## ### # ######.">
+          <button class="project-card__btn" type="button" aria-label="####### ####### ####### #### # ###### #######">
+            <span class="project-card__media">
+              <picture>
+                <source type="image/webp" srcset="assets/img/portfolio/project-1/01.webp">
+                <img src="assets/img/portfolio/project-1/01.jpg" alt="### # ###### ###### - ##### ## ######## #####" width="1600" height="1151" loading="lazy" decoding="async">
+              </picture>
+            </span>
+            <span class="project-card__body">
+              <span class="project-card__meta">######-######</span>
+              <span class="project-card__title">### # ###### ######</span>
+              <span class="project-card__desc">#####-######## # ###### ######### ##### # ######## ## ### # ######.</span>
+              <span class="project-card__cta">######## #######<svg class="icon" width="16" height="16" aria-hidden="true"><use href="#icon-arrow-right"/></svg></span>
+            </span>
+          </button>
+        </article>
+
+        <article class="project-card tilt-card" data-reveal data-reveal-delay="1" data-tilt data-project="2" data-count="10" data-title="### ## #######" data-desc="########### ##########: ###### ######, ###### # ###### ####.">
+          <button class="project-card__btn" type="button" aria-label="####### ####### ####### #### ## ########">
+            <span class="project-card__media">
+              <picture>
+                <source type="image/webp" srcset="assets/img/portfolio/project-2/01.webp">
+                <img src="assets/img/portfolio/project-2/01.jpg" alt="### ## ####### - ##### # ###### # ######" width="1600" height="1200" loading="lazy" decoding="async">
+              </picture>
+            </span>
+            <span class="project-card__body">
+              <span class="project-card__meta">######-######</span>
+              <span class="project-card__title">### ## #######</span>
+              <span class="project-card__desc">########### ##########: ###### ######, ###### # ###### ####.</span>
+              <span class="project-card__cta">######## #######<svg class="icon" width="16" height="16" aria-hidden="true"><use href="#icon-arrow-right"/></svg></span>
+            </span>
+          </button>
+        </article>
+
+        <article class="project-card tilt-card" data-reveal data-reveal-delay="2" data-tilt data-project="3" data-count="10" data-title="####### #######" data-desc="####### ######## # ######## ####### # ########### ######.">
+          <button class="project-card__btn" type="button" aria-label="####### ####### ####### ######## ########">
+            <span class="project-card__media">
+              <picture>
+                <source type="image/webp" srcset="assets/img/portfolio/project-3/01.webp">
+                <img src="assets/img/portfolio/project-3/01.jpg" alt="####### ####### - ######### #### # ########### ######" width="1600" height="1200" loading="lazy" decoding="async">
+              </picture>
+            </span>
+            <span class="project-card__body">
+              <span class="project-card__meta">######-######</span>
+              <span class="project-card__title">####### #######</span>
+              <span class="project-card__desc">####### ######## # ######## ####### # ########### ######.</span>
+              <span class="project-card__cta">######## #######<svg class="icon" width="16" height="16" aria-hidden="true"><use href="#icon-arrow-right"/></svg></span>
+            </span>
+          </button>
+        </article>
+
+        <article class="project-card tilt-card" data-reveal data-reveal-delay="3" data-tilt data-project="4" data-count="10" data-title="###### #####" data-desc="########## ###### ############# # ######### ## #### ####### #######.">
+          <button class="project-card__btn" type="button" aria-label="####### ####### ####### ####### ######">
+            <span class="project-card__media">
+              <picture>
+                <source type="image/webp" srcset="assets/img/portfolio/project-4/01.webp">
+                <img src="assets/img/portfolio/project-4/01.jpg" alt="###### ##### - #####-######## # ######### ########" width="1600" height="1200" loading="lazy" decoding="async">
+              </picture>
+            </span>
+            <span class="project-card__body">
+              <span class="project-card__meta">######-######</span>
+              <span class="project-card__title">###### #####</span>
+              <span class="project-card__desc">########## ###### ############# # ######### ## #### ####### #######.</span>
+              <span class="project-card__cta">######## #######<svg class="icon" width="16" height="16" aria-hidden="true"><use href="#icon-arrow-right"/></svg></span>
+            </span>
+          </button>
+        </article>
+
+        <article class="project-card tilt-card" data-reveal data-reveal-delay="4" data-tilt data-project="5" data-count="10" data-title="### # ####### ######" data-desc="############# ######: ###### ###### ##### # ######### #######.">
+          <button class="project-card__btn" type="button" aria-label="####### ####### ####### #### # ####### #######">
+            <span class="project-card__media">
+              <picture>
+                <source type="image/webp" srcset="assets/img/portfolio/project-5/01.webp">
+                <img src="assets/img/portfolio/project-5/01.jpg" alt="### # ####### ###### - ############# ######## ####" width="1600" height="1067" loading="lazy" decoding="async">
+              </picture>
+            </span>
+            <span class="project-card__body">
+              <span class="project-card__meta">##########</span>
+              <span class="project-card__title">### # ####### ######</span>
+              <span class="project-card__desc">############# ######: ###### ###### ##### # ######### #######.</span>
+              <span class="project-card__cta">######## #######<svg class="icon" width="16" height="16" aria-hidden="true"><use href="#icon-arrow-right"/></svg></span>
+            </span>
+          </button>
+        </article>
+
+        <article class="project-card tilt-card" data-reveal data-reveal-delay="5" data-tilt data-project="6" data-count="10" data-title="######### ######" data-desc="######## # ##### # ######### ########, ###### ####### # ###### ####### ######.">
+          <button class="project-card__btn" type="button" aria-label="####### ####### ####### ########## #######">
+            <span class="project-card__media">
+              <picture>
+                <source type="image/webp" srcset="assets/img/portfolio/project-6/01.webp">
+                <img src="assets/img/portfolio/project-6/01.jpg" alt="######### ###### - ######## # ######### #######" width="1600" height="1200" loading="lazy" decoding="async">
+              </picture>
+            </span>
+            <span class="project-card__body">
+              <span class="project-card__meta">######-######</span>
+              <span class="project-card__title">######### ######</span>
+              <span class="project-card__desc">######## # ##### # ######### ########, ###### ####### # ###### ####### ######.</span>
+              <span class="project-card__cta">######## #######<svg class="icon" width="16" height="16" aria-hidden="true"><use href="#icon-arrow-right"/></svg></span>
+            </span>
+          </button>
+        </article>
+
+      </div>
+
+      <div class="portfolio__more" data-reveal>
+        <a href="#contacts" class="btn btn--glass">
+          <span>### #######</span>
+          <svg class="icon" width="16" height="16" aria-hidden="true"><use href="#icon-arrow-right"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+  

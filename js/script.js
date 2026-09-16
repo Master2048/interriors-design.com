@@ -2164,7 +2164,7 @@
     }
   })();
 
-  /* Portfolio: reveal each card when it enters view (left then right in a row) */
+  /* Portfolio: desktop sequential L→R from bottom; mobile one-by-one */
   (function initPortfolioReveal() {
     var grid = document.querySelector('.portfolio__grid');
     if (!grid) return;
@@ -2172,32 +2172,71 @@
     if (!cards.length) return;
 
     if (reduceMotion || !('IntersectionObserver' in window)) {
-      cards.forEach(function (card) {
-        card.classList.add('in-view');
-        card.classList.add('is-settled');
-      });
+      cards.forEach(function (card) { card.classList.add('in-view'); });
       return;
     }
 
-    /* Right-column cards get a short delay so left appears first */
-    cards.forEach(function (card, index) {
-      if (index % 2 === 1) card.setAttribute('data-reveal-delay', '1');
-      else card.removeAttribute('data-reveal-delay');
-    });
+    var mqDesktop = window.matchMedia('(min-width: 721px)');
+    var state = { observer: null };
 
-    var portfolioObserver = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (!entry.isIntersecting) return;
-        var card = entry.target;
-        card.classList.add('in-view');
-        portfolioObserver.unobserve(card);
-        window.setTimeout(function () {
-          card.classList.add('is-settled');
-        }, 1100);
-      });
-    }, { threshold: 0.18, rootMargin: '0px 0px -8% 0px' });
+    function clearDelays() {
+      cards.forEach(function (card) { card.removeAttribute('data-reveal-delay'); });
+    }
 
-    cards.forEach(function (card) { portfolioObserver.observe(card); });
+    function clearObserver() {
+      if (state.observer) {
+        state.observer.disconnect();
+        state.observer = null;
+      }
+    }
+
+    function bindDesktop() {
+      clearObserver();
+      clearDelays();
+      cards.forEach(function (card) { card.classList.remove('in-view'); });
+
+      state.observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          cards.forEach(function (card, index) {
+            if (index > 0) card.setAttribute('data-reveal-delay', String(index));
+            else card.removeAttribute('data-reveal-delay');
+            card.classList.add('in-view');
+          });
+          clearObserver();
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -10% 0px' });
+
+      state.observer.observe(grid);
+    }
+
+    function bindMobile() {
+      clearObserver();
+      clearDelays();
+      cards.forEach(function (card) { card.classList.remove('in-view'); });
+
+      state.observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('in-view');
+          state.observer.unobserve(entry.target);
+        });
+      }, { threshold: 0.16, rootMargin: '0px 0px -6% 0px' });
+
+      cards.forEach(function (card) { state.observer.observe(card); });
+    }
+
+    function applyMode() {
+      if (mqDesktop.matches) bindDesktop();
+      else bindMobile();
+    }
+
+    applyMode();
+    if (typeof mqDesktop.addEventListener === 'function') {
+      mqDesktop.addEventListener('change', applyMode);
+    } else if (typeof mqDesktop.addListener === 'function') {
+      mqDesktop.addListener(applyMode);
+    }
   })();
 
   var collageItems = Array.prototype.slice.call(document.querySelectorAll('.about__collage .collage__item'));
@@ -2463,132 +2502,6 @@
   }
 
   /* ---------------------------------------------------------
-     Mouse-tilt + image parallax for portfolio cards
-  --------------------------------------------------------- */
-  var tiltCards = Array.prototype.slice.call(document.querySelectorAll('[data-tilt]'));
-  var hasFinePointer = window.matchMedia && window.matchMedia('(pointer: fine)').matches;
-  var prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (hasFinePointer && !prefersReducedMotion) {
-    tiltCards.forEach(function (card) {
-      var rafId = null;
-      var tiltEl = card.querySelector('.project-card__btn') || card;
-      var mediaImg = card.querySelector('.project-card__media img');
-      // Keep hit-testing on the outer card (no transform), tilt the inner button.
-      card.style.transform = '';
-      var tilt = {
-        active: false,
-        rotateX: 0,
-        rotateY: 0,
-        targetX: 0,
-        targetY: 0,
-        rect: null,
-        parallaxX: 0,
-        parallaxY: 0,
-        targetParallaxX: 0,
-        targetParallaxY: 0,
-      };
-      var parallaxStrength = 18;
-      var maxTilt = 1.2;
-
-      function applyTiltTransform() {
-        tiltEl.style.transform =
-          'perspective(900px) rotateX(' + tilt.rotateX.toFixed(3) + 'deg) rotateY(' + tilt.rotateY.toFixed(3) + 'deg)';
-        if (mediaImg) {
-          mediaImg.style.transform =
-            'translate3d(' + tilt.parallaxX.toFixed(2) + 'px, ' + tilt.parallaxY.toFixed(2) + 'px, 0) scale(1.12)';
-        }
-      }
-
-      function tiltFrame() {
-        var lerp = tilt.active ? 0.11 : 0.09;
-        tilt.rotateX += (tilt.targetX - tilt.rotateX) * lerp;
-        tilt.rotateY += (tilt.targetY - tilt.rotateY) * lerp;
-        tilt.parallaxX += (tilt.targetParallaxX - tilt.parallaxX) * lerp;
-        tilt.parallaxY += (tilt.targetParallaxY - tilt.parallaxY) * lerp;
-        applyTiltTransform();
-
-        var settling =
-          Math.abs(tilt.targetX - tilt.rotateX) > 0.02 ||
-          Math.abs(tilt.targetY - tilt.rotateY) > 0.02 ||
-          Math.abs(tilt.targetParallaxX - tilt.parallaxX) > 0.15 ||
-          Math.abs(tilt.targetParallaxY - tilt.parallaxY) > 0.15;
-        if (tilt.active || settling) {
-          rafId = window.requestAnimationFrame(tiltFrame);
-        } else {
-          tilt.rotateX = tilt.targetX;
-          tilt.rotateY = tilt.targetY;
-          tilt.parallaxX = tilt.targetParallaxX;
-          tilt.parallaxY = tilt.targetParallaxY;
-          applyTiltTransform();
-          rafId = null;
-          card.classList.remove('is-tilting');
-        }
-      }
-
-      function startTiltLoop() {
-        if (!rafId) rafId = window.requestAnimationFrame(tiltFrame);
-      }
-
-      function refreshRect() {
-        tilt.rect = card.getBoundingClientRect();
-      }
-
-      function onPointerMove(e) {
-        if (!tilt.active || !tilt.rect) return;
-
-        var r = tilt.rect;
-        if (
-          e.clientX < r.left ||
-          e.clientX > r.right ||
-          e.clientY < r.top ||
-          e.clientY > r.bottom
-        ) {
-          endTilt();
-          return;
-        }
-
-        var px = (e.clientX - r.left) / r.width;
-        var py = (e.clientY - r.top) / r.height;
-        // Clamp to avoid edge spikes
-        px = Math.max(0, Math.min(1, px));
-        py = Math.max(0, Math.min(1, py));
-
-        tilt.targetX = (0.5 - py) * maxTilt;
-        tilt.targetY = (px - 0.5) * maxTilt;
-        tilt.targetParallaxX = (px - 0.5) * -2 * parallaxStrength;
-        tilt.targetParallaxY = (py - 0.5) * -2 * parallaxStrength;
-        startTiltLoop();
-      }
-
-      function endTilt() {
-        if (!tilt.active) return;
-        tilt.active = false;
-        tilt.targetX = 0;
-        tilt.targetY = 0;
-        tilt.targetParallaxX = 0;
-        tilt.targetParallaxY = 0;
-        tilt.rect = null;
-        window.removeEventListener('pointermove', onPointerMove);
-        window.removeEventListener('scroll', refreshRect, true);
-        startTiltLoop();
-      }
-
-      function onPointerEnter() {
-        if (tilt.active) return;
-        tilt.active = true;
-        card.classList.add('is-tilting');
-        refreshRect();
-        window.addEventListener('pointermove', onPointerMove, { passive: true });
-        window.addEventListener('scroll', refreshRect, true);
-        startTiltLoop();
-      }
-
-      card.addEventListener('pointerenter', onPointerEnter);
-      card.addEventListener('pointerleave', endTilt);
-    });
-  }
-
-  /* ---------------------------------------------------------
      Portfolio lightbox
   --------------------------------------------------------- */
   var lightbox        = document.getElementById('lightbox');
@@ -2765,20 +2678,6 @@
     galleryState.index = (galleryState.index - 1 + galleryState.count) % galleryState.count;
     renderLightboxImage();
   }
-
-  Array.prototype.slice.call(document.querySelectorAll('.project-card')).forEach(function (card) {
-    var btn = card.querySelector('.project-card__btn');
-    if (!btn) return;
-    btn.addEventListener('click', function () {
-      openLightbox(
-        card.getAttribute('data-project'),
-        parseInt(card.getAttribute('data-count'), 10) || 1,
-        card.getAttribute('data-title') || '',
-        card.getAttribute('data-desc') || '',
-        0
-      );
-    });
-  });
 
   (function initCollageLightbox() {
     var hits = Array.prototype.slice.call(document.querySelectorAll('.collage__hit[data-full]'));

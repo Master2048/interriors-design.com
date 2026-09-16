@@ -19,7 +19,7 @@
 
 <link rel="stylesheet" href="assets/css/fonts.css">
 <!-- Asset cache-bust: bump ?v= when css/style.css or js/script.js change; run npm run build after edits -->
-<link rel="stylesheet" href="css/style.min.css?v=20260916-19">
+<link rel="stylesheet" href="css/style.min.css?v=20260916-39">
 </head>
 <body class="hero-intro-pending">
 
@@ -36,6 +36,7 @@
     <symbol id="icon-arrow-left" viewBox="0 0 24 24"><line x1="20" y1="12" x2="4" y2="12"/><path d="M10 6l-6 6 6 6"/></symbol>
     <symbol id="icon-chevron-down" viewBox="0 0 24 24"><path d="M5 8l7 7 7-7"/></symbol>
     <symbol id="icon-check" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 7"/></symbol>
+    <symbol id="icon-exclamation" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="14"/><line x1="12" y1="17" x2="12" y2="19"/></symbol>
     <symbol id="icon-send" viewBox="0 0 24 24"><path d="M21 3 3 10.5l7 2.5m11-10L14.5 20l-4.5-7m11-10L10 13"/></symbol>
     <symbol id="icon-quote" viewBox="0 0 24 24"><path d="M7 7c-2.2 1.3-3.5 3.2-3.5 5.8C3.5 15.4 5.3 17 7.4 17c1.7 0 3-1.2 3-2.9 0-1.6-1.1-2.7-2.6-2.7-.3 0-.6 0-.8.1.2-1.6 1.4-3 3.2-3.9L9 7Zm10 0c-2.2 1.3-3.5 3.2-3.5 5.8 0 2.6 1.8 4.2 3.9 4.2 1.7 0 3-1.2 3-2.9 0-1.6-1.1-2.7-2.6-2.7-.3 0-.6 0-.8.1.2-1.6 1.4-3 3.2-3.9L19 7Z" stroke="none" fill="currentColor"/></symbol>
     <symbol id="icon-scroll" viewBox="0 0 24 24"><rect x="8" y="3" width="8" height="14" rx="4"/><line x1="12" y1="7" x2="12" y2="10"/></symbol>
@@ -717,8 +718,8 @@
 
       <div class="portfolio__grid">
 
-        <article class="project-card tilt-card" data-reveal data-tilt data-project="1" data-count="10" data-title="Дом с тёплым очагом" data-desc="Кухня-столовая в тёплых природных тонах с акцентом на уют и дерево.">
-          <button class="project-card__btn" type="button" aria-label="Открыть галерею проекта «Дом с тёплым очагом»">
+        <article class="project-card" data-reveal data-project="1" data-count="10" data-title="Дом с тёплым очагом" data-desc="Кухня-столовая в тёплых природных тонах с акцентом на уют и дерево.">
+          <a class="project-card__btn" href="project-1.html" aria-label="Открыть проект «Дом с тёплым очагом»">
             <span class="project-card__media">
               <picture>
                 <source type="image/webp" srcset="assets/img/portfolio/project-1/01.webp">
@@ -729,13 +730,12 @@
               <span class="project-card__meta">Дизайн-проект</span>
               <span class="project-card__title">Дом с тёплым очагом</span>
               <span class="project-card__desc">Кухня-столовая в тёплых природных тонах с акцентом на уют и дерево.</span>
-              <span class="project-card__cta">Смотреть галерею<svg class="icon" width="16" height="16" aria-hidden="true"><use href="#icon-arrow-right"/></svg></span>
             </span>
-          </button>
+          </a>
         </article>
 
-        <article class="project-card tilt-card" data-reveal data-reveal-delay="1" data-tilt data-project="2" data-count="10" data-title="Дом на природе" data-desc="Современный минимализм: тёплое дерево, латунь и мягкий свет.">
-          <button class="project-card__btn" type="button" aria-label="Открыть галерею проекта «Дом на природе»">
+        <article class="project-card" data-reveal data-project="2" data-count="10" data-title="Дом на природе" data-desc="Современный минимализм: тёплое дерево, латунь и мягкий свет.">
+          <a class="project-card__btn" href="project-2.html" aria-label="Открыть проект «Дом на природе»">
             <span class="project-card__media">
               <picture>
                 <source type="image/webp" srcset="assets/img/portfolio/project-2/01.webp">
@@ -746,13 +746,12 @@
               <span class="project-card__meta">Дизайн-проект</span>
               <span class="project-card__title">Дом на природе</span>
               <span class="project-card__desc">Современный минимализм: тёплое дерево, латунь и мягкий свет.</span>
-              <span class="project-card__cta">Смотреть галерею<svg class="icon" width="16" height="16" aria-hidden="true"><use href="#icon-arrow-right"/></svg></span>
             </span>
-          </button>
+          </a>
         </article>
 
-        <article class="project-card tilt-card" data-reveal data-reveal-delay="2" data-tilt data-project="3" data-count="10" data-title="Светлый простор" data-desc="Светлая классика с плавными линиями и панорамными окнами.">
-          <button class="project-card__btn" type="button" aria-label="Открыть галерею проекта «Светлый простор»">
+        <article class="project-card" data-reveal data-project="3" data-count="10" data-title="Светлый простор" data-desc="Светлая классика с плавными линиями и панорамными окнами.">
+          <a class="project-card__btn" href="project-3.html" aria-label="Открыть проект «Светлый простор»">
             <span class="project-card__media">
               <picture>
                 <source type="image/webp" srcset="assets/img/portfolio/project-3/01.webp">
@@ -763,13 +762,12 @@
               <span class="project-card__meta">Дизайн-проект</span>
               <span class="project-card__title">Светлый простор</span>
               <span class="project-card__desc">Светлая классика с плавными линиями и панорамными окнами.</span>
-              <span class="project-card__cta">Смотреть галерею<svg class="icon" width="16" height="16" aria-hidden="true"><use href="#icon-arrow-right"/></svg></span>
             </span>
-          </button>
+          </a>
         </article>
 
-        <article class="project-card tilt-card" data-reveal data-reveal-delay="3" data-tilt data-project="4" data-count="10" data-title="Акцент бордо" data-desc="Насыщенный акцент терракотового и бордового на фоне светлой отделки.">
-          <button class="project-card__btn" type="button" aria-label="Открыть галерею проекта «Акцент бордо»">
+        <article class="project-card" data-reveal data-project="4" data-count="10" data-title="Акцент бордо" data-desc="Насыщенный акцент терракотового и бордового на фоне светлой отделки.">
+          <a class="project-card__btn" href="project-4.html" aria-label="Открыть проект «Акцент бордо»">
             <span class="project-card__media">
               <picture>
                 <source type="image/webp" srcset="assets/img/portfolio/project-4/01.webp">
@@ -780,13 +778,12 @@
               <span class="project-card__meta">Дизайн-проект</span>
               <span class="project-card__title">Акцент бордо</span>
               <span class="project-card__desc">Насыщенный акцент терракотового и бордового на фоне светлой отделки.</span>
-              <span class="project-card__cta">Смотреть галерею<svg class="icon" width="16" height="16" aria-hidden="true"><use href="#icon-arrow-right"/></svg></span>
             </span>
-          </button>
+          </a>
         </article>
 
-        <article class="project-card tilt-card" data-reveal data-reveal-delay="4" data-tilt data-project="5" data-count="10" data-title="Дом с золотым светом" data-desc="Реализованный проект: тёплое золото света и мраморные акценты.">
-          <button class="project-card__btn" type="button" aria-label="Открыть галерею проекта «Дом с золотым светом»">
+        <article class="project-card" data-reveal data-project="5" data-count="10" data-title="Дом с золотым светом" data-desc="Реализованный проект: тёплое золото света и мраморные акценты.">
+          <a class="project-card__btn" href="project-5.html" aria-label="Открыть проект «Дом с золотым светом»">
             <span class="project-card__media">
               <picture>
                 <source type="image/webp" srcset="assets/img/portfolio/project-5/01.webp">
@@ -797,13 +794,12 @@
               <span class="project-card__meta">Реализация</span>
               <span class="project-card__title">Дом с золотым светом</span>
               <span class="project-card__desc">Реализованный проект: тёплое золото света и мраморные акценты.</span>
-              <span class="project-card__cta">Смотреть галерею<svg class="icon" width="16" height="16" aria-hidden="true"><use href="#icon-arrow-right"/></svg></span>
             </span>
-          </button>
+          </a>
         </article>
 
-        <article class="project-card tilt-card" data-reveal data-reveal-delay="5" data-tilt data-project="6" data-count="10" data-title="Оливковый бархат" data-desc="Гостиная и кухня с оливковым бархатом, тёмным деревом и мягким золотым светом.">
-          <button class="project-card__btn" type="button" aria-label="Открыть галерею проекта «Оливковый бархат»">
+        <article class="project-card" data-reveal data-project="6" data-count="10" data-title="Оливковый бархат" data-desc="Гостиная и кухня с оливковым бархатом, тёмным деревом и мягким золотым светом.">
+          <a class="project-card__btn" href="project-6.html" aria-label="Открыть проект «Оливковый бархат»">
             <span class="project-card__media">
               <picture>
                 <source type="image/webp" srcset="assets/img/portfolio/project-6/01.webp">
@@ -814,15 +810,14 @@
               <span class="project-card__meta">Дизайн-проект</span>
               <span class="project-card__title">Оливковый бархат</span>
               <span class="project-card__desc">Гостиная и кухня с оливковым бархатом, тёмным деревом и мягким золотым светом.</span>
-              <span class="project-card__cta">Смотреть галерею<svg class="icon" width="16" height="16" aria-hidden="true"><use href="#icon-arrow-right"/></svg></span>
             </span>
-          </button>
+          </a>
         </article>
 
       </div>
 
       <div class="portfolio__more" data-reveal>
-        <a href="#contacts" class="btn btn--glass">
+        <a href="portfolio.html" class="btn btn--glass">
           <span>Все проекты</span>
           <svg class="icon" width="16" height="16" aria-hidden="true"><use href="#icon-arrow-right"/></svg>
         </a>
@@ -985,7 +980,7 @@
           </picture>
           <span class="trust__visual-shade" aria-hidden="true"></span>
           <figcaption class="trust__visual-caption">
-            <span class="trust__visual-mark" aria-hidden="true"><svg class="icon" width="18" height="18"><use href="#icon-check"/></svg></span>
+            <span class="trust__visual-mark" aria-hidden="true"><svg class="icon" width="18" height="18"><use href="#icon-exclamation"/></svg></span>
             <span><strong>Без неожиданных решений</strong><small>Каждый этап согласован с вами</small></span>
           </figcaption>
         </figure>
@@ -1063,7 +1058,7 @@
       </div>
       <div class="contacts__card" data-reveal>
 
-        <div class="contacts__form-wrap" data-reveal>
+        <div class="contacts__form-wrap" data-reveal data-reveal-delay="1">
           <form class="form" id="contact-form" novalidate>
             <h3 class="contacts__pane-title">Обсудим ваш проект</h3>
             <p class="contacts__form-lead">Оставьте контакты — свяжемся в ближайший рабочий день и обсудим ваши идеи.</p>
@@ -1154,7 +1149,21 @@
 </main>
 
 <!-- ============ FOOTER ============ -->
-="about.html">О нас</a></li>
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+
+    <div class="footer__col footer__col--about">
+      <a href="#home" class="logo logo--light">
+        <span class="logo__mark">Y</span>
+        <span class="logo__text"><span class="logo__name">YMG DESIGN</span><small>студия дизайна</small></span>
+      </a>
+    </div>
+
+    <div class="footer__col">
+      <h4>Навигация</h4>
+      <ul>
+        <li><a href="about.html">О нас</a></li>
         <li><a href="#services">Услуги</a></li>
         <li><a href="#portfolio">Портфолио</a></li>
         <li><a href="#faq">Вопросы</a></li>
@@ -1182,16 +1191,13 @@
         <li>Пн-Пт: 10:00-19:00</li>
         <li>Сб-Вс: выходной</li>
       </ul>
-      <a href="https://www.instagram.com/ymg.design/" class="social" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-        <svg class="icon icon--fill" width="18" height="18"><use href="#icon-instagram"/></svg>
-      </a>
     </div>
 
     </div>
 
     <div class="footer__bottom">
       <p>© 2026 YMG DESIGN</p>
-      <a href="privacy.html">Политика конфиденциальности</a>
+      <a href="#" target="_blank" rel="noopener">Политика конфиденциальности</a>
     </div>
   </div>
 </footer>
@@ -1283,6 +1289,6 @@
   <div class="lightbox__counter"><span id="lightbox-current"></span> / <span id="lightbox-total"></span></div>
 </div>
 
-<script src="js/script.min.js?v=20260916-19" defer></script>
+<script src="js/script.min.js?v=20260916-39" defer></script>
 </body>
 </html>

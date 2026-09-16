@@ -2,7 +2,9 @@ import fs from 'node:fs';
 import path from 'node:path';
 import sharp from 'sharp';
 
+/** Collage tiles ~15–31vw; 480≈2x phone column, 720≈2x desktop column */
 const WIDTHS = [480, 720];
+const QUALITY = 60;
 const SOURCES = [
   'assets/img/about/about-1.jpg',
   'assets/img/about/about-2.jpg',
@@ -37,13 +39,13 @@ async function convertOne(rel) {
     await image
       .clone()
       .resize({ width: targetW, withoutEnlargement: true })
-      .webp({ quality: 68, effort: 6 })
+      .webp({ quality: QUALITY, effort: 6 })
       .toFile(outWebp);
 
     await image
       .clone()
       .resize({ width: targetW, withoutEnlargement: true })
-      .jpeg({ quality: 72, mozjpeg: true, progressive: true })
+      .jpeg({ quality: QUALITY, mozjpeg: true, progressive: true })
       .toFile(outJpg);
 
     const webpKb = (fs.statSync(outWebp).size / 1024).toFixed(1);
