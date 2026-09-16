@@ -3214,7 +3214,7 @@ html.is-lite-motion .glass-stepper__tick-num{
 .footer__cols{
   display: flex;
   flex-wrap: wrap;
-  align-items: flex-start;
+  align-items: stretch;
   gap: var(--sp-10);
   padding-bottom: var(--sp-16);
 }
@@ -3224,6 +3224,55 @@ html.is-lite-motion .glass-stepper__tick-num{
 }
 .footer__col--about{
   flex: 1.4 1 0;
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+  align-items: flex-start;
+}
+.footer__brand{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: fit-content;
+  flex: 1 1 auto;
+  min-height: 100%;
+}
+.footer__social{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--sp-4);
+  margin-top: auto;
+  padding-top: var(--sp-8);
+  width: 100%;
+}
+.footer__social .social{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 36px;
+  width: 36px;
+  height: 36px;
+  line-height: 0;
+  border: 0;
+  border-radius: 0;
+  color: rgba(255, 255, 255, 0.32);
+  transition: color var(--t-fast) var(--ease);
+}
+.footer__social .social:hover,
+.footer__social .social:focus-visible{
+  color: var(--white);
+}
+.footer__social .social .icon{
+  display: block;
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+}
+.footer__social .social--instagram .icon{
+  transform: scale(1.22) translateY(2px);
+  transform-origin: center;
 }
 .footer__col h4{
   font-family: var(--font-body);
@@ -3235,10 +3284,6 @@ html.is-lite-motion .glass-stepper__tick-num{
 .footer__col a{ color: var(--text-secondary); font-size: var(--fs-sm); font-weight: 300; letter-spacing: 0.03em; transition: color var(--t-fast) var(--ease); }
 .footer__col a:hover{ color: var(--accent-300); }
 .footer__contacts li{ color: var(--text-secondary); font-size: var(--fs-sm); font-weight: 300; letter-spacing: 0.03em; }
-
-.footer__col--contacts .social{
-  margin-top: var(--sp-5);
-}
 
 .social{
   display: inline-flex; align-items: center; justify-content: center;
@@ -3858,6 +3903,16 @@ body.modal-open, body.lightbox-open{ overflow: hidden; }
   }
   .footer__col--about{
     flex: 1 1 auto;
+  }
+  .footer__brand{
+    min-height: 0;
+    flex: 0 1 auto;
+    align-items: center;
+  }
+  .footer__social{
+    margin-top: 0;
+    padding-top: var(--sp-6);
+    justify-content: center;
   }
   .footer__col--services{ display: none; }
   .footer__col ul{ align-items: center; }
