@@ -1,3 +1,0 @@
-﻿Rollback max-stable attempt 20260915-185609
-Copy files from this folder back to project root (html) and css/ js/ subfolders.
-Or tell agent: откатывай max-stable 20260915-185609

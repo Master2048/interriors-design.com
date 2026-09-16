@@ -1214,34 +1214,37 @@
   })();
 
   /* ---------------------------------------------------------
-     FAQ accordion
+     Accordion
   --------------------------------------------------------- */
-  (function initFaqAccordion() {
-    var root = document.querySelector('[data-accordion]');
-    if (!root) return;
-    var items = Array.prototype.slice.call(root.querySelectorAll('.faq__item'));
+  (function initAccordions() {
+    var roots = Array.prototype.slice.call(document.querySelectorAll('[data-accordion]'));
+    if (!roots.length) return;
 
-    items.forEach(function (item) {
-      var btn = item.querySelector('.faq__question');
-      var panel = item.querySelector('.faq__answer');
-      if (!btn || !panel) return;
+    roots.forEach(function (root) {
+      var items = Array.prototype.slice.call(root.querySelectorAll('.accordion__item'));
 
-      btn.addEventListener('click', function () {
-        var willOpen = !item.classList.contains('is-open');
+      items.forEach(function (item) {
+        var btn = item.querySelector('.accordion__trigger');
+        var panel = item.querySelector('.accordion__panel');
+        if (!btn || !panel) return;
 
-        items.forEach(function (other) {
-          var otherBtn = other.querySelector('.faq__question');
-          var otherPanel = other.querySelector('.faq__answer');
-          other.classList.remove('is-open');
-          if (otherBtn) otherBtn.setAttribute('aria-expanded', 'false');
-          if (otherPanel) otherPanel.setAttribute('aria-hidden', 'true');
+        btn.addEventListener('click', function () {
+          var willOpen = !item.classList.contains('is-open');
+
+          items.forEach(function (other) {
+            var otherBtn = other.querySelector('.accordion__trigger');
+            var otherPanel = other.querySelector('.accordion__panel');
+            other.classList.remove('is-open');
+            if (otherBtn) otherBtn.setAttribute('aria-expanded', 'false');
+            if (otherPanel) otherPanel.setAttribute('aria-hidden', 'true');
+          });
+
+          if (willOpen) {
+            item.classList.add('is-open');
+            btn.setAttribute('aria-expanded', 'true');
+            panel.setAttribute('aria-hidden', 'false');
+          }
         });
-
-        if (willOpen) {
-          item.classList.add('is-open');
-          btn.setAttribute('aria-expanded', 'true');
-          panel.setAttribute('aria-hidden', 'false');
-        }
       });
     });
   })();

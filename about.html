@@ -250,69 +250,69 @@
         </p>
       </div>
 
-      <div class="faq__list" data-accordion>
-        <div class="faq__item" data-reveal>
-          <button class="faq__question" type="button" aria-expanded="false">
+      <div class="accordion" data-accordion>
+        <div class="accordion__item" data-reveal>
+          <button class="accordion__trigger" type="button" aria-expanded="false">
             <span>Почему это не студия декора</span>
-            <span class="faq__toggle" aria-hidden="true"></span>
+            <span class="accordion__toggle" aria-hidden="true"></span>
           </button>
-          <div class="faq__answer" aria-hidden="true">
-            <div class="faq__answer-inner">
+          <div class="accordion__panel" aria-hidden="true">
+            <div class="accordion__panel-inner">
               <p>Интерьер без архитектуры и стройки может распасться между разными подрядчиками. Мы связываем проект, реализацию, отделку и ландшафт, чтобы пропорции, инженерия и материалы не спорили друг с другом.</p>
             </div>
           </div>
         </div>
-        <div class="faq__item" data-reveal data-reveal-delay="1">
-          <button class="faq__question" type="button" aria-expanded="false">
+        <div class="accordion__item" data-reveal data-reveal-delay="1">
+          <button class="accordion__trigger" type="button" aria-expanded="false">
             <span>Как растим дом вместе с вами</span>
-            <span class="faq__toggle" aria-hidden="true"></span>
+            <span class="accordion__toggle" aria-hidden="true"></span>
           </button>
-          <div class="faq__answer" aria-hidden="true">
-            <div class="faq__answer-inner">
+          <div class="accordion__panel" aria-hidden="true">
+            <div class="accordion__panel-inner">
               <p>Сначала слушаем, как вы живёте. Затем фиксируем этапы в дорожной карте с понятными точками согласования. Правки обсуждаем до следующего шага, а не после того, как стена уже стоит.</p>
             </div>
           </div>
         </div>
-        <div class="faq__item" data-reveal data-reveal-delay="2">
-          <button class="faq__question" type="button" aria-expanded="false">
+        <div class="accordion__item" data-reveal data-reveal-delay="2">
+          <button class="accordion__trigger" type="button" aria-expanded="false">
             <span>Что значит «без шаблонов»</span>
-            <span class="faq__toggle" aria-hidden="true"></span>
+            <span class="accordion__toggle" aria-hidden="true"></span>
           </button>
-          <div class="faq__answer" aria-hidden="true">
-            <div class="faq__answer-inner">
+          <div class="accordion__panel" aria-hidden="true">
+            <div class="accordion__panel-inner">
               <p>Проект создаётся только для вас: индивидуальные эскизы, без готовых планировок «из каталога». Типовой дом мы не продаём и не обещаем чужую эстетику под вашей фамилией.</p>
             </div>
           </div>
         </div>
-        <div class="faq__item" data-reveal data-reveal-delay="3">
-          <button class="faq__question" type="button" aria-expanded="false">
+        <div class="accordion__item" data-reveal data-reveal-delay="3">
+          <button class="accordion__trigger" type="button" aria-expanded="false">
             <span>Что входит в полный цикл</span>
-            <span class="faq__toggle" aria-hidden="true"></span>
+            <span class="accordion__toggle" aria-hidden="true"></span>
           </button>
-          <div class="faq__answer" aria-hidden="true">
-            <div class="faq__answer-inner">
+          <div class="accordion__panel" aria-hidden="true">
+            <div class="accordion__panel-inner">
               <p>Архитектурное проектирование, дизайн-проект, строительство, отделка и ландшафт могут идти в одном контуре. Вам не нужно собирать цепочку бюро и бригад, мы держим ответственность за дом, а не за один красивый альбом.</p>
             </div>
           </div>
         </div>
-        <div class="faq__item" data-reveal data-reveal-delay="4">
-          <button class="faq__question" type="button" aria-expanded="false">
+        <div class="accordion__item" data-reveal data-reveal-delay="4">
+          <button class="accordion__trigger" type="button" aria-expanded="false">
             <span>Где работаем</span>
-            <span class="faq__toggle" aria-hidden="true"></span>
+            <span class="accordion__toggle" aria-hidden="true"></span>
           </button>
-          <div class="faq__answer" aria-hidden="true">
-            <div class="faq__answer-inner">
+          <div class="accordion__panel" aria-hidden="true">
+            <div class="accordion__panel-inner">
               <p>Основной фокус: Санкт-Петербург и Ленинградская область. Работу в других регионах обсуждаем после заявки, если дом и участок это позволяют.</p>
             </div>
           </div>
         </div>
-        <div class="faq__item" data-reveal data-reveal-delay="5">
-          <button class="faq__question" type="button" aria-expanded="false">
+        <div class="accordion__item" data-reveal data-reveal-delay="5">
+          <button class="accordion__trigger" type="button" aria-expanded="false">
             <span>Как начать</span>
-            <span class="faq__toggle" aria-hidden="true"></span>
+            <span class="accordion__toggle" aria-hidden="true"></span>
           </button>
-          <div class="faq__answer" aria-hidden="true">
-            <div class="faq__answer-inner">
+          <div class="accordion__panel" aria-hidden="true">
+            <div class="accordion__panel-inner">
               <p>Оставьте имя и телефон в форме ниже или позвоните. На первом разговоре говорим об участке, составе семьи и том, каким должен получиться дом, без презентации «о компании».</p>
             </div>
           </div>
@@ -439,47 +439,50 @@
 
 <footer class="footer">
   <div class="container">
-    <div class="footer__brand">
-      <a href="index.html" class="footer__wordmark" aria-label="YMG DESIGN">
-        <svg viewBox="0 0 1000 128" preserveAspectRatio="xMidYMid meet" focusable="false" aria-hidden="true">
-          <text x="4" y="102" textLength="992" lengthAdjust="spacingAndGlyphs">YMG DESIGN</text>
-        </svg>
+    <div class="footer__cols">
+
+    <div class="footer__col footer__col--about">
+      <a href="index.html" class="logo logo--light">
+        <span class="logo__mark">Y</span>
+        <span class="logo__text"><span class="logo__name">YMG DESIGN</span><small>студия дизайна</small></span>
       </a>
     </div>
-    <div class="footer__nav">
-      <div class="footer__col">
-        <h4>Навигация</h4>
-        <ul>
-          <li><a href="about.html" aria-current="page">О нас</a></li>
-          <li><a href="services.html">Услуги</a></li>
-          <li><a href="portfolio.html">Портфолио</a></li>
-          <li><a href="faq.html">Вопросы</a></li>
-          <li><a href="contacts.html">Контакты</a></li>
-        </ul>
-      </div>
-      <div class="footer__col">
-        <h4>Услуги</h4>
-        <ul>
-          <li><a href="interior.html">Дизайн интерьера</a></li>
-          <li><a href="architecture.html">Архитектура дома</a></li>
-          <li><a href="construction.html">Строительство дома</a></li>
-          <li><a href="finishing.html">Отделка и комплектация</a></li>
-          <li><a href="landscape.html">Ландшафт участка</a></li>
-          <li><a href="landscape-build.html">Реализация на участке</a></li>
-        </ul>
-      </div>
-      <div class="footer__col">
-        <h4>Контакты</h4>
-        <ul class="footer__contacts">
-          <li>Санкт-Петербург и Ленинградская область</li>
-          <li><a href="tel:+79312350202">+7 (931) 235 02 02</a></li>
-          <li><a href="tel:+79643364248">8 (964) 336 42 48</a></li>
-          <li><a href="mailto:info@ymg-design.com">info@ymg-design.com</a></li>
-          <li>Пн-Пт: 10:00-19:00</li>
-          <li>Сб-Вс: выходной</li>
-        </ul>
-      </div>
+
+    <div class="footer__col">
+      <h4>Навигация</h4>
+      <ul>
+        <li><a href="about.html" aria-current="page">О нас</a></li>
+        <li><a href="services.html">Услуги</a></li>
+        <li><a href="portfolio.html">Портфолио</a></li>
+        <li><a href="faq.html">Вопросы</a></li>
+        <li><a href="contacts.html">Контакты</a></li>
+      </ul>
     </div>
+
+    <div class="footer__col footer__col--services">
+      <h4>Услуги</h4>
+      <ul>
+        <li><a href="architecture.html">Архитектурное проектирование</a></li>
+        <li><a href="interior.html">Дизайн-проект под ключ</a></li>
+        <li><a href="construction.html">Строительство домов</a></li>
+        <li><a href="finishing.html">Отделочные работы</a></li>
+        <li><a href="landscape.html">Ландшафтное проектирование</a></li>
+      </ul>
+    </div>
+
+    <div class="footer__col footer__col--contacts">
+      <h4>Контакты</h4>
+      <ul class="footer__contacts">
+        <li><a href="tel:+79312350202">+7 (931) 235 02 02</a></li>
+        <li><a href="tel:+79643364248">8 (964) 336 42 48</a></li>
+        <li><a href="mailto:info@ymg-design.com">info@ymg-design.com</a></li>
+        <li>Пн-Пт: 10:00-19:00</li>
+        <li>Сб-Вс: выходной</li>
+      </ul>
+    </div>
+
+    </div>
+
     <div class="footer__bottom">
       <p>© 2026 YMG DESIGN</p>
       <a href="privacy.html">Политика конфиденциальности</a>
@@ -533,8 +536,8 @@
           </label>
           <span class="field__error field__error--consent" id="quick-consent-error"></span>
         </div>
-        <button type="submit" class="btn btn--lg btn--specular btn--block" aria-label="Отправить заявку">
-          <span class="btn__label">Отправить</span>
+        <button type="submit" class="btn btn--lg btn--specular" aria-label="Отправить заявку">
+          <span class="btn__label">Отправить заявку</span>
           <span class="btn__spinner" aria-hidden="true"></span>
         </button>
       </div>
