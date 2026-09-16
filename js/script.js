@@ -1860,10 +1860,11 @@
     syncRoadmapFrost();
   }, { passive: true });
 
-  /* iOS Safari URL-bar show/hide changes layout without a reliable window.resize. */
+  /* iOS Safari URL-bar show/hide: resize only. visualViewport scroll fires during
+     normal page scroll on inner pages and was causing layout thrash (breadcrumbs jump). */
   if (window.visualViewport) {
     var roadmapViewportRaf = 0;
-    function onRoadmapViewportChange() {
+    function onVisualViewportResize() {
       if (roadmapViewportRaf) return;
       roadmapViewportRaf = window.requestAnimationFrame(function () {
         roadmapViewportRaf = 0;
@@ -1874,8 +1875,7 @@
         updateRoadmapFromPageScroll();
       });
     }
-    window.visualViewport.addEventListener('resize', onRoadmapViewportChange, { passive: true });
-    window.visualViewport.addEventListener('scroll', onRoadmapViewportChange, { passive: true });
+    window.visualViewport.addEventListener('resize', onVisualViewportResize, { passive: true });
   }
 
   /* ---------------------------------------------------------

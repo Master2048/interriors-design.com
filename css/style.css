@@ -4277,14 +4277,16 @@ body.is-intro-done .hero__scroll{
   justify-content: center;
   align-items: center;
   width: 100%;
+  height: var(--page-hero-crumbs);
   min-height: var(--page-hero-crumbs);
   margin: 0;
   padding: 0.7rem var(--sp-6);
-  padding-bottom: max(0.7rem, env(safe-area-inset-bottom, 0px));
   background: transparent;
   border-top: 1px solid var(--border);
   overflow: hidden;
   box-sizing: border-box;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
 }
 .breadcrumbs::before{
   content: '';
@@ -4295,6 +4297,13 @@ body.is-intro-done .hero__scroll{
   backdrop-filter: blur(22px) saturate(140%);
   -webkit-backdrop-filter: blur(22px) saturate(140%);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+@media (hover: none) and (pointer: coarse){
+  .breadcrumbs::before{
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: var(--header-glass);
+  }
 }
 .breadcrumbs__list{
   position: relative;
