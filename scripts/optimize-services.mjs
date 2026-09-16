@@ -3,9 +3,9 @@ import path from 'node:path';
 import sharp from 'sharp';
 
 const ROOT = path.resolve('assets/img/services');
-/** Mobile ~100vw / panel half ≈ 800 CSS @2x; desktop panel ≈ 720 CSS @2x → 1600 */
-const WIDTHS = [800, 1200, 1600];
-const QUALITY = 60;
+/** Mobile ~100vw / panel half ≈ 800 CSS @2x; desktop panel ≈ 720 CSS @2x → 1200 enough */
+const WIDTHS = [800, 1200];
+const QUALITY = 55;
 const SOURCES = [
   '01-architecture.jpg',
   '02-interior-design.jpg',
@@ -42,6 +42,16 @@ async function convertOne(file) {
     console.log(
       `${base}-${width}: webp ${(webpStat.size / 1024).toFixed(0)}KB | jpg ${(jpgStat.size / 1024).toFixed(0)}KB`
     );
+  }
+
+  for (const width of [1600]) {
+    for (const ext of ['webp', 'jpg']) {
+      const dead = path.join(ROOT, `${base}-${width}.${ext}`);
+      if (fs.existsSync(dead)) {
+        fs.unlinkSync(dead);
+        console.log(`removed ${path.basename(dead)}`);
+      }
+    }
   }
 }
 

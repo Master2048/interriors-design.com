@@ -12,7 +12,7 @@ const SIZES = [
   { width: 720, height: 450, label: '720' },   // mobile
   { width: 1200, height: 750, label: '1200' }, // desktop
 ];
-const QUALITY = 60;
+const QUALITY = 55;
 
 async function convertProject(n) {
   const dir = path.join(ROOT, `project-${n}`);

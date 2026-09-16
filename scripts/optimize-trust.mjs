@@ -2,16 +2,15 @@
 import path from 'node:path';
 import sharp from 'sharp';
 
-/** Trust: mobile 100vw, desktop 50vw. 800/1200/1600 @ quality 60. */
+/** Trust reuses 01-architecture variants; keep in sync with services (800/1200 @55). */
 const ROOT = path.resolve('assets/img/services');
 const BASE = '01-architecture';
-const WIDTHS = [800, 1200, 1600];
-const QUALITY = 60;
+const WIDTHS = [800, 1200];
+const QUALITY = 55;
 
 async function main() {
   const candidates = [
     path.join(ROOT, `${BASE}.jpg`),
-    path.join(ROOT, `${BASE}-1600.jpg`),
     path.join(ROOT, `${BASE}.webp`),
   ];
   const input = candidates.find((p) => fs.existsSync(p));

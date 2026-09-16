@@ -4,7 +4,7 @@ import sharp from 'sharp';
 
 /** Collage tiles ~15–31vw; 480≈2x phone column, 720≈2x desktop column */
 const WIDTHS = [480, 720];
-const QUALITY = 60;
+const QUALITY = 55;
 const SOURCES = [
   'assets/img/about/about-1.jpg',
   'assets/img/about/about-2.jpg',

@@ -14,6 +14,9 @@
     "optimize:collage": "node scripts/optimize-collage.mjs",
     "optimize:pages": "node scripts/optimize-pages.mjs",
     "optimize:portfolio-cards": "node scripts/optimize-portfolio-cards.mjs",
+    "optimize:hero-media": "node scripts/optimize-hero-media.mjs",
+    "optimize:lightbox": "node scripts/optimize-lightbox-masters.mjs",
+    "optimize:videos": "node scripts/optimize-videos.mjs",
     "build": "npm run build:js && npm run build:css"
   },
   "dependencies": {

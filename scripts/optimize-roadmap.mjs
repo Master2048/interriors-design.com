@@ -3,7 +3,7 @@ import path from 'node:path';
 import sharp from 'sharp';
 
 const DIR = path.resolve('assets/img/hero');
-const QUALITY = 60;
+const QUALITY = 55;
 const WIDTHS = [720, 1120];
 
 async function main() {
