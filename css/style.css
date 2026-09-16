@@ -3903,11 +3903,13 @@ body.modal-open, body.lightbox-open{ overflow: hidden; }
   }
   .footer__col--about{
     flex: 1 1 auto;
+    align-items: center;
   }
   .footer__brand{
     min-height: 0;
     flex: 0 1 auto;
     align-items: center;
+    align-self: center;
   }
   .footer__social{
     margin-top: 0;
