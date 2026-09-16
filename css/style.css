@@ -127,7 +127,7 @@
   --accordion-toggle-open-bg: rgba(239, 133, 53, 0.12);
   --accordion-answer-color: #c8c5bf;
 
-  --footer-bg: #04060a;
+  --footer-bg: var(--cool-atmosphere-depth);
 
   --success: #6fae7f;
   --error:   #e2604f;
@@ -709,9 +709,11 @@ section{ position: relative; }
   height: 40px;
   min-height: 40px;
   padding: 0 20px;
+  font-weight: 300;
+  letter-spacing: 0.03em;
 }
 .header__phone{
-  font-size: var(--fs-base); font-weight: 500; color: var(--text);
+  font-size: var(--fs-base); font-weight: 300; letter-spacing: 0.03em; color: var(--text);
   transition: color var(--t-fast) var(--ease);
 }
 .header__phone:hover{ color: var(--accent-300); }
@@ -814,6 +816,7 @@ section{ position: relative; }
   font-family: var(--font-body);
   font-size: var(--fs-base);
   font-weight: 300;
+  letter-spacing: 0.04em;
   color: var(--white);
 }
 .mobile-menu__item--accordion{
@@ -836,6 +839,7 @@ section{ position: relative; }
   font-family: var(--font-body);
   font-size: var(--fs-base);
   font-weight: 300;
+  letter-spacing: 0.04em;
   color: var(--white);
 }
 .mobile-menu__chevron{
@@ -899,6 +903,7 @@ section{ position: relative; }
   font-family: var(--font-body);
   font-size: var(--fs-sm);
   font-weight: 300;
+  letter-spacing: 0.03em;
   color: rgba(245, 243, 239, 0.9);
   opacity: 0;
   transition: opacity 560ms var(--ease), color var(--t-fast) var(--ease);
@@ -966,7 +971,7 @@ section{ position: relative; }
   align-self: center;
   gap: 0.4em;
   padding-left: 0.35em;
-  font-weight: 400;
+  font-weight: 300;
   color: var(--accent-300);
   font-size: var(--fs-md);
   letter-spacing: 0.06em;
@@ -2958,7 +2963,8 @@ html.is-lite-motion .glass-stepper__tick-num{
   min-height: 44px;
   font-size: var(--fs-base);
   color: var(--white);
-  font-weight: 500;
+  font-weight: 300;
+  letter-spacing: 0.03em;
   overflow-wrap: anywhere;
 }
 .contacts__value--link{
@@ -3226,9 +3232,9 @@ html.is-lite-motion .glass-stepper__tick-num{
   color: var(--white); margin-bottom: var(--sp-5);
 }
 .footer__col ul{ display: flex; flex-direction: column; gap: var(--sp-3); }
-.footer__col a{ color: var(--text-secondary); font-size: var(--fs-sm); transition: color var(--t-fast) var(--ease); }
+.footer__col a{ color: var(--text-secondary); font-size: var(--fs-sm); font-weight: 300; letter-spacing: 0.03em; transition: color var(--t-fast) var(--ease); }
 .footer__col a:hover{ color: var(--accent-300); }
-.footer__contacts li{ color: var(--text-secondary); font-size: var(--fs-sm); }
+.footer__contacts li{ color: var(--text-secondary); font-size: var(--fs-sm); font-weight: 300; letter-spacing: 0.03em; }
 
 .footer__col--contacts .social{
   margin-top: var(--sp-5);
