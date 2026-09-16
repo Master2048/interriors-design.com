@@ -4302,14 +4302,6 @@ body.is-intro-done .hero__scroll{
   pointer-events: none;
   backdrop-filter: blur(22px) saturate(140%);
   -webkit-backdrop-filter: blur(22px) saturate(140%);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
-}
-@media (hover: none) and (pointer: coarse){
-  .breadcrumbs::before{
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-    background: var(--header-glass);
-  }
 }
 .breadcrumbs__list{
   position: relative;
