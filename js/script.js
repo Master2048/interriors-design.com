@@ -1876,17 +1876,20 @@
   }
 
   /* ---------------------------------------------------------
-     Border glow on roadmap cards (reactbits-style)
+     Border glow on roadmap + pricing cards (reactbits-style)
   --------------------------------------------------------- */
   function initBorderGlowCards() {
-    var root = document.getElementById('glass-stepper');
-    var cards = Array.prototype.slice.call(
-      (root || document).querySelectorAll('.border-glow-card')
-    );
+    var cards = Array.prototype.slice.call(document.querySelectorAll('.border-glow-card'));
     if (!cards.length || !window.matchMedia('(pointer: fine)').matches) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     var influenceRadius = 180;
+    var parents = [];
+    cards.forEach(function (card) {
+      var parent = card.parentElement;
+      if (parent && parents.indexOf(parent) === -1) parents.push(parent);
+    });
+    if (!parents.length) return;
 
     function getCenter(el) {
       var rect = el.getBoundingClientRect();
@@ -1943,283 +1946,12 @@
       });
     }
 
-    var target = root || cards[0].parentElement;
-    if (!target) return;
-    target.addEventListener('pointermove', updateFromPointer);
-    target.addEventListener('pointerleave', clearGlow);
+    parents.forEach(function (parent) {
+      parent.addEventListener('pointermove', updateFromPointer);
+      parent.addEventListener('pointerleave', clearGlow);
+    });
   }
   initBorderGlowCards();
-
-  /* ---------------------------------------------------------
-     Specular rim on contacts submit (React Bits port, vanilla WebGL2)
-  --------------------------------------------------------- */
-  function initSpecularButtons() {
-    var buttons = Array.prototype.slice.call(document.querySelectorAll('.btn--specular'));
-    if (!buttons.length) return;
-    if (reduceMotion) return;
-
-    var PAD = 20;
-    var VERT = '#version 300 es\nin vec2 position;\nvoid main(){ gl_Position = vec4(position, 0.0, 1.0); }';
-    var FRAG = [
-      '#version 300 es',
-      'precision highp float;',
-      'uniform vec2 uCenter;',
-      'uniform vec2 uHalfSize;',
-      'uniform float uRadius;',
-      'uniform float uAngle;',
-      'uniform float uPx;',
-      'uniform vec3 uLineColor;',
-      'uniform vec3 uBaseColor;',
-      'uniform float uIntensity;',
-      'uniform float uShineSize;',
-      'uniform float uShineFade;',
-      'uniform float uThickness;',
-      'uniform float uBaseWidth;',
-      'out vec4 fragColor;',
-      'float sdRoundedRect(vec2 p, vec2 b, float r){',
-      ' vec2 q = abs(p) - b + r;',
-      ' return length(max(q, 0.0)) + min(max(q.x, q.y), 0.0) - r;',
-      '}',
-      'float gaussianLine(float d, float sigma){',
-      ' float x = d / (sigma + 1e-6);',
-      ' float k = mix(1.0, 1.6, smoothstep(0.0, 1.5, x));',
-      ' return exp(-k * x * x);',
-      '}',
-      'void main(){',
-      ' vec2 p = gl_FragCoord.xy - uCenter;',
-      ' float d = sdRoundedRect(p, uHalfSize, uRadius);',
-      ' vec2 L = vec2(cos(uAngle), sin(uAngle));',
-      ' float base = (1.0 - smoothstep(0.0, uBaseWidth, abs(d))) * 0.45;',
-      ' vec2 nEll = normalize(p / (uHalfSize * uHalfSize) + 1e-6);',
-      ' float phi = acos(clamp(abs(dot(nEll, L)), 0.0, 1.0));',
-      ' float rim = 1.0 - smoothstep(uShineSize - uShineFade, uShineSize + uShineFade + 1e-4, phi);',
-      ' float line = gaussianLine(d, uThickness);',
-      ' float edgeClamp = 1.0 - smoothstep(0.5 * uPx, 3.0 * uPx, abs(d));',
-      ' float hi = line * rim * edgeClamp * uIntensity;',
-      ' vec3 spec = mix(uBaseColor, uLineColor, clamp(hi, 0.0, 1.0));',
-      ' vec3 col = uBaseColor * base + spec * hi;',
-      ' float a = clamp(base + hi, 0.0, 1.0);',
-      ' fragColor = vec4(col, a);',
-      '}'
-    ].join('\n');
-
-    function hexToRgb(hex) {
-      hex = String(hex || '').replace('#', '');
-      if (hex.length === 3) {
-        hex = hex.charAt(0) + hex.charAt(0) + hex.charAt(1) + hex.charAt(1) + hex.charAt(2) + hex.charAt(2);
-      }
-      var n = parseInt(hex, 16);
-      if (isNaN(n)) return [1, 1, 1];
-      return [((n >> 16) & 255) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255];
-    }
-
-    function compile(gl, type, src) {
-      var sh = gl.createShader(type);
-      gl.shaderSource(sh, src);
-      gl.compileShader(sh);
-      if (!gl.getShaderParameter(sh, gl.COMPILE_STATUS)) {
-        gl.deleteShader(sh);
-        return null;
-      }
-      return sh;
-    }
-
-    function mount(btn) {
-      var fx = btn.querySelector('.btn__fx');
-      if (!fx) return;
-
-      var canvas = document.createElement('canvas');
-      var gl = canvas.getContext('webgl2', {
-        alpha: true,
-        premultipliedAlpha: true,
-        antialias: true,
-        depth: false,
-        stencil: false,
-        powerPreference: 'low-power'
-      });
-      if (!gl) return;
-
-      var vs = compile(gl, gl.VERTEX_SHADER, VERT);
-      var fs = compile(gl, gl.FRAGMENT_SHADER, FRAG);
-      if (!vs || !fs) return;
-
-      var program = gl.createProgram();
-      gl.attachShader(program, vs);
-      gl.attachShader(program, fs);
-      gl.bindAttribLocation(program, 0, 'position');
-      gl.linkProgram(program);
-      gl.deleteShader(vs);
-      gl.deleteShader(fs);
-      if (!gl.getProgramParameter(program, gl.LINK_STATUS)) return;
-
-      var buf = gl.createBuffer();
-      gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
-
-      var loc = {
-        center: gl.getUniformLocation(program, 'uCenter'),
-        halfSize: gl.getUniformLocation(program, 'uHalfSize'),
-        radius: gl.getUniformLocation(program, 'uRadius'),
-        angle: gl.getUniformLocation(program, 'uAngle'),
-        px: gl.getUniformLocation(program, 'uPx'),
-        lineColor: gl.getUniformLocation(program, 'uLineColor'),
-        baseColor: gl.getUniformLocation(program, 'uBaseColor'),
-        intensity: gl.getUniformLocation(program, 'uIntensity'),
-        shineSize: gl.getUniformLocation(program, 'uShineSize'),
-        shineFade: gl.getUniformLocation(program, 'uShineFade'),
-        thickness: gl.getUniformLocation(program, 'uThickness'),
-        baseWidth: gl.getUniformLocation(program, 'uBaseWidth')
-      };
-
-      gl.enable(gl.BLEND);
-      gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
-      gl.clearColor(0, 0, 0, 0);
-      fx.appendChild(canvas);
-
-      var followMouse = true;
-      var autoAnimate = false;
-      var speed = 0.35;
-      var proximity = 250;
-      var lineRgb = hexToRgb('#f8c495');
-      var baseRgb = hexToRgb('#b3551a');
-      var intensity = 1.2;
-      var shineSize = (10 * Math.PI) / 180;
-      var shineFade = (40 * Math.PI) / 180;
-      var thickness = 1;
-
-      var size = { w: 1, h: 1, dpr: 1, radius: 5 };
-      var pointerAngle = null;
-      var proximityT = 0;
-      var angle = 2.4;
-      var idleAngle = 2.4;
-      var bright = autoAnimate ? 1 : 0;
-      var last = 0;
-      var raf = 0;
-      var inView = false;
-      var pageVisible = !document.hidden;
-
-      function currentDpr() {
-        return window.devicePixelRatio || 1;
-      }
-
-      function resize() {
-        var rect = btn.getBoundingClientRect();
-        var w = rect.width;
-        var h = rect.height;
-        var dpr = currentDpr();
-        size.w = w;
-        size.h = h;
-        size.dpr = dpr;
-        size.radius = parseFloat(window.getComputedStyle(btn).borderRadius) || 5;
-        canvas.width = Math.max(1, Math.round((w + PAD * 2) * dpr));
-        canvas.height = Math.max(1, Math.round((h + PAD * 2) * dpr));
-        gl.viewport(0, 0, canvas.width, canvas.height);
-      }
-
-      function onPointerMove(e) {
-        var rect = btn.getBoundingClientRect();
-        var cx = rect.left + rect.width / 2;
-        var cy = rect.top + rect.height / 2;
-        var dx = Math.max(rect.left - e.clientX, 0, e.clientX - rect.right);
-        var dy = Math.max(rect.top - e.clientY, 0, e.clientY - rect.bottom);
-        var dist = Math.hypot(dx, dy);
-        if (dist === 0) {
-          var nx = (e.clientX - cx) / (rect.width / 2);
-          var ny = (cy - e.clientY) / (rect.height / 2);
-          pointerAngle = Math.atan2(2 / rect.height, -2 / rect.width) + nx * 0.3 + ny * 0.15;
-        } else {
-          pointerAngle = Math.atan2(cy - e.clientY, e.clientX - cx);
-        }
-        var t = Math.max(0, 1 - dist / Math.max(proximity, 1));
-        proximityT = t * t * (3 - 2 * t);
-      }
-
-      function shouldRun() {
-        return inView && pageVisible;
-      }
-
-      function start() {
-        if (raf || !shouldRun()) return;
-        last = performance.now();
-        raf = requestAnimationFrame(update);
-      }
-
-      function stop() {
-        if (raf) cancelAnimationFrame(raf);
-        raf = 0;
-      }
-
-      function update(now) {
-        if (!shouldRun()) {
-          raf = 0;
-          return;
-        }
-        raf = requestAnimationFrame(update);
-        var dt = Math.min((now - last) / 1000, 0.05);
-        last = now;
-        var dpr = size.dpr;
-        var radiusCss = size.radius;
-
-        idleAngle += speed * dt;
-        var steer = followMouse && pointerAngle != null && (!autoAnimate || proximityT > 0);
-        var target = steer ? pointerAngle : idleAngle;
-        var diff = ((target - angle + Math.PI * 3) % (Math.PI * 2)) - Math.PI;
-        angle += diff * (1 - Math.exp(-dt * 7));
-
-        var brightTarget = autoAnimate ? 1 : proximityT;
-        bright += (brightTarget - bright) * (1 - Math.exp(-dt * 8));
-
-        gl.useProgram(program);
-        gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-        gl.enableVertexAttribArray(0);
-        gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
-        gl.uniform2f(loc.center, (PAD + size.w / 2) * dpr, (PAD + size.h / 2) * dpr);
-        gl.uniform2f(loc.halfSize, (size.w / 2) * dpr, (size.h / 2) * dpr);
-        gl.uniform1f(loc.radius, Math.min(radiusCss, Math.min(size.w, size.h) / 2) * dpr);
-        gl.uniform1f(loc.angle, angle);
-        gl.uniform1f(loc.px, dpr);
-        gl.uniform3f(loc.lineColor, lineRgb[0], lineRgb[1], lineRgb[2]);
-        gl.uniform3f(loc.baseColor, baseRgb[0], baseRgb[1], baseRgb[2]);
-        gl.uniform1f(loc.intensity, intensity * bright);
-        gl.uniform1f(loc.shineSize, shineSize);
-        gl.uniform1f(loc.shineFade, shineFade);
-        gl.uniform1f(loc.thickness, thickness * dpr);
-        gl.uniform1f(loc.baseWidth, dpr);
-        gl.clear(gl.COLOR_BUFFER_BIT);
-        gl.drawArrays(gl.TRIANGLES, 0, 3);
-      }
-
-      var ro = typeof ResizeObserver === 'function' ? new ResizeObserver(resize) : null;
-      if (ro) ro.observe(btn);
-      else window.addEventListener('resize', resize);
-      resize();
-
-      if (followMouse) {
-        window.addEventListener('pointermove', onPointerMove, { passive: true });
-      }
-
-      if (typeof IntersectionObserver === 'function') {
-        var io = new IntersectionObserver(function (entries) {
-          inView = entries.some(function (entry) { return entry.isIntersecting; });
-          if (inView) start();
-          else stop();
-        }, { rootMargin: '80px', threshold: 0 });
-        io.observe(btn);
-      } else {
-        inView = true;
-        start();
-      }
-
-      document.addEventListener('visibilitychange', function () {
-        pageVisible = !document.hidden;
-        if (pageVisible) start();
-        else stop();
-      });
-    }
-
-    buttons.forEach(mount);
-  }
-  initSpecularButtons();
 
   /* ---------------------------------------------------------
      Smooth anchor scrolling with header offset
@@ -2334,7 +2066,7 @@
   var revealItems = Array.prototype.slice.call(document.querySelectorAll('[data-reveal]')).filter(function (el) {
     /* Hero intro owns these; IO must not mark them in-view early (Firefox flash) */
     if (el.closest('.hero')) return false;
-    return !el.closest('[data-enter]') && !el.classList.contains('project-card');
+    return !el.closest('[data-enter]') && !el.classList.contains('project-card') && !el.classList.contains('pricing__item');
   });
   if ('IntersectionObserver' in window) {
     var revealObserver = new IntersectionObserver(function (entries) {
@@ -2350,6 +2082,87 @@
   } else {
     revealItems.forEach(function (item) { item.classList.add('in-view'); });
   }
+
+  /* Pricing cards: desktop fans out from middle; mobile reveals per card in view */
+  (function initPricingReveal() {
+    var list = document.querySelector('.pricing__list');
+    if (!list) return;
+    var cards = Array.prototype.slice.call(list.querySelectorAll('.pricing__item[data-reveal]'));
+    if (!cards.length) return;
+    var settleMs = 2100;
+
+    function settleCard(card) {
+      window.setTimeout(function () {
+        card.classList.add('is-settled');
+      }, settleMs);
+    }
+
+    function showCard(card) {
+      if (card.classList.contains('in-view')) return;
+      card.classList.add('in-view');
+      settleCard(card);
+    }
+
+    function showAll() {
+      cards.forEach(showCard);
+    }
+
+    if (reduceMotion || !('IntersectionObserver' in window)) {
+      cards.forEach(function (card) {
+        card.classList.add('in-view');
+        card.classList.add('is-settled');
+      });
+      return;
+    }
+
+    var mobileMq = window.matchMedia('(max-width: 900px)');
+
+    function observeDesktop() {
+      var groupObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          showAll();
+          groupObserver.disconnect();
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+      groupObserver.observe(list);
+      return groupObserver;
+    }
+
+    function observeMobile() {
+      var cardObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          showCard(entry.target);
+          cardObserver.unobserve(entry.target);
+        });
+      }, { threshold: 0.2, rootMargin: '0px 0px -8% 0px' });
+      cards.forEach(function (card) {
+        if (!card.classList.contains('in-view')) cardObserver.observe(card);
+      });
+      return cardObserver;
+    }
+
+    var activeObserver = null;
+
+    function bind() {
+      if (activeObserver) {
+        activeObserver.disconnect();
+        activeObserver = null;
+      }
+      var pending = cards.some(function (card) { return !card.classList.contains('in-view'); });
+      if (!pending) return;
+      if (mobileMq.matches) activeObserver = observeMobile();
+      else activeObserver = observeDesktop();
+    }
+
+    bind();
+    if (typeof mobileMq.addEventListener === 'function') {
+      mobileMq.addEventListener('change', bind);
+    } else if (typeof mobileMq.addListener === 'function') {
+      mobileMq.addListener(bind);
+    }
+  })();
 
   /* Portfolio: reveal each card when it enters view (left then right in a row) */
   (function initPortfolioReveal() {

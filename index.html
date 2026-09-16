@@ -19,7 +19,7 @@
 
 <link rel="stylesheet" href="assets/css/fonts.css">
 <!-- Asset cache-bust: bump ?v= when css/style.css or js/script.js change; run npm run build after edits -->
-<link rel="stylesheet" href="css/style.min.css?v=20260916-14">
+<link rel="stylesheet" href="css/style.min.css?v=20260916-19">
 </head>
 <body class="hero-intro-pending">
 
@@ -71,7 +71,6 @@
       <div class="header__actions">
         <a href="tel:+79312350202" class="header__phone">+7 (931) 235&nbsp;02&nbsp;02</a>
         <button type="button" class="btn btn--sm btn--specular" data-open-modal>
-          <span class="btn__fx" aria-hidden="true"></span>
           <span class="btn__label">Обсудить проект</span>
         </button>
         <button type="button" class="burger" id="burger" aria-label="Открыть меню" aria-expanded="false" aria-controls="mobile-menu">
@@ -119,7 +118,6 @@
       <span>+7 (931) 235 02 02</span>
     </a>
     <button type="button" class="btn btn--sm btn--specular" data-open-modal>
-      <span class="btn__fx" aria-hidden="true"></span>
       <span class="btn__label">Обсудить проект</span>
     </button>
   </div>
@@ -658,13 +656,14 @@
         <p class="eyebrow" data-reveal>Форматы работы</p>
         <h2 class="h2" data-reveal>Выберите свой<br>сценарий проекта</h2>
         <p class="section-head__text" data-reveal>
-          Стоимость рассчитывается индивидуально — после знакомства,
+          Стоимость рассчитывается индивидуально, после знакомства,
           понимания задачи и площади объекта.
         </p>
       </div>
 
       <div class="pricing__list">
-        <article class="pricing__item" data-reveal>
+        <article class="pricing__item border-glow-card" data-reveal>
+          <div class="edge-light" aria-hidden="true"></div>
           <div class="pricing__top">
             <span class="pricing__number">01</span>
             <span class="pricing__tag">Для старта</span>
@@ -672,9 +671,9 @@
           <h3>Консультация</h3>
           <p>Разбираем задачу, участок, пожелания и возможный путь реализации.</p>
           <span class="pricing__price">от 5 000 ₽</span>
-          <a class="pricing__link" href="#contacts">Обсудить задачу <svg class="icon" width="16" height="16" aria-hidden="true"><use href="#icon-arrow-right"/></svg></a>
         </article>
-        <article class="pricing__item pricing__item--featured" data-reveal data-reveal-delay="1">
+        <article class="pricing__item pricing__item--featured border-glow-card" data-reveal>
+          <div class="edge-light" aria-hidden="true"></div>
           <div class="pricing__top">
             <span class="pricing__number">02</span>
             <span class="pricing__tag">Популярный формат</span>
@@ -682,9 +681,9 @@
           <h3>Дизайн-проект</h3>
           <p>От концепции и планировки до визуализаций, чертежей и подбора материалов.</p>
           <span class="pricing__price">от 3 500 ₽/м²</span>
-          <a class="pricing__link" href="#contacts">Получить расчёт <svg class="icon" width="16" height="16" aria-hidden="true"><use href="#icon-arrow-right"/></svg></a>
         </article>
-        <article class="pricing__item" data-reveal data-reveal-delay="2">
+        <article class="pricing__item border-glow-card" data-reveal>
+          <div class="edge-light" aria-hidden="true"></div>
           <div class="pricing__top">
             <span class="pricing__number">03</span>
             <span class="pricing__tag">Полный цикл</span>
@@ -692,10 +691,15 @@
           <h3>Дом под ключ</h3>
           <p>Архитектура, строительство, интерьер, отделка и ландшафт в одном проекте.</p>
           <span class="pricing__price">Рассчитаем под вас</span>
-          <a class="pricing__link" href="#contacts">Запросить смету <svg class="icon" width="16" height="16" aria-hidden="true"><use href="#icon-arrow-right"/></svg></a>
         </article>
       </div>
       <p class="pricing__note" data-reveal>Финальная стоимость зависит от площади, состава работ, выбранных материалов и сложности объекта.</p>
+      <div class="pricing__cta" data-reveal>
+        <button type="button" class="btn btn--lg btn--specular btn--arrow" data-open-modal>
+          <span class="btn__label">Обсудить проект</span>
+          <svg class="icon" width="16" height="16" aria-hidden="true"><use href="#icon-arrow-right"/></svg>
+        </button>
+      </div>
     </div>
   </section>
 
@@ -1098,7 +1102,6 @@
               </div>
 
               <button type="submit" class="btn btn--lg btn--specular">
-                <span class="btn__fx" aria-hidden="true"></span>
                 <span class="btn__label">Отправить</span>
                 <span class="btn__spinner" aria-hidden="true"></span>
               </button>
@@ -1280,6 +1283,6 @@
   <div class="lightbox__counter"><span id="lightbox-current"></span> / <span id="lightbox-total"></span></div>
 </div>
 
-<script src="js/script.min.js?v=20260916-14" defer></script>
+<script src="js/script.min.js?v=20260916-19" defer></script>
 </body>
 </html>
