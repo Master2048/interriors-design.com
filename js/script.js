@@ -25,46 +25,8 @@
   var allowSmoothScroll = !preferLiteMotion && !isCoarsePointer && !isNarrowViewport;
   var lenis = null;
 
-  /* iPhone Safari: 100vh includes the area behind the bottom toolbar.
-     visualViewport.height is the visible screen; set once per resize, not on chrome collapse. */
-  var appVhPx = 0;
-  function syncAppViewport() {
-    var h = Math.round((window.visualViewport && window.visualViewport.height) || window.innerHeight || 0);
-    if (!h) return;
-    /* Ignore URL/tool bar show-hide (about 40-120px). That resize was scaling the hero image. */
-    if (appVhPx && Math.abs(h - appVhPx) < 140) return;
-    appVhPx = h;
-    document.documentElement.style.setProperty('--app-vh', h + 'px');
-  }
-  syncAppViewport();
-  function readSafeAreaBottom() {
-    var probe = document.createElement('div');
-    probe.style.cssText = 'position:absolute;left:0;bottom:0;width:0;padding-bottom:env(safe-area-inset-bottom,0px);visibility:hidden;pointer-events:none';
-    document.body.appendChild(probe);
-    var px = probe.offsetHeight || 0;
-    document.body.removeChild(probe);
-    return px;
-  }
-  function syncHeroChromeInset() {
-    var root = document.documentElement;
-    if (!window.matchMedia('(max-width: 720px)').matches) {
-      root.style.setProperty('--app-bottom-inset', '0px');
-      return;
-    }
-    var vv = window.visualViewport;
-    var visBottom = vv ? Math.round(vv.offsetTop + vv.height) : (window.innerHeight || 0);
-    var hero = document.querySelector('.page-hero');
-    var overlap = 0;
-    if (hero) {
-      overlap = Math.max(0, Math.round(hero.getBoundingClientRect().bottom - visBottom));
-    }
-    var safe = 0;
-    try { safe = readSafeAreaBottom(); } catch (err) {}
-    var inset = Math.max(overlap, safe, 34) - 10;
-    if (inset < 0) inset = 0;
-    root.style.setProperty('--app-bottom-inset', inset + 'px');
-  }
-  window.requestAnimationFrame(syncHeroChromeInset);
+  /* Hero heights and the bottom-bar inset live in CSS: 100svh plus
+     env(safe-area-inset-bottom). Measuring them here made the photo jump. */
   var scriptLoaders = {};
   var styleLoaders = {};
 
@@ -1280,16 +1242,13 @@
   })();
 
   window.addEventListener('resize', function () {
-    syncAppViewport();
     syncHeaderMetrics();
     refreshServicesMetrics();
   }, { passive: true });
   window.addEventListener('orientationchange', function () {
-    syncAppViewport();
     window.setTimeout(refreshServicesMetrics, 120);
   });
   window.addEventListener('load', function () {
-    syncAppViewport();
     syncHeaderMetrics();
   });
   syncHeaderMetrics();
@@ -1898,8 +1857,6 @@
       if (roadmapViewportRaf) return;
       roadmapViewportRaf = window.requestAnimationFrame(function () {
         roadmapViewportRaf = 0;
-        syncAppViewport();
-        syncHeroChromeInset();
         syncHeaderMetrics();
         if (!roadmapSwiper) return;
         updateRoadmapPinHeight();
