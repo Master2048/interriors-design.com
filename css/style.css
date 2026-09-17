@@ -150,7 +150,6 @@
   --hero-title-size-sm: clamp(1.65rem, 1.15rem + 3.8vw, 2.15rem);
   --hero-lead: rgba(245, 243, 239, 0.82);
   --page-hero-height: 550px;
-  --app-bottom-inset: 0px;
 
   /* Spacing (8px base) */
   --sp-1: 4px;
@@ -729,6 +728,7 @@ section{ position: relative; }
   backdrop-filter: blur(22px) saturate(140%);
   -webkit-backdrop-filter: blur(22px) saturate(140%);
   pointer-events: auto;
+  z-index: 1050;
 }
 .mobile-menu__list{
   display: flex;
@@ -853,6 +853,9 @@ section{ position: relative; }
   letter-spacing: 0.03em;
   color: rgba(245, 243, 239, 0.9);
   opacity: 0;
+  touch-action: manipulation;
+  position: relative;
+  z-index: 1;
   transition: opacity 560ms var(--ease), color var(--t-fast) var(--ease);
 }
 .mobile-menu__item--accordion.is-open .mobile-menu__sublink{
@@ -868,7 +871,9 @@ section{ position: relative; }
   transition-delay: 0ms;
   transition-duration: 220ms;
 }
-.mobile-menu__sublink:hover{ color: var(--accent-300); }
+@media (hover: hover) and (pointer: fine){
+  .mobile-menu__sublink:hover{ color: var(--accent-300); }
+}
 .mobile-menu__footer{
   margin-top: auto;
   padding-top: var(--sp-10);
@@ -3827,9 +3832,7 @@ body.lightbox-open{ overflow: hidden; }
     --section-pad: 60px;
     --page-hero-height: 100vh;
     --page-hero-height: 100svh;
-    --page-hero-height: 100dvh;
-    --page-hero-height: var(--app-vh, 100svh);
-    --page-hero-bottom-inset: max(env(safe-area-inset-bottom, 0px), var(--app-bottom-inset, 0px));
+    --page-hero-height: calc(100dvh - env(safe-area-inset-bottom, 0px));
   }
   /* Body copy — single 16px size on mobile */
   .section-head__text,
@@ -4801,7 +4804,7 @@ body.is-intro-done .hero__scroll{
 
 @media (max-width: 720px){
   .page-hero{
-    --page-hero-crumbs: calc(3.25rem + var(--page-hero-bottom-inset, 0px));
+    --page-hero-crumbs: 3.25rem;
     min-height: var(--page-hero-height);
     box-sizing: border-box;
   }
@@ -4818,7 +4821,7 @@ body.is-intro-done .hero__scroll{
     font-size: var(--fs-base);
   }
   .breadcrumbs{
-    bottom: var(--page-hero-bottom-inset, 0px);
+    bottom: 0;
     height: auto;
     min-height: 3.25rem;
     padding: 0.7rem var(--sp-5);
