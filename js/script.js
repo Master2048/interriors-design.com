@@ -65,33 +65,6 @@
     root.style.setProperty('--app-bottom-inset', inset + 'px');
   }
   window.requestAnimationFrame(syncHeroChromeInset);
-  (function initHeroChevrons() {
-    var pageCues = Array.prototype.slice.call(document.querySelectorAll('.page-hero__scroll'));
-    pageCues.forEach(function (cue) {
-      cue.addEventListener('click', function (e) {
-        var hero = cue.closest('.page-hero');
-        var next = hero && hero.nextElementSibling;
-        if (!next) return;
-        e.preventDefault();
-        next.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
-      });
-    });
-    if (reduceMotion || !('IntersectionObserver' in window)) return;
-    var hosts = [];
-    Array.prototype.slice.call(document.querySelectorAll('.hero-chevrons')).forEach(function (marks) {
-      var host = marks.closest('.page-hero, .hero');
-      if (!host || hosts.indexOf(host) !== -1) return;
-      hosts.push(host);
-    });
-    if (!hosts.length) return;
-    var cueObserver = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) entry.target.classList.remove('is-offscreen');
-        else entry.target.classList.add('is-offscreen');
-      });
-    }, { threshold: 0.2 });
-    hosts.forEach(function (host) { cueObserver.observe(host); });
-  })();
   var scriptLoaders = {};
   var styleLoaders = {};
 
