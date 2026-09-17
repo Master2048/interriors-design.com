@@ -4830,8 +4830,12 @@ body.is-intro-done .hero__scroll{
     left: var(--sp-3);
     right: var(--sp-3);
     bottom: var(--sp-3);
-    padding: var(--sp-4) var(--sp-4);
-    gap: var(--sp-1);
+    padding: var(--sp-3) var(--sp-4);
+    gap: 0;
+  }
+  .service-tile__lead,
+  .portfolio-tile__meta{
+    display: none;
   }
 }
 
