@@ -969,10 +969,9 @@ section{ position: relative; }
    ========================================================= */
 .hero{
   position: relative;
-  /* svh / --app-vh: visible height with iOS Safari chrome, not 100vh behind the toolbar */
+  /* svh only: 100vh / --app-vh grow with the URL bar and recrop the video */
   min-height: 100vh;
   min-height: 100svh;
-  min-height: var(--app-vh, 100svh);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1118,18 +1117,21 @@ section{ position: relative; }
 }
 
 .hero__scroll{
-  position: relative;
+  position: absolute;
   z-index: 4;
-  margin-top: auto;
-  padding: var(--sp-4) var(--sp-6) var(--sp-6);
-  display: flex; flex-direction: column; align-items: center; gap: var(--sp-2);
-  color: rgba(245,243,239,0.65);
-  font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+  left: 0;
+  right: 0;
+  bottom: var(--sp-6);
+  margin: 0 auto;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 84px;
+  height: 60px;
+  color: var(--hero-lead);
   pointer-events: auto;
   -webkit-tap-highlight-color: transparent;
-}
-.hero__scroll .icon{
-  animation: bounce 2.4s ease-in-out infinite;
 }
 .hero__media-toggle{
   position: absolute;
@@ -1169,17 +1171,12 @@ section{ position: relative; }
 .hero__media-toggle-play{
   margin-left: 2px;
 }
-@keyframes bounce{ 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(8px); } }
-
 /* Short landscape phones / compact tablets: do not clip Hero chrome */
 @media (max-height: 700px){
   .hero{
-    height: auto;
     min-height: 100vh;
     min-height: 100svh;
-    min-height: var(--app-vh, 100svh);
-    overflow-x: clip;
-    overflow-y: visible;
+    overflow: hidden;
   }
 }
 
@@ -3882,11 +3879,8 @@ body.lightbox-open{ overflow: hidden; }
   .hero{
     min-height: 100vh;
     min-height: 100svh;
-    min-height: var(--app-vh, 100svh);
-    height: auto;
-    overflow-x: clip;
-    overflow-y: visible;
-    padding-bottom: env(safe-area-inset-bottom, 0px);
+    height: 100svh;
+    overflow: hidden;
     --hero-bottom-chrome: max(12px, env(safe-area-inset-bottom, 0px));
   }
   .hero__content.container{
@@ -3946,9 +3940,7 @@ body.lightbox-open{ overflow: hidden; }
     font-size: 11px;
   }
   .hero__scroll{
-    flex-shrink: 0;
-    padding-top: max(10px, clamp(10px, 1.4vh, 14px));
-    padding-bottom: var(--hero-bottom-chrome);
+    bottom: var(--hero-bottom-chrome);
   }
   .hero__media-toggle{
     /* Sit on the same bottom edge as «прокрутите вниз» */
@@ -4090,7 +4082,6 @@ body.lightbox-open{ overflow: hidden; }
   }
   .collage__item{ opacity: 1; transform: none; transition: none; }
   .hero__scroll{ animation: none; }
-  .hero__scroll .icon{ animation: none; }
   .page-hero__chevron{
     animation: none;
     opacity: 0.22;
@@ -4465,12 +4456,12 @@ body.is-intro-done .hero__scroll{
   line-height: 1.7;
 }
 .page-hero__scroll{
+  display: none;
   position: absolute;
   z-index: 4;
   left: 50%;
   bottom: calc(var(--page-hero-crumbs) + 0.7rem);
   transform: translateX(-50%);
-  display: flex;
   align-items: center;
   justify-content: center;
   width: 84px;
@@ -4858,6 +4849,9 @@ html.is-lite-motion .page-hero__chevron{
     --page-hero-crumbs: calc(3.25rem + var(--app-bottom-inset));
     min-height: var(--page-hero-height);
     box-sizing: border-box;
+  }
+  .page-hero__scroll{
+    display: flex;
   }
   .page-hero__media img{ object-position: center 38%; }
   .page-hero__content{

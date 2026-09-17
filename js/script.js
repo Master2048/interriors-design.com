@@ -726,7 +726,8 @@
     if (roadmapSwiper) updateRoadmapFromPageScroll();
     syncRoadmapFrost();
 
-    if (heroVideo && heroVideo.classList.contains('is-playing') && !reduceMotion && !preferLiteMotion) {
+    /* Parallax only on desktop. On phones the URL bar changes scrollY/height and the video jumps. */
+    if (allowSmoothScroll && heroVideo && heroVideo.classList.contains('is-playing') && !reduceMotion && !preferLiteMotion) {
       var hero = document.querySelector('.hero');
       if (hero) {
         var heroH = hero.offsetHeight || 1;
@@ -740,9 +741,6 @@
           heroVideo.style.transform = '';
         }
       }
-    } else if (heroVideo) {
-      heroVideo.classList.remove('is-parallaxing');
-      heroVideo.style.transform = '';
     }
 
     updateContactsParallax();
