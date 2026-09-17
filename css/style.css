@@ -165,7 +165,7 @@
   --sp-20: 80px;
   --sp-24: 96px;
 
-  --section-pad: 96px;
+  --section-pad: 95px;
 
   /* Radius */
   --radius-md: 8px;
@@ -232,7 +232,7 @@ svg{ display: block; }
 ::-webkit-scrollbar-thumb{ background: #2a2a2e; border-radius: var(--radius-full); }
 ::-webkit-scrollbar-thumb:hover{ background: #3a3a3f; }
 
-.icon{ display: block; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+.icon{ display: block; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; pointer-events: none; }
 .icon--fill{ fill: currentColor; stroke: none; }
 
 :focus-visible{
@@ -3335,6 +3335,7 @@ html.is-lite-motion .glass-stepper__tick-num{
   right: max(var(--sp-6), env(safe-area-inset-right));
   bottom: max(var(--sp-6), env(safe-area-inset-bottom));
   z-index: 400;
+  touch-action: manipulation;
   display: flex; align-items: center; gap: var(--sp-3);
   padding: 14px 22px 14px 18px;
   background: var(--bg-alt);
@@ -3348,7 +3349,6 @@ html.is-lite-motion .glass-stepper__tick-num{
   transition: transform var(--t-slow) var(--ease), opacity var(--t-slow) var(--ease), border-color var(--t-fast) var(--ease), background-color var(--t-fast) var(--ease);
 }
 .quick-cta.is-visible{ transform: translateY(0); opacity: 1; }
-.quick-cta:hover{ border-color: var(--accent-500); background: var(--surface); }
 .quick-cta .icon{ color: var(--accent-400); }
 
 .to-top{
@@ -3356,6 +3356,7 @@ html.is-lite-motion .glass-stepper__tick-num{
   right: max(var(--sp-6), env(safe-area-inset-right));
   bottom: max(var(--sp-20), calc(env(safe-area-inset-bottom) + 72px));
   z-index: 400;
+  touch-action: manipulation;
   display: flex; align-items: center; justify-content: center;
   width: 44px; height: 44px;
   border-radius: 50%;
@@ -3367,7 +3368,6 @@ html.is-lite-motion .glass-stepper__tick-num{
   transition: transform var(--t-normal) var(--ease), opacity var(--t-normal) var(--ease), visibility var(--t-normal) var(--ease), border-color var(--t-fast) var(--ease);
 }
 .to-top.is-visible{ transform: translateY(0) rotate(180deg); opacity: 1; visibility: visible; }
-.to-top:hover{ border-color: var(--accent-500); }
 
 /* =========================================================
    Modal (quick request)
@@ -3392,13 +3392,14 @@ html.is-lite-motion .glass-stepper__tick-num{
 .modal.is-open .modal__panel{ transform: translateY(0) scale(1); opacity: 1; }
 .modal__close{
   position: absolute; top: var(--sp-4); right: var(--sp-4);
+  z-index: 2;
   display: flex; align-items: center; justify-content: center;
   width: 44px; height: 44px; border-radius: 50%;
   border: 1px solid var(--border-strong);
   color: var(--text-secondary);
+  touch-action: manipulation;
   transition: color var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease);
 }
-.modal__close:hover{ color: var(--white); border-color: var(--accent-500); }
 .modal__title{
   font-family: var(--font-display);
   font-size: var(--fs-xl);
@@ -3423,7 +3424,13 @@ html.is-lite-motion .glass-stepper__tick-num{
   font-weight: 500;
 }
 
-body.modal-open, body.lightbox-open{ overflow: hidden; }
+@media (hover: hover) and (pointer: fine){
+  .quick-cta:hover{ border-color: var(--accent-500); background: var(--surface); }
+  .to-top:hover{ border-color: var(--accent-500); }
+  .modal__close:hover{ color: var(--white); border-color: var(--accent-500); }
+}
+body.modal-open,
+body.lightbox-open{ overflow: hidden; }
 
 /* =========================================================
    Lightbox
@@ -3757,7 +3764,7 @@ body.modal-open, body.lightbox-open{ overflow: hidden; }
 }
 
 @media (max-width: 720px){
-  :root{ --section-pad: 72px; }
+  :root{ --section-pad: 60px; }
   /* Body copy — single 16px size on mobile */
   .section-head__text,
   .about__text > p,

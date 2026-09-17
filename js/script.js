@@ -2468,13 +2468,24 @@
   var quickModalPanel = quickModal ? quickModal.querySelector('.modal__panel') : null;
   var lastFocusedEl = null;
 
+  function isCoarsePointer() {
+    return window.matchMedia('(hover: none), (pointer: coarse)').matches;
+  }
+  function setQuickModalInert(isInert) {
+    if (!quickModal) return;
+    if (isInert) quickModal.setAttribute('inert', '');
+    else quickModal.removeAttribute('inert');
+  }
+
   function openQuickModal() {
     if (!quickModal) return;
     lastFocusedEl = document.activeElement;
+    setQuickModalInert(false);
     quickModal.classList.add('is-open');
     quickModal.setAttribute('aria-hidden', 'false');
     document.body.classList.add('modal-open');
     stopSmoothScroll();
+    if (isCoarsePointer()) return;
     window.setTimeout(function () {
       var focusables = getFocusableElements(quickModalPanel || quickModal);
       var target = null;
@@ -2493,10 +2504,12 @@
     if (!quickModal) return;
     quickModal.classList.remove('is-open');
     quickModal.setAttribute('aria-hidden', 'true');
+    setQuickModalInert(true);
     document.body.classList.remove('modal-open');
     startSmoothScroll();
-    if (lastFocusedEl) lastFocusedEl.focus();
+    if (lastFocusedEl && !isCoarsePointer()) lastFocusedEl.focus();
   }
+  if (quickModal) setQuickModalInert(true);
   if (quickCta) quickCta.addEventListener('click', openQuickModal);
   Array.prototype.slice.call(document.querySelectorAll('[data-open-modal]')).forEach(function (btn) {
     btn.addEventListener('click', function (e) {
