@@ -2167,7 +2167,7 @@
     }
   })();
 
-  /* Portfolio: desktop sequential L→R from bottom; mobile one-by-one */
+  /* Portfolio: desktop L→R per row in view; mobile one-by-one */
   (function initPortfolioReveal() {
     var grid = document.querySelector('.portfolio__grid');
     if (!grid) return;
@@ -2193,30 +2193,51 @@
       }
     }
 
+    function revealPair(leftIndex) {
+      var left = cards[leftIndex];
+      var right = cards[leftIndex + 1];
+      if (!left || left.classList.contains('in-view')) return;
+
+      left.removeAttribute('data-reveal-delay');
+      left.classList.add('in-view');
+
+      if (right && !right.classList.contains('in-view')) {
+        right.setAttribute('data-reveal-delay', '1');
+        right.classList.add('in-view');
+      }
+    }
+
     function bindDesktop() {
       clearObserver();
       clearDelays();
-      cards.forEach(function (card) { card.classList.remove('in-view'); });
 
       state.observer = new IntersectionObserver(function (entries) {
         entries.forEach(function (entry) {
           if (!entry.isIntersecting) return;
-          cards.forEach(function (card, index) {
-            if (index > 0) card.setAttribute('data-reveal-delay', String(index));
-            else card.removeAttribute('data-reveal-delay');
-            card.classList.add('in-view');
-          });
-          clearObserver();
-        });
-      }, { threshold: 0.12, rootMargin: '0px 0px -10% 0px' });
+          var index = cards.indexOf(entry.target);
+          if (index === -1) return;
 
-      state.observer.observe(grid);
+          if (index % 2 === 0) {
+            revealPair(index);
+          } else if (!cards[index - 1].classList.contains('in-view')) {
+            revealPair(index - 1);
+          } else if (!entry.target.classList.contains('in-view')) {
+            entry.target.removeAttribute('data-reveal-delay');
+            entry.target.classList.add('in-view');
+          }
+
+          state.observer.unobserve(entry.target);
+        });
+      }, { threshold: 0.16, rootMargin: '0px 0px -6% 0px' });
+
+      cards.forEach(function (card) {
+        if (!card.classList.contains('in-view')) state.observer.observe(card);
+      });
     }
 
     function bindMobile() {
       clearObserver();
       clearDelays();
-      cards.forEach(function (card) { card.classList.remove('in-view'); });
 
       state.observer = new IntersectionObserver(function (entries) {
         entries.forEach(function (entry) {
@@ -2226,10 +2247,15 @@
         });
       }, { threshold: 0.16, rootMargin: '0px 0px -6% 0px' });
 
-      cards.forEach(function (card) { state.observer.observe(card); });
+      cards.forEach(function (card) {
+        if (!card.classList.contains('in-view')) state.observer.observe(card);
+      });
     }
 
     function applyMode() {
+      clearObserver();
+      clearDelays();
+      cards.forEach(function (card) { card.classList.remove('in-view'); });
       if (mqDesktop.matches) bindDesktop();
       else bindMobile();
     }
