@@ -150,6 +150,8 @@
   --hero-title-size-sm: clamp(1.65rem, 1.15rem + 3.8vw, 2.15rem);
   --hero-lead: rgba(245, 243, 239, 0.82);
   --page-hero-height: 550px;
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --app-bottom-inset: 0px;
 
   /* Spacing (8px base) */
   --sp-1: 4px;
@@ -3832,7 +3834,7 @@ body.lightbox-open{ overflow: hidden; }
     --section-pad: 60px;
     --page-hero-height: 100vh;
     --page-hero-height: 100svh;
-    --page-hero-height: calc(100dvh - env(safe-area-inset-bottom, 0px));
+    --app-bottom-inset: 34px;
   }
   /* Body copy — single 16px size on mobile */
   .section-head__text,
@@ -4804,7 +4806,7 @@ body.is-intro-done .hero__scroll{
 
 @media (max-width: 720px){
   .page-hero{
-    --page-hero-crumbs: 3.25rem;
+    --page-hero-crumbs: calc(3.25rem + max(var(--safe-bottom), var(--app-bottom-inset)));
     min-height: var(--page-hero-height);
     box-sizing: border-box;
   }
@@ -4821,7 +4823,7 @@ body.is-intro-done .hero__scroll{
     font-size: var(--fs-base);
   }
   .breadcrumbs{
-    bottom: 0;
+    bottom: max(var(--safe-bottom), var(--app-bottom-inset));
     height: auto;
     min-height: 3.25rem;
     padding: 0.7rem var(--sp-5);
