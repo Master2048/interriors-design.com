@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-const version = '20260917-60';
+const version = '20260917-63';
 
 for (const file of fs.readdirSync('.').filter((name) => name.endsWith('.html'))) {
   const source = fs.readFileSync(file, 'utf8');
