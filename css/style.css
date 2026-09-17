@@ -3822,7 +3822,13 @@ body.lightbox-open{ overflow: hidden; }
 }
 
 @media (max-width: 720px){
-  :root{ --section-pad: 60px; }
+  :root{
+    --section-pad: 60px;
+    --page-hero-height: 100vh;
+    --page-hero-height: 100svh;
+    --page-hero-height: 100dvh;
+    --page-hero-height: var(--app-vh, 100svh);
+  }
   /* Body copy — single 16px size on mobile */
   .section-head__text,
   .about__text > p,
@@ -4792,6 +4798,11 @@ body.is-intro-done .hero__scroll{
 }
 
 @media (max-width: 720px){
+  .page-hero{
+    --page-hero-crumbs: calc(3.25rem + env(safe-area-inset-bottom, 0px));
+    min-height: var(--page-hero-height);
+    box-sizing: border-box;
+  }
   .page-hero__media img{ object-position: center 38%; }
   .page-hero__content{
     padding-top: var(--sp-3);
@@ -4805,7 +4816,10 @@ body.is-intro-done .hero__scroll{
     font-size: var(--fs-base);
   }
   .breadcrumbs{
-    padding-inline: var(--sp-5);
+    bottom: 0;
+    height: auto;
+    min-height: 3.25rem;
+    padding: 0.7rem var(--sp-5) max(0.7rem, env(safe-area-inset-bottom, 0px));
   }
   .page-offer__list{
     --offer-gap: var(--sp-6);
