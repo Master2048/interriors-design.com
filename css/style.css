@@ -728,7 +728,6 @@ section{ position: relative; }
   backdrop-filter: blur(22px) saturate(140%);
   -webkit-backdrop-filter: blur(22px) saturate(140%);
   pointer-events: auto;
-  z-index: 490;
 }
 .mobile-menu__list{
   display: flex;
@@ -3335,7 +3334,7 @@ html.is-lite-motion .glass-stepper__tick-num{
   position: fixed;
   right: max(var(--sp-6), env(safe-area-inset-right));
   bottom: max(var(--sp-6), env(safe-area-inset-bottom));
-  z-index: 480;
+  z-index: 400;
   display: flex; align-items: center; gap: var(--sp-3);
   padding: 14px 22px 14px 18px;
   background: var(--bg-alt);
@@ -3346,11 +3345,9 @@ html.is-lite-motion .glass-stepper__tick-num{
   box-shadow: var(--shadow-lg);
   transform: translateY(120%);
   opacity: 0;
-  pointer-events: none;
-  touch-action: manipulation;
   transition: transform var(--t-slow) var(--ease), opacity var(--t-slow) var(--ease), border-color var(--t-fast) var(--ease), background-color var(--t-fast) var(--ease);
 }
-.quick-cta.is-visible{ transform: translateY(0); opacity: 1; pointer-events: auto; }
+.quick-cta.is-visible{ transform: translateY(0); opacity: 1; }
 .quick-cta:hover{ border-color: var(--accent-500); background: var(--surface); }
 .quick-cta .icon{ color: var(--accent-400); }
 
@@ -3358,7 +3355,7 @@ html.is-lite-motion .glass-stepper__tick-num{
   position: fixed;
   right: max(var(--sp-6), env(safe-area-inset-right));
   bottom: max(var(--sp-20), calc(env(safe-area-inset-bottom) + 72px));
-  z-index: 480;
+  z-index: 400;
   display: flex; align-items: center; justify-content: center;
   width: 44px; height: 44px;
   border-radius: 50%;
@@ -3367,18 +3364,16 @@ html.is-lite-motion .glass-stepper__tick-num{
   color: var(--white);
   transform: translateY(20px) rotate(180deg);
   opacity: 0; visibility: hidden;
-  pointer-events: none;
-  touch-action: manipulation;
   transition: transform var(--t-normal) var(--ease), opacity var(--t-normal) var(--ease), visibility var(--t-normal) var(--ease), border-color var(--t-fast) var(--ease);
 }
-.to-top.is-visible{ transform: translateY(0) rotate(180deg); opacity: 1; visibility: visible; pointer-events: auto; }
+.to-top.is-visible{ transform: translateY(0) rotate(180deg); opacity: 1; visibility: visible; }
 .to-top:hover{ border-color: var(--accent-500); }
 
 /* =========================================================
    Modal (quick request)
    ========================================================= */
-.modal{ position: fixed; inset: 0; z-index: 1000; display: flex; align-items: center; justify-content: center; visibility: hidden; opacity: 0; pointer-events: none; transition: opacity var(--t-normal) var(--ease), visibility var(--t-normal) var(--ease); padding: var(--sp-4); }
-.modal.is-open{ visibility: visible; opacity: 1; pointer-events: auto; }
+.modal{ position: fixed; inset: 0; z-index: 1000; display: flex; align-items: center; justify-content: center; visibility: hidden; opacity: 0; transition: opacity var(--t-normal) var(--ease), visibility var(--t-normal) var(--ease); padding: var(--sp-4); }
+.modal.is-open{ visibility: visible; opacity: 1; }
 .modal__overlay{ position: absolute; inset: 0; background: rgba(4,4,5,0.75); backdrop-filter: blur(4px); }
 .modal__panel{
   position: relative; z-index: 1;
@@ -3437,10 +3432,9 @@ body.modal-open, body.lightbox-open{ overflow: hidden; }
   position: fixed; inset: 0; z-index: 1100;
   display: flex; align-items: center; justify-content: center;
   visibility: hidden; opacity: 0;
-  pointer-events: none;
   transition: opacity var(--t-normal) var(--ease), visibility var(--t-normal) var(--ease);
 }
-.lightbox.is-open{ visibility: visible; opacity: 1; pointer-events: auto; }
+.lightbox.is-open{ visibility: visible; opacity: 1; }
 .lightbox__overlay{ position: absolute; inset: 0; background: rgba(2,2,3,0.92); }
 .lightbox__stage{
   position: relative; z-index: 1;
