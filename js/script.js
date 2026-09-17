@@ -28,9 +28,17 @@
   /* iPhone Safari: 100vh includes the area behind the bottom toolbar.
      visualViewport.height is the visible screen; set once per resize, not on chrome collapse. */
   function syncAppViewport() {
-    var h = Math.round((window.visualViewport && window.visualViewport.height) || window.innerHeight || 0);
+    var vv = window.visualViewport;
+    var innerH = window.innerHeight || 0;
+    var visH = (vv && vv.height) || innerH;
+    var h = Math.round(visH || 0);
     if (!h) return;
     document.documentElement.style.setProperty('--app-vh', h + 'px');
+    var offsetTop = (vv && typeof vv.offsetTop === 'number') ? vv.offsetTop : 0;
+    var visBottom = offsetTop + (vv ? vv.height : visH);
+    var layoutH = Math.max(innerH, document.documentElement.clientHeight || 0);
+    var bottomInset = Math.max(0, Math.round(layoutH - visBottom));
+    document.documentElement.style.setProperty('--app-bottom-inset', bottomInset + 'px');
   }
   syncAppViewport();
   var scriptLoaders = {};
