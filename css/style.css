@@ -4398,6 +4398,7 @@ body.is-intro-done .hero__scroll{
   width: 100%;
   height: var(--page-hero-height);
   overflow: hidden;
+  background: #08090c;
   --page-hero-crumbs: 3.25rem;
 }
 .page-hero__media{
@@ -4405,6 +4406,7 @@ body.is-intro-done .hero__scroll{
   inset: 0;
   z-index: 0;
   background: #08090c;
+  clip-path: inset(0 0 var(--app-bottom-inset) 0);
 }
 .page-hero__media picture,
 .page-hero__media img{
