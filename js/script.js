@@ -2088,83 +2088,82 @@
 
   /* Pricing cards: desktop fans out from middle; mobile reveals per card in view */
   (function initPricingReveal() {
-    var list = document.querySelector('.pricing__list');
-    if (!list) return;
-    var cards = Array.prototype.slice.call(list.querySelectorAll('.pricing__item[data-reveal]'));
-    if (!cards.length) return;
+    var lists = Array.prototype.slice.call(document.querySelectorAll('.pricing__list'));
+    if (!lists.length) return;
     var settleMs = 2100;
-
-    function settleCard(card) {
-      window.setTimeout(function () {
-        card.classList.add('is-settled');
-      }, settleMs);
-    }
-
-    function showCard(card) {
-      if (card.classList.contains('in-view')) return;
-      card.classList.add('in-view');
-      settleCard(card);
-    }
-
-    function showAll() {
-      cards.forEach(showCard);
-    }
-
-    if (reduceMotion || !('IntersectionObserver' in window)) {
-      cards.forEach(function (card) {
-        card.classList.add('in-view');
-        card.classList.add('is-settled');
-      });
-      return;
-    }
-
+    var skipMotion = reduceMotion || !('IntersectionObserver' in window);
     var mobileMq = window.matchMedia('(max-width: 900px)');
 
-    function observeDesktop() {
-      var groupObserver = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (!entry.isIntersecting) return;
-          showAll();
-          groupObserver.disconnect();
-        });
-      }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
-      groupObserver.observe(list);
-      return groupObserver;
-    }
+    lists.forEach(function (list) {
+      var cards = Array.prototype.slice.call(list.querySelectorAll('.pricing__item[data-reveal]'));
+      if (!cards.length) return;
 
-    function observeMobile() {
-      var cardObserver = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (!entry.isIntersecting) return;
-          showCard(entry.target);
-          cardObserver.unobserve(entry.target);
-        });
-      }, { threshold: 0.2, rootMargin: '0px 0px -8% 0px' });
-      cards.forEach(function (card) {
-        if (!card.classList.contains('in-view')) cardObserver.observe(card);
-      });
-      return cardObserver;
-    }
-
-    var activeObserver = null;
-
-    function bind() {
-      if (activeObserver) {
-        activeObserver.disconnect();
-        activeObserver = null;
+      function settleCard(card) {
+        window.setTimeout(function () {
+          card.classList.add('is-settled');
+        }, settleMs);
       }
-      var pending = cards.some(function (card) { return !card.classList.contains('in-view'); });
-      if (!pending) return;
-      if (mobileMq.matches) activeObserver = observeMobile();
-      else activeObserver = observeDesktop();
-    }
 
-    bind();
-    if (typeof mobileMq.addEventListener === 'function') {
-      mobileMq.addEventListener('change', bind);
-    } else if (typeof mobileMq.addListener === 'function') {
-      mobileMq.addListener(bind);
-    }
+      function showCard(card) {
+        if (card.classList.contains('in-view')) return;
+        card.classList.add('in-view');
+        settleCard(card);
+      }
+
+      if (skipMotion) {
+        cards.forEach(function (card) {
+          card.classList.add('in-view');
+          card.classList.add('is-settled');
+        });
+        return;
+      }
+
+      var activeObserver = null;
+
+      function observeDesktop() {
+        var groupObserver = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            cards.forEach(showCard);
+            groupObserver.disconnect();
+          });
+        }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+        groupObserver.observe(list);
+        return groupObserver;
+      }
+
+      function observeMobile() {
+        var cardObserver = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            showCard(entry.target);
+            cardObserver.unobserve(entry.target);
+          });
+        }, { threshold: 0.2, rootMargin: '0px 0px -8% 0px' });
+        cards.forEach(function (card) {
+          if (!card.classList.contains('in-view')) cardObserver.observe(card);
+        });
+        return cardObserver;
+      }
+
+      function bind() {
+        if (activeObserver) {
+          activeObserver.disconnect();
+          activeObserver = null;
+        }
+        var pending = cards.some(function (card) { return !card.classList.contains('in-view'); });
+        if (!pending) return;
+        if (mobileMq.matches) activeObserver = observeMobile();
+        else activeObserver = observeDesktop();
+      }
+
+      bind();
+      if (typeof mobileMq.addEventListener === 'function') {
+        mobileMq.addEventListener('change', bind);
+      } else if (typeof mobileMq.addListener === 'function') {
+        mobileMq.addListener(bind);
+      }
+    });
   })();
 
   /* Portfolio: desktop L→R per row in view; mobile one-by-one */
