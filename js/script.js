@@ -60,7 +60,8 @@
     }
     var safe = 0;
     try { safe = readSafeAreaBottom(); } catch (err) {}
-    var inset = Math.max(overlap, safe, 34);
+    var inset = Math.max(overlap, safe, 34) - 10;
+    if (inset < 0) inset = 0;
     root.style.setProperty('--app-bottom-inset', inset + 'px');
   }
   window.requestAnimationFrame(syncHeroChromeInset);
