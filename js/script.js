@@ -2720,56 +2720,53 @@
     renderLightboxImage();
   }
 
-  (function initCollageLightbox() {
-    var hits = Array.prototype.slice.call(document.querySelectorAll('.collage__hit[data-full]'));
-    if (!hits.length) return;
-    var sources = hits.map(function (btn) {
-      var title = btn.getAttribute('data-caption') || '';
-      return {
-        src: btn.getAttribute('data-full'),
-        alt: title,
-        title: title,
-        desc: ''
-      };
-    });
-    hits.forEach(function (btn, index) {
-      btn.addEventListener('click', function () {
-        openSourcesLightbox(sources, index);
-      });
-    });
-  })();
-
-  (function initProjectGalleryLightbox() {
-    var items = Array.prototype.slice.call(document.querySelectorAll('.project-gallery__item img'));
-    if (!items.length || !lightbox) return;
-
-    var sources = items.map(function (img) {
-      var alt = img.getAttribute('alt') || '';
-      return {
-        src: img.currentSrc || img.getAttribute('src'),
-        alt: alt,
-        title: alt,
-        desc: ''
-      };
-    });
-
-    items.forEach(function (img, index) {
-      var figure = img.closest('.project-gallery__item') || img.parentElement;
-      if (!figure) return;
-      figure.style.cursor = 'zoom-in';
-      figure.setAttribute('role', 'button');
-      figure.setAttribute('tabindex', '0');
-      figure.setAttribute('aria-label', 'Открыть фото ' + (index + 1));
+  function bindLightboxGroup(nodes, mapSource, options) {
+    var list = Array.prototype.slice.call(nodes);
+    if (!list.length || !lightbox) return;
+    var sources = list.map(mapSource);
+    list.forEach(function (node, index) {
+      var trigger = options && options.trigger ? options.trigger(node) : node;
+      if (!trigger) return;
       function open() { openSourcesLightbox(sources, index); }
-      figure.addEventListener('click', open);
-      figure.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          open();
-        }
-      });
+      trigger.addEventListener('click', open);
+      if (options && options.asButton) {
+        trigger.setAttribute('role', 'button');
+        trigger.setAttribute('tabindex', '0');
+        trigger.setAttribute('aria-label', 'Открыть фото ' + (index + 1));
+        trigger.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            open();
+          }
+        });
+      }
     });
-  })();
+  }
+
+  bindLightboxGroup(document.querySelectorAll('.collage__hit[data-full]'), function (btn) {
+    var title = btn.getAttribute('data-caption') || '';
+    return {
+      src: btn.getAttribute('data-full'),
+      alt: title,
+      title: title,
+      desc: ''
+    };
+  });
+
+  bindLightboxGroup(document.querySelectorAll('.project-gallery__item img'), function (img) {
+    var alt = img.getAttribute('alt') || '';
+    return {
+      src: img.currentSrc || img.getAttribute('src'),
+      alt: alt,
+      title: alt,
+      desc: ''
+    };
+  }, {
+    asButton: true,
+    trigger: function (img) {
+      return img.closest('.project-gallery__item') || img.parentElement;
+    }
+  });
 
     if (lightboxNext) lightboxNext.addEventListener('click', showNext);
   if (lightboxPrev) lightboxPrev.addEventListener('click', showPrev);
