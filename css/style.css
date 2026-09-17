@@ -4091,6 +4091,11 @@ body.lightbox-open{ overflow: hidden; }
   .collage__item{ opacity: 1; transform: none; transition: none; }
   .hero__scroll{ animation: none; }
   .hero__scroll .icon{ animation: none; }
+  .page-hero__chevron{
+    animation: none;
+    opacity: 0.22;
+    transform: none;
+  }
   .project-card__media img{
     transform: none !important;
     will-change: auto;
@@ -4456,6 +4461,48 @@ body.is-intro-done .hero__scroll{
   font-size: var(--fs-md);
   font-weight: 300;
   line-height: 1.7;
+}
+.page-hero__scroll{
+  position: absolute;
+  z-index: 4;
+  left: 50%;
+  bottom: calc(var(--page-hero-crumbs) + 0.7rem);
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 84px;
+  height: 60px;
+  color: var(--hero-lead);
+  pointer-events: none;
+}
+.page-hero__chevron{
+  display: block;
+  width: 76px;
+  height: 76px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 0.78;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.18;
+  transform: translateY(0);
+  animation: page-hero-chevron-pulse 2.8s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+}
+@keyframes page-hero-chevron-pulse{
+  0%, 100%{
+    opacity: 0.14;
+    transform: translateY(0);
+  }
+  50%{
+    opacity: 0.36;
+    transform: translateY(7px);
+  }
+}
+html.is-lite-motion .page-hero__chevron{
+  animation: none;
+  opacity: 0.22;
+  transform: none;
 }
 .breadcrumbs{
   position: absolute;
