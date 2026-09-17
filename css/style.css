@@ -1123,13 +1123,81 @@ section{ position: relative; }
   margin-top: auto;
   padding: var(--sp-4) var(--sp-6) var(--sp-6);
   display: flex; flex-direction: column; align-items: center; gap: var(--sp-2);
-  color: rgba(245,243,239,0.65);
+  color: var(--hero-lead);
   font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
   pointer-events: auto;
   -webkit-tap-highlight-color: transparent;
 }
-.hero__scroll .icon{
-  animation: bounce 2.4s ease-in-out infinite;
+.hero-chevrons{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 24px;
+}
+.hero-chevrons__mark{
+  display: block;
+  width: 24px;
+  height: 18px;
+  margin-top: 0;
+  color: inherit;
+  stroke-width: 1.45;
+  opacity: 0;
+  transform: translateY(-2px);
+  animation: hero-chevron-1 2.75s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+}
+.hero-chevrons__mark:nth-child(2){ animation-name: hero-chevron-2; }
+.hero-chevrons__mark:nth-child(3){ animation-name: hero-chevron-3; }
+.page-hero.is-offscreen .hero-chevrons__mark,
+.hero.is-offscreen .hero-chevrons__mark{
+  animation-play-state: paused;
+}
+html.is-lite-motion .hero-chevrons__mark{
+  animation: none;
+  opacity: 0.55;
+  transform: none;
+}
+@keyframes hero-chevron-1{
+  0%{
+    opacity: 0;
+    transform: translateY(-2px);
+  }
+  22%, 40%{
+    opacity: 1;
+    transform: translateY(0);
+  }
+  58%, 100%{
+    opacity: 0;
+    transform: translateY(2px);
+  }
+}
+@keyframes hero-chevron-2{
+  0%, 8%{
+    opacity: 0;
+    transform: translateY(-2px);
+  }
+  30%, 42%{
+    opacity: 1;
+    transform: translateY(0);
+  }
+  60%, 100%{
+    opacity: 0;
+    transform: translateY(2px);
+  }
+}
+@keyframes hero-chevron-3{
+  0%, 16%{
+    opacity: 0;
+    transform: translateY(-2px);
+  }
+  38%, 44%{
+    opacity: 1;
+    transform: translateY(0);
+  }
+  62%, 100%{
+    opacity: 0;
+    transform: translateY(2px);
+  }
 }
 .hero__media-toggle{
   position: absolute;
@@ -1169,7 +1237,6 @@ section{ position: relative; }
 .hero__media-toggle-play{
   margin-left: 2px;
 }
-@keyframes bounce{ 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(8px); } }
 
 /* Short landscape phones / compact tablets: do not clip Hero chrome */
 @media (max-height: 700px){
@@ -4090,7 +4157,11 @@ body.lightbox-open{ overflow: hidden; }
   }
   .collage__item{ opacity: 1; transform: none; transition: none; }
   .hero__scroll{ animation: none; }
-  .hero__scroll .icon{ animation: none; }
+  .hero-chevrons__mark{
+    animation: none;
+    opacity: 0.55;
+    transform: none;
+  }
   .project-card__media img{
     transform: none !important;
     will-change: auto;
@@ -4227,6 +4298,10 @@ body.hero-intro-pending .hero__content [data-reveal],
 body.hero-intro-pending .hero__scroll,
 body.hero-intro-pending .hero__pills .pill{
   transition: none;
+}
+body.hero-intro-pending .hero-chevrons__mark{
+  animation-play-state: paused;
+  opacity: 0;
 }
 body.hero-intro-pending .header__pill{
   transform: translateY(-20px);
@@ -4394,6 +4469,7 @@ body.is-intro-done .hero__scroll{
   height: var(--page-hero-height);
   overflow: hidden;
   --page-hero-crumbs: 3.25rem;
+  --page-hero-scroll: 3.75rem;
 }
 .page-hero__media{
   position: absolute;
@@ -4431,7 +4507,7 @@ body.is-intro-done .hero__scroll{
   margin-inline: auto;
   text-align: center;
   padding-top: var(--sp-4);
-  padding-bottom: calc(var(--page-hero-crumbs) + var(--sp-4));
+  padding-bottom: calc(var(--page-hero-crumbs) + var(--page-hero-scroll) + var(--sp-4));
   box-sizing: border-box;
 }
 .page-hero__title{
@@ -4456,6 +4532,24 @@ body.is-intro-done .hero__scroll{
   font-size: var(--fs-md);
   font-weight: 300;
   line-height: 1.7;
+}
+.page-hero__scroll{
+  position: absolute;
+  z-index: 4;
+  left: 50%;
+  bottom: calc(var(--page-hero-crumbs) + 0.8rem);
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  color: var(--hero-lead);
+  -webkit-tap-highlight-color: transparent;
+}
+.page-hero__scroll:focus-visible{
+  outline: 1px solid rgba(245, 243, 239, 0.4);
+  outline-offset: 4px;
 }
 .breadcrumbs{
   position: absolute;
@@ -4813,7 +4907,7 @@ body.is-intro-done .hero__scroll{
   .page-hero__media img{ object-position: center 38%; }
   .page-hero__content{
     padding-top: var(--sp-3);
-    padding-bottom: calc(var(--page-hero-crumbs) + var(--sp-3));
+    padding-bottom: calc(var(--page-hero-crumbs) + var(--page-hero-scroll) + var(--sp-3));
   }
   .page-hero__title{
     font-size: var(--hero-title-size-sm);
