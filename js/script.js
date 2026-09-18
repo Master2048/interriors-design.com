@@ -1242,6 +1242,7 @@
   window.addEventListener('resize', function () {
     syncHeaderMetrics();
     refreshServicesMetrics();
+    onRoadmapResize();
   }, { passive: true });
   window.addEventListener('orientationchange', function () {
     window.setTimeout(refreshServicesMetrics, 120);
@@ -1397,6 +1398,7 @@
     syncRoadmapFrost();
     window.addEventListener('load', syncRoadmapFrost, { passive: true });
   }
+  var ROADMAP_GAP = 24;
   var roadmapAnim = {
     targetTranslate: 0,
     rafId: null,
@@ -1420,6 +1422,41 @@
     return roadmapPinState.enabled;
   }
 
+  function getRoadmapFreeMode(enabled) {
+    if (!enabled) return false;
+    return {
+      enabled: true,
+      momentum: true,
+      momentumRatio: 0.72,
+      momentumVelocityRatio: 0.9,
+      momentumBounce: false,
+      sticky: false,
+    };
+  }
+
+  function refreshRoadmapFromLayout() {
+    if (!roadmapSwiper || roadmapSwiper.destroyed) return;
+    updateRoadmapPinHeight();
+    updateRoadmapFromPageScroll();
+  }
+
+  function onRoadmapResize() {
+    if (roadmapSwiper && !roadmapSwiper.destroyed) {
+      refreshRoadmapFromLayout();
+      roadmapAnim.targetTranslate = roadmapSwiper.getTranslate();
+      updateRoadmapProgress(roadmapSwiper, { immediate: true });
+    }
+    syncRoadmapFrost();
+  }
+
+  function scheduleRoadmapLayoutRefresh(delay) {
+    window.setTimeout(function () {
+      if (!roadmapSwiper || roadmapSwiper.destroyed) return;
+      roadmapSwiper.update();
+      refreshRoadmapFromLayout();
+    }, delay);
+  }
+
   function syncRoadmapPinMode() {
     if (roadmapPinEl) {
       roadmapPinEl.classList.toggle('is-pin-mode', isRoadmapPinEnabled());
@@ -1431,8 +1468,7 @@
     var slides = roadmapSwiper.slides;
     if (!slides.length) return 0;
     var slideWidth = slides[0].offsetWidth || 310;
-    var gap = roadmapSwiper.params.spaceBetween || 24;
-    return slideWidth + gap;
+    return slideWidth + ROADMAP_GAP;
   }
 
   /* Lead-in before horizontal rewind starts (pin already active). */
@@ -1588,7 +1624,7 @@
     var slides = track.querySelectorAll('.swiper-slide');
     if (slides.length < 2) return 0;
     var slideW = slides[0].offsetWidth || 286;
-    return (slides.length - 1) * (slideW + 24);
+    return (slides.length - 1) * (slideW + ROADMAP_GAP);
   }
 
   function applyRoadmapScrollProgress(progress, options) {
@@ -1700,14 +1736,7 @@
     roadmapSwiper.allowTouchMove = !pinOn;
     roadmapSwiper.params.simulateTouch = !pinOn;
     roadmapSwiper.params.grabCursor = !pinOn;
-    roadmapSwiper.params.freeMode = pinOn ? false : {
-      enabled: true,
-      momentum: true,
-      momentumRatio: 0.72,
-      momentumVelocityRatio: 0.9,
-      momentumBounce: false,
-      sticky: false,
-    };
+    roadmapSwiper.params.freeMode = getRoadmapFreeMode(!pinOn);
     syncRoadmapPinMode();
     roadmapSwiper.update();
   }
@@ -1741,7 +1770,7 @@
 
     roadmapSwiper = new Swiper('#roadmap-swiper', {
       slidesPerView: 'auto',
-      spaceBetween: 24,
+      spaceBetween: ROADMAP_GAP,
       grabCursor: !isRoadmapPinEnabled(),
       watchOverflow: false,
       allowTouchMove: !isRoadmapPinEnabled(),
@@ -1750,42 +1779,21 @@
       touchStartPreventDefault: false,
       touchMoveStopPropagation: false,
       speed: 650,
-      freeMode: isRoadmapPinEnabled() ? false : {
-        enabled: true,
-        momentum: true,
-        momentumRatio: 0.72,
-        momentumVelocityRatio: 0.9,
-        momentumBounce: false,
-        sticky: false,
-      },
+      freeMode: getRoadmapFreeMode(!isRoadmapPinEnabled()),
       on: {
         init: function (swiper) {
           roadmapAnim.targetTranslate = swiper.getTranslate();
           applyRoadmapSwiperMode();
-          updateRoadmapPinHeight();
-          updateRoadmapFromPageScroll();
+          refreshRoadmapFromLayout();
           updateRoadmapProgress(swiper, { immediate: true });
-          window.setTimeout(function () {
-            if (!roadmapSwiper || roadmapSwiper.destroyed) return;
-            roadmapSwiper.update();
-            updateRoadmapPinHeight();
-            updateRoadmapFromPageScroll();
-          }, 80);
-          window.setTimeout(function () {
-            if (!roadmapSwiper || roadmapSwiper.destroyed) return;
-            roadmapSwiper.update();
-            updateRoadmapPinHeight();
-            updateRoadmapFromPageScroll();
-          }, 360);
+          scheduleRoadmapLayoutRefresh(80);
+          scheduleRoadmapLayoutRefresh(360);
         },
         progress: function (swiper) {
           if (!roadmapAnim.rafId && !roadmapPinState.scrollDriving) updateRoadmapProgress(swiper);
         },
-        resize: function (swiper) {
-          updateRoadmapPinHeight();
-          updateRoadmapFromPageScroll();
-          roadmapAnim.targetTranslate = swiper.getTranslate();
-          updateRoadmapProgress(swiper, { immediate: true });
+        resize: function () {
+          onRoadmapResize();
         },
         setTranslate: function (swiper) {
           if (!roadmapAnim.rafId && !roadmapPinState.scrollDriving) {
@@ -1836,17 +1844,6 @@
   scheduleRoadmapSwiper();
   updateRoadmapPinHeight();
 
-  window.addEventListener('resize', function () {
-    syncHeaderMetrics();
-    if (roadmapSwiper) {
-      updateRoadmapPinHeight();
-      updateRoadmapFromPageScroll();
-      roadmapAnim.targetTranslate = roadmapSwiper.getTranslate();
-      updateRoadmapProgress(roadmapSwiper, { immediate: true });
-    }
-    syncRoadmapFrost();
-  }, { passive: true });
-
   /* iOS Safari URL-bar show/hide: resize only. visualViewport scroll fires during
      normal page scroll on inner pages and was causing layout thrash (breadcrumbs jump). */
   if (window.visualViewport) {
@@ -1856,9 +1853,7 @@
       roadmapViewportRaf = window.requestAnimationFrame(function () {
         roadmapViewportRaf = 0;
         syncHeaderMetrics();
-        if (!roadmapSwiper) return;
-        updateRoadmapPinHeight();
-        updateRoadmapFromPageScroll();
+        onRoadmapResize();
       });
     }
     window.visualViewport.addEventListener('resize', onVisualViewportResize, { passive: true });

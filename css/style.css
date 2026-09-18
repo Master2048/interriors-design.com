@@ -94,10 +94,6 @@
   --glow-radial-base: linear-gradient(var(--accent-400) 0 100%);
 
   /* Glass stepper / work-format cards */
-  --stepper-count: 7;
-  --stepper-cols: 4;
-  --stepper-cards-gap: var(--sp-6);
-  --stepper-card-min: 220px;
   --stepper-slide-width: min(310px, calc(100% - 48px));
   --stepper-slide-width-sm: min(286px, calc(100% - 44px));
   --stepper-card-pad-y: var(--sp-10);
@@ -1722,28 +1718,9 @@ html.is-lite-motion .service-panel__media img{
 /* =========================================================
    Roadmap — glass stepper
    ========================================================= */
-.glass-stepper{ overscroll-behavior: contain; }
-
-/* Optional static card row (modifier --cols-*) */
-.glass-stepper__cards{
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--stepper-cards-gap);
-}
-.glass-stepper__cards--cols-2{ --stepper-cols: 2; }
-.glass-stepper__cards--cols-3{ --stepper-cols: 3; }
-.glass-stepper__cards--cols-4{ --stepper-cols: 4; }
-.glass-stepper__cards > .glass-stepper__item{
-  flex: 1 1 calc((100% - (var(--stepper-cols) - 1) * var(--stepper-cards-gap)) / var(--stepper-cols));
-  min-width: min(100%, var(--stepper-card-min));
-  max-width: 100%;
-  box-sizing: border-box;
-}
-@media (max-width: 1024px){
-  .glass-stepper__cards{ --stepper-cols: 2; }
-}
-@media (max-width: 720px){
-  .glass-stepper__cards{ --stepper-cols: 1; }
+.glass-stepper{
+  --stepper-count: 7;
+  overscroll-behavior: contain;
 }
 
 .roadmap-pin.is-pin-mode .glass-stepper,
@@ -1752,9 +1729,11 @@ html.is-lite-motion .service-panel__media img{
   -webkit-user-select: none;
   user-select: none;
 }
-.roadmap{ padding: 0; background:
-  radial-gradient(90% 60% at 70% 20%, var(--cool-glow-soft), transparent 55%),
-  linear-gradient(180deg, var(--cool-deep) 0%, #070a0e 55%, var(--cool-mid) 100%);
+.roadmap{
+  padding: 0;
+  background:
+    radial-gradient(90% 60% at 70% 20%, var(--cool-glow-soft), transparent 55%),
+    linear-gradient(180deg, var(--cool-deep) 0%, #070a0e 55%, var(--cool-mid) 100%);
 }
 .roadmap-pin{
   position: relative;
@@ -1769,7 +1748,6 @@ html.is-lite-motion .service-panel__media img{
   flex-direction: column;
   justify-content: center;
   padding: var(--sp-10) 0;
-  background: transparent;
   box-sizing: border-box;
   overflow: hidden;
   isolation: isolate;
@@ -1852,8 +1830,10 @@ html.is-lite-motion .service-panel__media img{
   pointer-events: none;
 }
 .glass-stepper__tick{
+  --tick-i: 0;
   position: absolute;
   bottom: 2px;
+  left: calc(var(--tick-i) * 100% / max(1, calc(var(--stepper-count) - 1)));
   width: 7px;
   height: 7px;
   border-radius: var(--radius-full);
@@ -1862,21 +1842,12 @@ html.is-lite-motion .service-panel__media img{
   transform: translateX(-50%);
   transition: background-color var(--t-normal) var(--ease), box-shadow var(--t-normal) var(--ease);
 }
-.glass-stepper--count-4{ --stepper-count: 4; }
-.glass-stepper--count-5{ --stepper-count: 5; }
-.glass-stepper--count-6{ --stepper-count: 6; }
-.glass-stepper--count-7{ --stepper-count: 7; }
-.glass-stepper__tick:nth-child(1){ --tick-i: 0; }
 .glass-stepper__tick:nth-child(2){ --tick-i: 1; }
 .glass-stepper__tick:nth-child(3){ --tick-i: 2; }
 .glass-stepper__tick:nth-child(4){ --tick-i: 3; }
 .glass-stepper__tick:nth-child(5){ --tick-i: 4; }
 .glass-stepper__tick:nth-child(6){ --tick-i: 5; }
 .glass-stepper__tick:nth-child(7){ --tick-i: 6; }
-.glass-stepper__tick:nth-child(8){ --tick-i: 7; }
-.glass-stepper__tick{
-  left: calc(var(--tick-i) * 100% / max(1, calc(var(--stepper-count) - 1)));
-}
 .glass-stepper__tick.is-passed{
   background: var(--accent-400);
 }
