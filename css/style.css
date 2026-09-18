@@ -3336,7 +3336,7 @@ html.is-lite-motion .glass-stepper__tick-num{
   font-family: var(--font-body);
   font-size: var(--fs-xs);
   text-transform: uppercase; letter-spacing: 0.1em;
-  color: var(--white); margin-bottom: var(--sp-5);
+  color: rgba(255, 255, 255, 0.72); margin-bottom: var(--sp-5);
 }
 .footer__col ul{ display: flex; flex-direction: column; gap: var(--sp-3); }
 .footer__col ul a,
