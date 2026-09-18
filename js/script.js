@@ -2470,6 +2470,7 @@
 
   function openQuickModal() {
     if (!quickModal) return;
+    closeMobileMenu();
     lastFocusedEl = document.activeElement;
     setQuickModalInert(false);
     quickModal.classList.add('is-open');
