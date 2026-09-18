@@ -3339,7 +3339,7 @@ html.is-lite-motion .glass-stepper__tick-num{
 .footer__col ul{ display: flex; flex-direction: column; gap: var(--sp-3); }
 .footer__col ul a,
 .footer__contacts li{
-  color: var(--text-secondary);
+  color: rgba(255, 255, 255, 0.4);
   font-size: var(--fs-sm);
   font-weight: 300;
   letter-spacing: 0.03em;
