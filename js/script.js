@@ -25,25 +25,6 @@
   var allowSmoothScroll = !preferLiteMotion && !isCoarsePointer && !isNarrowViewport;
   var lenis = null;
 
-  /* Overlay-only: translate crumbs to the visible bottom. Do not put the
-     inset into padding or media height, or the bar grows upward on scroll. */
-  function syncHeroChromeInset() {
-    var root = document.documentElement;
-    if (!window.matchMedia('(max-width: 720px)').matches) {
-      root.style.setProperty('--app-bottom-inset', '0px');
-      return;
-    }
-    var hero = document.querySelector('.page-hero');
-    if (!hero) {
-      root.style.setProperty('--app-bottom-inset', '0px');
-      return;
-    }
-    var vv = window.visualViewport;
-    var visBottom = vv ? Math.round(vv.offsetTop + vv.height) : (window.innerHeight || 0);
-    var overlap = Math.max(0, Math.round(hero.getBoundingClientRect().bottom - visBottom));
-    root.style.setProperty('--app-bottom-inset', overlap + 'px');
-  }
-  window.requestAnimationFrame(syncHeroChromeInset);
   var scriptLoaders = {};
   var styleLoaders = {};
 
@@ -1263,13 +1244,9 @@
     refreshServicesMetrics();
   }, { passive: true });
   window.addEventListener('orientationchange', function () {
-    window.setTimeout(function () {
-      syncHeroChromeInset();
-      refreshServicesMetrics();
-    }, 120);
+    window.setTimeout(refreshServicesMetrics, 120);
   });
   window.addEventListener('load', function () {
-    syncHeroChromeInset();
     syncHeaderMetrics();
   });
   syncHeaderMetrics();
@@ -1878,7 +1855,6 @@
       if (roadmapViewportRaf) return;
       roadmapViewportRaf = window.requestAnimationFrame(function () {
         roadmapViewportRaf = 0;
-        syncHeroChromeInset();
         syncHeaderMetrics();
         if (!roadmapSwiper) return;
         updateRoadmapPinHeight();
