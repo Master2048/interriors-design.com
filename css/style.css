@@ -3309,7 +3309,9 @@ html.is-lite-motion .glass-stepper__tick-num{
   color: rgba(255, 255, 255, 0.62);
 }
 .footer__social .social:hover,
-.footer__social .social:focus-visible,
+.footer__social .social:focus-visible{
+  color: var(--accent-300);
+}
 .mobile-menu__social .social:hover,
 .mobile-menu__social .social:focus-visible{
   color: var(--white);
