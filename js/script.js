@@ -25,49 +25,6 @@
   var allowSmoothScroll = !preferLiteMotion && !isCoarsePointer && !isNarrowViewport;
   var lenis = null;
 
-  /* iPhone Safari: 100vh includes the area behind the bottom toolbar.
-     Lock a large crop box once; ignore URL-bar show/hide so object-fit:cover does not recrop. */
-  var appVhPx = 0;
-  function syncAppViewport() {
-    var layoutH = Math.round(window.innerHeight || 0);
-    var visH = Math.round((window.visualViewport && window.visualViewport.height) || 0);
-    var h = Math.max(layoutH, visH);
-    if (!h) return;
-    if (appVhPx && Math.abs(h - appVhPx) < 140) return;
-    appVhPx = h;
-    document.documentElement.style.setProperty('--app-vh', h + 'px');
-  }
-  function readSafeAreaBottom() {
-    if (!document.body) return 0;
-    var probe = document.createElement('div');
-    probe.style.cssText = 'position:absolute;left:0;bottom:0;width:0;padding-bottom:env(safe-area-inset-bottom,0px);visibility:hidden;pointer-events:none';
-    document.body.appendChild(probe);
-    var px = probe.offsetHeight || 0;
-    document.body.removeChild(probe);
-    return px;
-  }
-  function syncHeroChromeInset() {
-    var root = document.documentElement;
-    if (!window.matchMedia('(max-width: 720px)').matches) {
-      root.style.setProperty('--app-bottom-inset', '0px');
-      return;
-    }
-    var vv = window.visualViewport;
-    var visBottom = vv ? Math.round(vv.offsetTop + vv.height) : (window.innerHeight || 0);
-    var hero = document.querySelector('.page-hero');
-    var overlap = 0;
-    if (hero) {
-      overlap = Math.max(0, Math.round(hero.getBoundingClientRect().bottom - visBottom));
-    }
-    var safe = 0;
-    try { safe = readSafeAreaBottom(); } catch (err) {}
-    var inset = Math.max(overlap, safe);
-    if (inset < 0) inset = 0;
-    root.style.setProperty('--app-bottom-inset', inset + 'px');
-  }
-  syncAppViewport();
-  window.requestAnimationFrame(syncHeroChromeInset);
-
   var scriptLoaders = {};
   var styleLoaders = {};
 
@@ -1283,23 +1240,14 @@
   })();
 
   window.addEventListener('resize', function () {
-    syncAppViewport();
-    syncHeroChromeInset();
     syncHeaderMetrics();
     refreshServicesMetrics();
     onRoadmapResize();
   }, { passive: true });
   window.addEventListener('orientationchange', function () {
-    syncAppViewport();
-    window.setTimeout(function () {
-      syncAppViewport();
-      syncHeroChromeInset();
-      refreshServicesMetrics();
-    }, 120);
+    window.setTimeout(refreshServicesMetrics, 120);
   });
   window.addEventListener('load', function () {
-    syncAppViewport();
-    syncHeroChromeInset();
     syncHeaderMetrics();
   });
   syncHeaderMetrics();
@@ -1904,8 +1852,6 @@
       if (roadmapViewportRaf) return;
       roadmapViewportRaf = window.requestAnimationFrame(function () {
         roadmapViewportRaf = 0;
-        syncAppViewport();
-        syncHeroChromeInset();
         syncHeaderMetrics();
         onRoadmapResize();
       });
