@@ -3828,7 +3828,8 @@ body.lightbox-open{ overflow: hidden; }
     --section-pad: 60px;
     --page-hero-height: 100vh;
     --page-hero-height: 100svh;
-    --hero-media-h: calc(100svh + var(--hero-chrome));
+    --page-hero-height: var(--hero-lock-h, 100svh);
+    --hero-media-h: calc(var(--page-hero-height) + var(--hero-chrome));
   }
   /* Body copy — single 16px size on mobile */
   .section-head__text,

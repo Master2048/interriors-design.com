@@ -19,6 +19,29 @@
     if (/iP(hone|ad|od)/.test(ua)) return true;
     return navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1;
   })();
+  /* Safari iOS keeps 100svh stable. Chrome, Firefox and Telegram resize the WKWebView
+     on scroll, so svh/lvh recrop object-fit:cover. Freeze the first visible height. */
+  function needsIosHeroLock() {
+    if (!isIosTouch) return false;
+    var ua = navigator.userAgent || '';
+    if (/CriOS|FxiOS|EdgiOS|OPiOS|YaBrowser|Telegram/i.test(ua)) return true;
+    if (window.TelegramWebviewProxy || window.TelegramWebview) return true;
+    return !('safari' in window);
+  }
+  var heroLockWidth = 0;
+  function lockIosHeroHeight() {
+    var root = document.documentElement;
+    if (!needsIosHeroLock() || !window.matchMedia('(max-width: 720px)').matches) {
+      if (!needsIosHeroLock()) root.style.removeProperty('--hero-lock-h');
+      return;
+    }
+    var vis = window.visualViewport;
+    var h = Math.round((vis && vis.height) || window.innerHeight || 0);
+    if (!h) return;
+    root.style.setProperty('--hero-lock-h', h + 'px');
+    heroLockWidth = window.innerWidth;
+  }
+  lockIosHeroHeight();
   var isCoarsePointer = !!(window.matchMedia && window.matchMedia('(pointer: coarse)').matches);
   var isNarrowViewport = !!(window.matchMedia && window.matchMedia('(max-width: 1024px)').matches);
   /* Lenis only on desktop. Phones keep native scroll: sticky pin stays stable, less JS. */
@@ -1240,14 +1263,21 @@
   })();
 
   window.addEventListener('resize', function () {
+    if (window.innerWidth !== heroLockWidth) lockIosHeroHeight();
     syncHeaderMetrics();
     refreshServicesMetrics();
     onRoadmapResize();
   }, { passive: true });
   window.addEventListener('orientationchange', function () {
-    window.setTimeout(refreshServicesMetrics, 120);
+    window.setTimeout(function () {
+      lockIosHeroHeight();
+      refreshServicesMetrics();
+    }, 250);
   });
   window.addEventListener('load', function () {
+    if (needsIosHeroLock() && !document.documentElement.style.getPropertyValue('--hero-lock-h')) {
+      lockIosHeroHeight();
+    }
     syncHeaderMetrics();
   });
   syncHeaderMetrics();
