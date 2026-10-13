@@ -47,6 +47,8 @@
   /* Lenis only on desktop. Phones keep native scroll: sticky pin stays stable, less JS. */
   var allowSmoothScroll = !preferLiteMotion && !isCoarsePointer && !isNarrowViewport;
   var lenis = null;
+  /* Lenis RAF runs on demand; programmatic scrollTo must wake it. */
+  var wakeLenisRaf = function () {};
 
   var scriptLoaders = {};
   var styleLoaders = {};
@@ -146,8 +148,19 @@
     var title = document.querySelector('.hero__title');
     if (!title || title.dataset.splitDone === '1') return;
 
+    /* SEO kicker stays a real element inside H1; only the cinematic lines are split */
+    var label = title.innerHTML
+      .replace(/<br\s*\/?>/gi, ' ')
+      .replace(/<\/span>/gi, ' </span>')
+      .replace(/<[^>]*>/g, '')
+      .replace(/\s+/g, ' ')
+      .trim();
+    var kicker = title.querySelector('.hero__kicker');
+    if (kicker) title.removeChild(kicker);
+
     var lineChunks = title.innerHTML.split(/<br\s*\/?>/gi);
     title.innerHTML = '';
+    if (kicker) title.appendChild(kicker);
     title.dataset.splitDone = '1';
     title.classList.add('split-text');
 
@@ -178,7 +191,7 @@
       title.appendChild(lineWrap);
     });
 
-    title.setAttribute('aria-label', title.textContent.replace(/\s+/g, ' ').trim());
+    title.setAttribute('aria-label', label);
   }
 
   function setMotion(el, opacity, y) {
@@ -226,7 +239,10 @@
   function startHeroIntro() {
     var hasHeroTitle = !!document.querySelector('.hero__title');
 
+    var heroKicker = document.querySelector('.hero__kicker');
+
     if (!hasHeroTitle || reduceMotion) {
+      if (heroKicker) heroKicker.classList.add('is-in');
       document.body.classList.remove('hero-intro-pending');
       document.body.classList.add('is-intro-done');
       if (!hasHeroTitle) {
@@ -282,6 +298,7 @@
     var introFinished = false;
     var t = {
       header: 940,
+      kicker: 1080,
       title: 1280,
       subtitle: 1720,
       actions: 1820,
@@ -312,6 +329,11 @@
       { opacity: 1 },
     ], { duration: 600, delay: t.header, fill: 'both', easing: easeOut }));
 
+    /* Kicker reveal is CSS transitions keyed off .is-in */
+    if (heroKicker) {
+      window.setTimeout(function () { heroKicker.classList.add('is-in'); }, t.kicker);
+    }
+
     words.forEach(function (word, i) {
       jobs.push(waapi(word, [
         { transform: 'translateY(105%)' },
@@ -341,6 +363,7 @@
     function finishHeroIntro() {
       if (introFinished) return;
       introFinished = true;
+      if (heroKicker) heroKicker.classList.add('is-in');
 
       var settleTargets = [headerPill, headerInner, scrollHint, subtitle, actions, pillsWrap]
         .concat(pills)
@@ -1377,6 +1400,7 @@
       var keys = { ArrowUp: 1, ArrowDown: 1, PageUp: 1, PageDown: 1, Home: 1, End: 1, ' ': 1 };
       if (keys[e.key]) startLenisRaf();
     });
+    wakeLenisRaf = startLenisRaf;
     startLenisRaf();
     window.setTimeout(refreshServicesMetrics, 50);
   }
@@ -1974,6 +1998,7 @@
     var headerH = header ? header.offsetHeight : 80;
     if (lenis) {
       lenis.scrollTo(target, { offset: -headerH });
+      wakeLenisRaf();
       return;
     }
     var rect = target.getBoundingClientRect();
@@ -2484,7 +2509,7 @@
   var quickModalPanel = quickModal ? quickModal.querySelector('.modal__panel') : null;
   var lastFocusedEl = null;
 
-  function isCoarsePointer() {
+  function prefersTouchInput() {
     return window.matchMedia('(hover: none), (pointer: coarse)').matches;
   }
   function setQuickModalInert(isInert) {
@@ -2502,7 +2527,7 @@
     quickModal.setAttribute('aria-hidden', 'false');
     document.body.classList.add('modal-open');
     stopSmoothScroll();
-    if (isCoarsePointer()) return;
+    if (prefersTouchInput()) return;
     window.setTimeout(function () {
       var focusables = getFocusableElements(quickModalPanel || quickModal);
       var target = null;
@@ -2524,7 +2549,7 @@
     setQuickModalInert(true);
     document.body.classList.remove('modal-open');
     startSmoothScroll();
-    if (lastFocusedEl && !isCoarsePointer()) lastFocusedEl.focus();
+    if (lastFocusedEl && !prefersTouchInput()) lastFocusedEl.focus();
   }
   if (quickModal) setQuickModalInert(true);
   if (quickCta) quickCta.addEventListener('click', openQuickModal);
@@ -2547,12 +2572,463 @@
   });
 
   /* ---------------------------------------------------------
+     Cost quiz
+     One universal quiz for the whole site: every [data-open-quiz] opens the same
+     quiz from step 1; follow-up questions depend on the services chosen.
+     QUIZ_DEMO: nothing is sent, payload goes to console. Backend: see sendQuiz().
+  --------------------------------------------------------- */
+  var QUIZ_DEMO = true;
+
+  var QUIZ_SERVICES = [
+    { id: 'interior', label: 'Дизайн интерьера' },
+    { id: 'architecture', label: 'Архитектурный проект' },
+    { id: 'construction', label: 'Строительство дома' },
+    { id: 'finishing', label: 'Отделка и комплектация' },
+    { id: 'landscape', label: 'Ландшафтный проект' },
+    { id: 'landscape-build', label: 'Реализация ландшафта' },
+    { id: 'turnkey', label: 'Дом под ключ' }
+  ];
+  var QUIZ_HOUSE = ['interior', 'architecture', 'construction', 'finishing', 'turnkey'];
+  var QUIZ_PLOT = ['landscape', 'landscape-build'];
+  var QUIZ_DETAILS = {
+    interior: { q: 'Какие помещения войдут в проект?', summary: 'Помещения', hint: 'Можно выбрать несколько или пропустить.', multi: true, optional: true,
+      options: ['Весь дом', 'Кухня-гостиная', 'Спальни', 'Санузлы', 'Детская', 'Кабинет'] },
+    architecture: { q: 'Что нужно по архитектуре?', summary: 'Состав проекта', hint: 'Можно выбрать несколько или пропустить.', multi: true, optional: true,
+      options: ['Эскизный проект', 'Рабочий проект', 'Визуализации фасадов', 'Посадка дома на участке'] },
+    construction: { q: 'Какой результат нужен?', summary: 'Результат', options: ['Тёплый контур', 'Дом под ключ', 'Пока не знаю, нужна консультация'] },
+    finishing: { q: 'Какие работы нужны?', summary: 'Работы', hint: 'Можно выбрать несколько или пропустить.', multi: true, optional: true,
+      options: ['Черновая отделка', 'Чистовая отделка', 'Инженерные сети', 'Мебель, свет и декор'] },
+    landscape: { q: 'Что важно на участке?', summary: 'На участке', hint: 'Можно выбрать несколько или пропустить.', multi: true, optional: true,
+      options: ['Газон и посадки', 'Дорожки и мощение', 'Автополив', 'Зона отдыха', 'Освещение', 'Малые формы'] }
+  };
+  QUIZ_DETAILS['landscape-build'] = QUIZ_DETAILS.landscape;
+
+  function quizHasAny(list, ids) {
+    for (var i = 0; i < ids.length; i++) {
+      if (list.indexOf(ids[i]) !== -1) return true;
+    }
+    return false;
+  }
+  function quizService(id) {
+    for (var i = 0; i < QUIZ_SERVICES.length; i++) {
+      if (QUIZ_SERVICES[i].id === id) return QUIZ_SERVICES[i];
+    }
+    return null;
+  }
+  function quizDetailFor(s) {
+    for (var i = 0; i < s.service.length; i++) {
+      if (QUIZ_DETAILS[s.service[i]]) return QUIZ_DETAILS[s.service[i]];
+    }
+    return null;
+  }
+  function quizStageFor(s) {
+    if (quizHasAny(s.service, ['architecture', 'construction', 'turnkey'])) {
+      return { q: 'Что уже есть?', options: ['Только идея', 'Есть участок', 'Есть участок и проект', 'Дом уже строится'] };
+    }
+    if (quizHasAny(s.service, ['interior', 'finishing'])) {
+      return { q: 'В каком состоянии дом?', options: ['Дом строится', 'Коробка без отделки', 'Черновая отделка готова', 'Жилой дом, нужен новый интерьер'] };
+    }
+    return { q: 'Что сейчас на участке?', options: ['Участок после стройки', 'Есть газон и посадки', 'Новый участок без построек'] };
+  }
+
+  var QUIZ_STEPS = [
+    { id: 'service', summary: 'Услуги', multi: true,
+      q: function () { return 'Что нужно рассчитать?'; },
+      hint: function () { return 'Можно выбрать несколько направлений.'; },
+      options: function () { return QUIZ_SERVICES.map(function (s) { return { value: s.id, label: s.label }; }); } },
+    { id: 'area', summary: 'Площадь дома',
+      when: function (s) { return quizHasAny(s.service, QUIZ_HOUSE); },
+      q: function () { return 'Какая площадь дома?'; },
+      hint: function () { return 'Подойдёт примерная цифра.'; },
+      options: function () { return ['До 120 м²', '120-200 м²', '200-300 м²', 'Больше 300 м²', 'Пока не знаю']; } },
+    { id: 'plot', summary: 'Площадь участка',
+      when: function (s) { return quizHasAny(s.service, QUIZ_PLOT); },
+      q: function () { return 'Какая площадь участка?'; },
+      options: function () { return ['До 10 соток', '10-20 соток', '20-40 соток', 'Больше 40 соток', 'Пока не знаю']; } },
+    { id: 'stage', summary: 'Стадия',
+      q: function (s) { return quizStageFor(s).q; },
+      options: function (s) { return quizStageFor(s).options; } },
+    { id: 'details', summary: function (s) { return quizDetailFor(s).summary; },
+      when: function (s) { return !!quizDetailFor(s); },
+      multi: function (s) { return !!quizDetailFor(s).multi; },
+      optional: function (s) { return !!quizDetailFor(s).optional; },
+      q: function (s) { return quizDetailFor(s).q; },
+      hint: function (s) { return quizDetailFor(s).hint || ''; },
+      options: function (s) { return quizDetailFor(s).options; } },
+    { id: 'start', summary: 'Старт',
+      q: function () { return 'Когда планируете начать?'; },
+      options: function () { return ['В ближайший месяц', 'Через 1-3 месяца', 'Через полгода и позже', 'Пока присматриваюсь']; } },
+    { id: 'contact', type: 'contact',
+      q: function () { return 'Куда отправить расчёт?'; },
+      hint: function () { return 'Подготовим расчёт и свяжемся в ближайший рабочий день.'; } }
+  ];
+
+  var quizModal = null;
+  var quizEls = {};
+  var quizState = null;
+  var quizLastFocused = null;
+
+  function quizEsc(str) {
+    return String(str).replace(/[&<>"]/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+    });
+  }
+  function quizVal(step, key) {
+    var v = step[key];
+    return typeof v === 'function' ? v(quizState) : v;
+  }
+  function quizVisibleSteps() {
+    return QUIZ_STEPS.filter(function (step) { return !step.when || step.when(quizState); });
+  }
+  function quizResetState() {
+    quizState = { service: [], answers: {}, index: 0, done: false };
+  }
+
+  function buildQuizModal() {
+    quizModal = document.createElement('div');
+    quizModal.className = 'modal quiz-modal';
+    quizModal.id = 'quiz-modal';
+    quizModal.setAttribute('aria-hidden', 'true');
+    quizModal.setAttribute('inert', '');
+    quizModal.innerHTML =
+      '<div class="modal__overlay" data-quiz-close></div>' +
+      '<div class="modal__panel quiz" role="dialog" aria-modal="true" aria-labelledby="quiz-title">' +
+        '<button type="button" class="modal__close" data-quiz-close aria-label="Закрыть расчёт стоимости">' +
+          '<svg class="icon" width="20" height="20" aria-hidden="true"><use href="#icon-close"/></svg>' +
+        '</button>' +
+        '<div class="quiz__head">' +
+          '<p class="eyebrow">Расчёт стоимости</p>' +
+          '<h3 class="modal__title quiz__title" id="quiz-title">Рассчитаем стоимость проекта</h3>' +
+          '<div class="quiz__progress"><div class="quiz__bar" aria-hidden="true"><span></span></div><span class="quiz__count" aria-live="polite"></span></div>' +
+        '</div>' +
+        '<form class="quiz__form" novalidate>' +
+          '<div class="quiz__body"></div>' +
+          '<div class="quiz__nav">' +
+            '<button type="button" class="quiz__back"><svg class="icon" width="16" height="16" aria-hidden="true"><use href="#icon-arrow-right"/></svg><span>Назад</span></button>' +
+            '<button type="submit" class="btn btn--specular btn--arrow quiz__next"><span class="btn__label">Далее</span><span class="btn__spinner" aria-hidden="true"></span></button>' +
+          '</div>' +
+        '</form>' +
+        '<div class="quiz__done" hidden role="status"></div>' +
+      '</div>';
+    document.body.appendChild(quizModal);
+
+    quizEls = {
+      panel: quizModal.querySelector('.modal__panel'),
+      title: quizModal.querySelector('.quiz__title'),
+      progress: quizModal.querySelector('.quiz__progress'),
+      bar: quizModal.querySelector('.quiz__bar span'),
+      count: quizModal.querySelector('.quiz__count'),
+      form: quizModal.querySelector('.quiz__form'),
+      body: quizModal.querySelector('.quiz__body'),
+      back: quizModal.querySelector('.quiz__back'),
+      next: quizModal.querySelector('.quiz__next'),
+      done: quizModal.querySelector('.quiz__done')
+    };
+
+    Array.prototype.slice.call(quizModal.querySelectorAll('[data-quiz-close]')).forEach(function (el) {
+      el.addEventListener('click', closeQuiz);
+    });
+    quizEls.back.addEventListener('click', function () {
+      if (quizState.index > 0) {
+        quizState.index -= 1;
+        renderQuizStep('back');
+      }
+    });
+    quizEls.form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      quizNext();
+    });
+    quizEls.body.addEventListener('change', function (e) {
+      var input = e.target;
+      if (!input.matches('.quiz-option input')) return;
+      Array.prototype.slice.call(quizEls.body.querySelectorAll('.quiz-option')).forEach(function (opt) {
+        var own = opt.querySelector('input');
+        if (own.name === input.name) opt.classList.toggle('is-checked', own.checked);
+      });
+      var err = quizEls.body.querySelector('.quiz__error');
+      if (err) err.textContent = '';
+    });
+    quizModal.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        closeQuiz();
+        return;
+      }
+      trapFocusKeydown(e, quizEls.panel);
+    });
+  }
+
+  function quizOptionsHtml(name, options, multi, selected) {
+    return '<div class="quiz__options">' + options.map(function (opt) {
+      var value = typeof opt === 'string' ? opt : opt.value;
+      var label = typeof opt === 'string' ? opt : opt.label;
+      var checked = selected.indexOf(value) !== -1;
+      return '<label class="quiz-option' + (multi ? ' quiz-option--multi' : '') + (checked ? ' is-checked' : '') + '">' +
+        '<input type="' + (multi ? 'checkbox' : 'radio') + '" name="' + name + '" value="' + quizEsc(value) + '"' + (checked ? ' checked' : '') + '>' +
+        '<span class="quiz-option__mark" aria-hidden="true"></span>' +
+        '<span class="quiz-option__label">' + quizEsc(label) + '</span>' +
+      '</label>';
+    }).join('') + '</div>';
+  }
+
+  function quizContactHtml(step) {
+    var c = quizState.answers.contact || {};
+    return '<fieldset class="quiz__step quiz__contact">' +
+      '<legend class="quiz__question" tabindex="-1">' + quizEsc(quizVal(step, 'q')) + '</legend>' +
+      '<p class="quiz__hint">' + quizEsc(quizVal(step, 'hint')) + '</p>' +
+      '<div class="quiz__fields">' +
+        '<div class="field">' +
+          '<label for="quiz-name">Ваше имя <span>*</span></label>' +
+          '<input type="text" id="quiz-name" name="name" placeholder="Как к вам обращаться" autocomplete="name" maxlength="80" aria-required="true" aria-describedby="quiz-name-error" value="' + quizEsc(c.name || '') + '">' +
+          '<span class="field__error" id="quiz-name-error"></span>' +
+        '</div>' +
+        '<div class="field">' +
+          '<label for="quiz-phone">Телефон <span>*</span></label>' +
+          '<input type="tel" id="quiz-phone" name="phone" placeholder="+7 (___) ___ __ __" autocomplete="tel" inputmode="tel" maxlength="20" aria-required="true" aria-describedby="quiz-phone-error" value="' + quizEsc(c.phone || '') + '">' +
+          '<span class="field__error" id="quiz-phone-error"></span>' +
+        '</div>' +
+      '</div>' +
+      '<div class="field">' +
+        '<label class="visually-hidden" for="quiz-email">Email</label>' +
+        '<input type="email" id="quiz-email" name="email" placeholder="Email" autocomplete="email" inputmode="email" maxlength="120" aria-describedby="quiz-email-error" value="' + quizEsc(c.email || '') + '">' +
+        '<span class="field__error" id="quiz-email-error"></span>' +
+      '</div>' +
+      '<div class="form__consent">' +
+        '<label class="checkbox">' +
+          '<input type="checkbox" id="quiz-consent" name="consent" aria-required="true" aria-describedby="quiz-consent-error">' +
+          '<span class="checkbox__box" aria-hidden="true"><svg class="icon" width="14" height="14"><use href="#icon-check"/></svg></span>' +
+          '<span class="checkbox__text">Согласен на обработку персональных данных и <a href="privacy.html">политику конфиденциальности</a> <span>*</span></span>' +
+        '</label>' +
+        '<span class="field__error field__error--consent" id="quiz-consent-error"></span>' +
+      '</div>' +
+    '</fieldset>';
+  }
+
+  function renderQuizStep(dir) {
+    var steps = quizVisibleSteps();
+    if (quizState.index > steps.length - 1) quizState.index = steps.length - 1;
+    var step = steps[quizState.index];
+    var isLast = quizState.index === steps.length - 1;
+    quizEls.count.textContent = 'Шаг ' + (quizState.index + 1) + ' из ' + steps.length;
+    quizEls.bar.style.width = Math.round(((quizState.index + 1) / steps.length) * 100) + '%';
+    quizEls.back.hidden = quizState.index === 0;
+    quizEls.next.querySelector('.btn__label').textContent = isLast ? 'Получить расчёт' : 'Далее';
+
+    var html;
+    if (step.type === 'contact') {
+      html = quizContactHtml(step);
+    } else {
+      var multi = !!quizVal(step, 'multi');
+      var selected = step.id === 'service' ? quizState.service : (quizState.answers[step.id] || []);
+      var hint = step.hint ? quizVal(step, 'hint') : '';
+      html = '<fieldset class="quiz__step">' +
+        '<legend class="quiz__question" tabindex="-1">' + quizEsc(quizVal(step, 'q')) + '</legend>' +
+        (hint ? '<p class="quiz__hint">' + quizEsc(hint) + '</p>' : '') +
+        quizOptionsHtml('quiz-' + step.id, quizVal(step, 'options'), multi, selected) +
+        '<p class="quiz__error" role="alert"></p>' +
+      '</fieldset>';
+    }
+    quizEls.body.innerHTML = html;
+
+    var stepEl = quizEls.body.querySelector('.quiz__step');
+    if (dir) {
+      stepEl.setAttribute('data-dir', dir);
+      stepEl.classList.add('is-in');
+    }
+    var tel = quizEls.body.querySelector('input[type="tel"]');
+    if (tel) maskPhone(tel);
+    Array.prototype.slice.call(quizEls.body.querySelectorAll('.checkbox__text a')).forEach(function (link) {
+      link.addEventListener('click', function (e) { e.stopPropagation(); });
+    });
+    if (dir && !prefersTouchInput()) {
+      var focusTarget = step.type === 'contact' ? quizEls.body.querySelector('#quiz-name') : quizEls.body.querySelector('.quiz__question');
+      if (focusTarget) focusTarget.focus({ preventScroll: true });
+    }
+    quizEls.panel.scrollTop = 0;
+  }
+
+  function quizCollect(step) {
+    var name = 'quiz-' + step.id;
+    return Array.prototype.slice.call(quizEls.body.querySelectorAll('input[name="' + name + '"]:checked')).map(function (el) {
+      return el.value;
+    });
+  }
+
+  function quizNext() {
+    if (!quizState || quizState.done) return;
+    var steps = quizVisibleSteps();
+    var step = steps[quizState.index];
+
+    if (step.type === 'contact') {
+      quizSubmit();
+      return;
+    }
+    var values = quizCollect(step);
+    if (!values.length && !quizVal(step, 'optional')) {
+      var err = quizEls.body.querySelector('.quiz__error');
+      if (err) err.textContent = 'Выберите вариант, чтобы продолжить';
+      return;
+    }
+    if (step.id === 'service') {
+      quizState.service = values;
+      /* Answers that no longer apply to the new set of services are dropped */
+      quizState.answers = { contact: quizState.answers.contact };
+    } else {
+      quizState.answers[step.id] = values;
+    }
+    quizState.index += 1;
+    renderQuizStep('next');
+  }
+
+  function quizSummary() {
+    var rows = [];
+    quizVisibleSteps().forEach(function (step) {
+      if (step.type === 'contact') return;
+      var values = step.id === 'service'
+        ? quizState.service.map(function (id) { return quizService(id).label; })
+        : (quizState.answers[step.id] || []);
+      if (values.length) rows.push({ label: quizVal(step, 'summary'), value: values.join(', ') });
+    });
+    return rows;
+  }
+
+  function quizPayload() {
+    var c = quizState.answers.contact;
+    return {
+      form: 'cost-quiz',
+      page: window.location.pathname,
+      services: quizState.service,
+      answers: quizSummary(),
+      name: c.name,
+      phone: c.phone,
+      email: c.email
+    };
+  }
+
+  /* MODX integration point: send payload to a connector/snippet (FormIt, AjaxForm or custom),
+     keep the Promise contract: resolve on success, reject on error. */
+  function sendQuiz(payload) {
+    if (QUIZ_DEMO) {
+      if (window.console && console.info) console.info('[quiz demo] payload', payload);
+      return new Promise(function (resolve) { window.setTimeout(resolve, 900); });
+    }
+    return fetch('/quiz-request', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    }).then(function (res) {
+      if (!res.ok) throw new Error('quiz ' + res.status);
+    });
+  }
+
+  function quizSubmit() {
+    var nameField = quizEls.body.querySelector('#quiz-name').closest('.field');
+    var phoneField = quizEls.body.querySelector('#quiz-phone').closest('.field');
+    var emailField = quizEls.body.querySelector('#quiz-email').closest('.field');
+    var consent = quizEls.body.querySelector('#quiz-consent');
+    var ok = validateField(nameField, { required: true, minLength: 2 });
+    ok = validateField(phoneField, { required: true, phone: true }) && ok;
+    ok = validateField(emailField, { email: true }) && ok;
+    ok = validateConsent(consent, quizEls.body.querySelector('#quiz-consent-error')) && ok;
+    quizState.answers.contact = {
+      name: nameField.querySelector('input').value.trim(),
+      phone: phoneField.querySelector('input').value.trim(),
+      email: emailField.querySelector('input').value.trim()
+    };
+    if (!ok) {
+      var firstInvalid = quizEls.body.querySelector('[aria-invalid="true"]');
+      if (firstInvalid) firstInvalid.focus();
+      return;
+    }
+
+    var btn = quizEls.next;
+    btn.classList.add('is-loading');
+    btn.disabled = true;
+    btn.setAttribute('aria-busy', 'true');
+
+    sendQuiz(quizPayload()).then(function () {
+      quizState.done = true;
+      showQuizDone();
+    }, function () {
+      var err = document.createElement('p');
+      err.className = 'quiz__error';
+      err.setAttribute('role', 'alert');
+      err.textContent = 'Не удалось отправить заявку. Попробуйте ещё раз или позвоните нам.';
+      quizEls.body.appendChild(err);
+    }).then(function () {
+      btn.classList.remove('is-loading');
+      btn.disabled = false;
+      btn.removeAttribute('aria-busy');
+    });
+  }
+
+  function showQuizDone() {
+    var rows = quizSummary();
+    if (quizState.answers.contact.email) rows.push({ label: 'Email', value: quizState.answers.contact.email });
+    quizEls.form.hidden = true;
+    quizEls.progress.hidden = true;
+    quizEls.done.innerHTML =
+      '<svg class="icon" width="40" height="40" aria-hidden="true"><use href="#icon-check"/></svg>' +
+      '<h3 class="modal__title">Заявка на расчёт принята</h3>' +
+      '<p class="quiz__done-text">Спасибо, ' + quizEsc(quizState.answers.contact.name) + '. Подготовим расчёт по вашим ответам и свяжемся в ближайший рабочий день.</p>' +
+      '<dl class="quiz__summary">' + rows.map(function (r) {
+        return '<div><dt>' + quizEsc(r.label) + '</dt><dd>' + quizEsc(r.value) + '</dd></div>';
+      }).join('') + '</dl>' +
+      (QUIZ_DEMO ? '<p class="quiz__demo">Демо-режим: заявка никуда не отправляется. Форма заработает после подключения к сайту на MODX.</p>' : '') +
+      '<button type="button" class="btn btn--glass quiz__finish"><span>Готово</span></button>';
+    quizEls.done.hidden = false;
+    quizEls.title.hidden = true;
+    quizEls.done.querySelector('.quiz__finish').addEventListener('click', closeQuiz);
+    if (!prefersTouchInput()) quizEls.done.querySelector('.quiz__finish').focus({ preventScroll: true });
+  }
+
+  function openQuiz() {
+    if (!quizModal) buildQuizModal();
+    if (!quizState || quizState.done) quizResetState();
+    quizEls.form.hidden = false;
+    quizEls.progress.hidden = false;
+    quizEls.title.hidden = false;
+    quizEls.done.hidden = true;
+    renderQuizStep(null);
+
+    closeMobileMenu();
+    quizLastFocused = document.activeElement;
+    quizModal.removeAttribute('inert');
+    quizModal.classList.add('is-open');
+    quizModal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('modal-open');
+    stopSmoothScroll();
+    if (prefersTouchInput()) return;
+    window.setTimeout(function () {
+      var first = quizEls.body.querySelector('.quiz-option input:checked') || quizEls.body.querySelector('.quiz-option input, #quiz-name');
+      if (first) first.focus({ preventScroll: true });
+    }, 350);
+  }
+
+  function closeQuiz() {
+    if (!quizModal) return;
+    quizModal.classList.remove('is-open');
+    quizModal.setAttribute('aria-hidden', 'true');
+    quizModal.setAttribute('inert', '');
+    document.body.classList.remove('modal-open');
+    startSmoothScroll();
+    if (quizLastFocused && !prefersTouchInput()) quizLastFocused.focus();
+  }
+
+  Array.prototype.slice.call(document.querySelectorAll('[data-open-quiz]')).forEach(function (btn) {
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      openQuiz();
+    });
+  });
+
+  /* ---------------------------------------------------------
      Back to top
   --------------------------------------------------------- */
   if (toTopBtn) {
     toTopBtn.addEventListener('click', function () {
       if (lenis) {
         lenis.scrollTo(0);
+        wakeLenisRaf();
         return;
       }
       window.scrollTo({ top: 0, behavior: 'smooth' });
