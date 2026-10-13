@@ -3873,6 +3873,11 @@ body.lightbox-open{ overflow: hidden; }
   .quiz__head{ gap: var(--sp-2); padding: 0 var(--sp-12); }
   .quiz__head .modal__title{ font-size: var(--fs-lg); }
   .quiz__step{ gap: var(--sp-3); }
+  .quiz__question{
+    padding-bottom: var(--sp-2);
+    text-align: center;
+  }
+  .quiz__hint{ text-align: center; }
   .quiz-option{ flex-basis: 100%; min-height: 46px; padding: 10px 14px; }
   .quiz__nav{
     bottom: calc(var(--sp-5) * -1);
