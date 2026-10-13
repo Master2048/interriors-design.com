@@ -1,15 +1,55 @@
+# ── Dependencies ──────────────────────────────
 node_modules/
-package-lock.json
 
-# Local checkpoints / backups (not for deploy)
+# ── OS / editors ──────────────────────────────
+Thumbs.db
+desktop.ini
+.DS_Store
+.vscode/
+.idea/
+
+# ── Env / secrets (на будущее, для MODX) ──────
+.env
+.env.*
+!.env.example
+
+# ── Local AI / design tooling ────────────────
+.claude/
+.cursor/
+.impeccable/
+*.mdc
+PRODUCT.md
+design-system.json
+
+# Метаданные генератора рядом с картинками (сайтом не используются)
+assets/**/*.webp.json
+
+# ── Local checkpoints / backups ──────────────
 _snapshots/
-
-# Not part of production deploy (kept outside web root under C:\OSPanel\_offweb\)
-Materials/
 **/_backup-old/
 _offweb/
-
-# Local tooling
+Materials/
 *.log
-.cursor/
-*.mdc
+
+# Временные фрагменты и скриншоты в корне
+/_*.txt
+/*.png
+
+# Эксперименты с дизайном
+variations/
+
+# ── Исходники видео (на сайте не используются) ──
+# В вёрстке подключены только hero-*.mp4 / hero-*.av1.mp4 и Video_4.mp4
+video/Header_video.mp4
+video/Header_video_1.mp4
+video/hero_mobile.mov
+video/Video_1.mp4
+video/Video_2.mp4
+video/Video_3.mp4
+video/Video_5.mp4
+*.mov
+
+# ── Archives ─────────────────────────────────
+*.rar
+*.zip
+*.7z

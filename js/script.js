@@ -3249,7 +3249,8 @@
   bindLightboxGroup(document.querySelectorAll('.project-gallery__item img'), function (img) {
     var alt = img.getAttribute('alt') || '';
     return {
-      src: img.currentSrc || img.getAttribute('src'),
+      // src is the full-size master; currentSrc may be a small srcset candidate
+      src: img.getAttribute('src') || img.currentSrc,
       alt: alt,
       title: alt,
       desc: ''

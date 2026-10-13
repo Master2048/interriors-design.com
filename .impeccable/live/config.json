@@ -1,7 +1,0 @@
-{
-  "files": ["index.html", "about.html", "privacy.html"],
-  "exclude": ["variations/**", "backups/**"],
-  "insertBefore": "</body>",
-  "commentSyntax": "html",
-  "cspChecked": true
-}
