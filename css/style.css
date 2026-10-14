@@ -1098,53 +1098,22 @@ section{ position: relative; }
   background: linear-gradient(90deg, var(--accent-300), transparent);
   transform-origin: left center;
 }
-.hero__kicker-text,
-.hero__kicker-geo{
+.hero__kicker-text{
   letter-spacing: inherit;
-  background: linear-gradient(100deg, var(--accent-300) 0 42%, #fff4e4 50%, var(--accent-300) 58% 100%);
-  background-size: 260% 100%;
-  background-position: 100% 0;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
   transition:
     opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
     letter-spacing 1.2s cubic-bezier(0.22, 1, 0.36, 1),
     filter 0.9s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.hero__kicker-geo{
-  display: inline-flex;
-  align-items: center;
-  gap: 0.7em;
-  transition-delay: 0.12s;
-}
-.hero__kicker-geo::before{
-  content: '';
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: var(--accent-300);
-  opacity: 0.7;
 }
 /* Intro: lines draw out from the text, letters gather and come into focus */
 body.hero-intro-pending .hero__kicker:not(.is-in)::before,
 body.hero-intro-pending .hero__kicker:not(.is-in)::after{
   transform: scaleX(0);
 }
-body.hero-intro-pending .hero__kicker:not(.is-in) .hero__kicker-text,
-body.hero-intro-pending .hero__kicker:not(.is-in) .hero__kicker-geo{
+body.hero-intro-pending .hero__kicker:not(.is-in) .hero__kicker-text{
   opacity: 0;
   letter-spacing: 0.7em;
   filter: blur(6px);
-}
-/* One soft gold sheen passes over the text after it settles */
-.hero__kicker.is-in .hero__kicker-text,
-.hero__kicker.is-in .hero__kicker-geo{
-  animation: heroKickerSheen 2.4s cubic-bezier(0.45, 0, 0.55, 1) 1.1s 1 both;
-}
-@keyframes heroKickerSheen{
-  from{ background-position: 100% 0; }
-  to{ background-position: 0 0; }
 }
 @media (max-width: 720px){
   .hero__kicker{
@@ -1154,24 +1123,19 @@ body.hero-intro-pending .hero__kicker:not(.is-in) .hero__kicker-geo{
     letter-spacing: 0.22em;
   }
   .hero__kicker::before,
-  .hero__kicker::after,
-  .hero__kicker-geo::before{ display: none; }
+  .hero__kicker::after{ display: none; }
 }
 @media (prefers-reduced-motion: reduce){
   .hero__kicker::before,
   .hero__kicker::after,
-  .hero__kicker-text,
-  .hero__kicker-geo{ transition: none; }
+  .hero__kicker-text{ transition: none; }
   body.hero-intro-pending .hero__kicker:not(.is-in)::before,
   body.hero-intro-pending .hero__kicker:not(.is-in)::after{ transform: none; }
-  body.hero-intro-pending .hero__kicker:not(.is-in) .hero__kicker-text,
-  body.hero-intro-pending .hero__kicker:not(.is-in) .hero__kicker-geo{
+  body.hero-intro-pending .hero__kicker:not(.is-in) .hero__kicker-text{
     opacity: 1;
     letter-spacing: inherit;
     filter: none;
   }
-  .hero__kicker.is-in .hero__kicker-text,
-  .hero__kicker.is-in .hero__kicker-geo{ animation: none; background-position: 0 0; }
 }
 .hero__subtitle,
 .page-hero__subtitle{
